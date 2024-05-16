@@ -570,6 +570,152 @@ const Audit = () => {
     document
       .getElementById("wf-form-ContactUsForm2")
       .addEventListener("submit", mySubmit);
+
+    function getUserLocation(data) {
+      let countryCode = data.country_code;
+      let countryName = data.country_name;
+      countrySelectBtn.forEach((btn) => {
+        const result = btn.offsetWidth > 200 ? true : false;
+        let name = result ? countryName : countryCode;
+        btn.setAttribute("country-code", countryCode.toLowerCase());
+        btn.setAttribute("country-name", countryName);
+        btn.firstElementChild.innerHTML =
+          '<img src="https://flagcdn.com/40x30/' +
+          countryCode.toLowerCase() +
+          '.png" alt="' +
+          countryName +
+          '" loading="eager" class="country-flags">' +
+          name;
+      });
+    }
+    // $.get("https://ipapi.co/jsonp/", getUserLocation, "jsonp");
+
+    let customPricingBtn = document.querySelector("#get-custom-pricing-btn");
+    customPricingBtn.addEventListener("click", () => {
+      let pricingBtn = document.querySelector("#w-tabs-1-data-w-tab-1");
+      pricingBtn.click();
+      let image = document.querySelector("#iOS-form-logo");
+      const imageURL = image.src;
+      const appPackageURL = image.getAttribute("image-data");
+      let device = "android";
+      let applicationId = appPackageURL.split("=")[1];
+      if (appPackageURL.split("/")[2].split(".")[1] == "apple") {
+        device = "apple";
+        let regex = /\/id(\d+)/;
+        applicationId = appPackageURL.match(regex)[1];
+      }
+      countrySelectBtnPr.innerHTML = countrySelectBtnIOS.innerHTML;
+      calculatePriceForSelectedApp(
+        appPackageURL,
+        applicationId,
+        imageURL,
+        device,
+        document.querySelector("#search-box1")
+      );
+      document.querySelector("#custom-contact-btn").classList.add("hidden");
+      pricingBtn.scrollIntoView({ behavior: "smooth" });
+      try {
+        appSearchCloseBtn.classList.remove("hidden");
+      } catch {}
+    });
+
+    setInterval(() => {
+      const inputBox = document.querySelectorAll(".search-input");
+      inputBox.forEach((input) => {
+        if (input.value === "") {
+          input
+            .closest(".main-box-holder")
+            .querySelector(".searching-shimmer")
+            .classList.add("hidden");
+        }
+      });
+    }, 500);
+    const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
+    const closeSearchBtn = document.querySelectorAll(".close-search-form");
+    closeSearchBtn.forEach((close) => {
+      close.addEventListener("click", (event) => {
+        event.target.classList.add("hidden");
+        clearSearchBar(event.target.closest(".main-box-holder"));
+        clearFormElement();
+      });
+    });
+    iOSOuterBoxes.forEach((iOSOuterBox) => {
+      setupAutoComplete(iOSOuterBox);
+    });
+
+    const countrySelectBtn = document.querySelectorAll(
+      ".country-select-button"
+    );
+    countrySelectBtn.forEach((button) => {
+      const contentBox = button.parentNode.querySelector(".content-country"),
+        searchInput = contentBox.querySelector("input"),
+        optionsInput = contentBox.querySelector(".options");
+      // console.log(searchInput, optionsInput);
+      document.addEventListener("mousemove", initCountryOnEvent);
+      document.addEventListener("touchstart", initCountryOnEvent);
+    });
+    countrySelectBtn.forEach((button) => {
+      const contentBox = button.parentNode.querySelector(".content-country"),
+        searchInput = contentBox.querySelector("input"),
+        optionsInput = contentBox.querySelector(".options");
+      button.addEventListener("click", () => {
+        // Deactivate all buttons
+        countrySelectBtn.forEach((otherButton) => {
+          if (otherButton !== button) {
+            otherButton.classList.remove("active");
+            otherButton.parentNode
+              .querySelector(".content-country")
+              .classList.remove("active");
+          }
+        });
+        // activate the button
+        button.classList.toggle("active");
+        contentBox.classList.toggle("active");
+        if (contentBox) {
+          let parentElement = contentBox.parentElement;
+          parentElement.classList.add("active-parent");
+          button
+            .closest(".main-box-holder")
+            .querySelector(".suggestions")
+            .classList.remove("format-suggestions");
+          // contentBox.parentNode.parentNode.parentNode.querySelector(".suggestions").classList.remove("format-suggestions");
+        }
+      });
+      searchInput.addEventListener("keyup", (event) => {
+        const countrySelectBtn = event.target
+          .closest(".country-selection-box")
+          .querySelector(".country-select-button");
+        const result = countrySelectBtn.offsetWidth > 200 ? true : false;
+        let arr = [];
+        let searchWord = searchInput.value.toLowerCase();
+        arr = countries
+          .filter((data) => {
+            const lowercaseName = data.name.toLowerCase();
+            const lowercaseCode = data.code.toLowerCase();
+            const lowercaseSearchWord = searchWord.toLowerCase();
+            return (
+              lowercaseName.startsWith(lowercaseSearchWord) ||
+              lowercaseCode.startsWith(lowercaseSearchWord)
+            );
+          })
+          .map((data) => {
+            let isSelected =
+              data.code == button.getAttribute("country-code")
+                ? "selected"
+                : "";
+            let name = result ? data.name : data.code.toUpperCase();
+            return `<li onclick="updateSelectedCountryName(this)" class="${isSelected}" country-code="${
+              data.code
+            }" country-name="${data.name}">${
+              countryFlagImages[data.code].outerHTML
+            } ${name}</li>`;
+          })
+          .join("");
+        optionsInput.innerHTML = arr
+          ? arr
+          : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
+      });
+    });
   });
   function mySubmit() {
     const imageElement = document.getElementById("iOS-form-logo");
@@ -1058,7 +1204,7 @@ const Audit = () => {
                 "translate3d(0, -60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               transform:
                 "translate3d(0, -60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 0,
+              opacity: 1,
             }}
             data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45e5"
             alt=""
@@ -1078,7 +1224,7 @@ const Audit = () => {
                 "translate3d(0, -60PX, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               transform:
                 "translate3d(0, -60PX, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 0,
+              opacity: 1,
             }}
             data-w-id="82a7697f-b6ea-f83c-de2b-48cbab6c52c4"
             alt=""
@@ -1088,7 +1234,7 @@ const Audit = () => {
       </div>
       <div
         data-w-id="13ce6919-8d5a-7d43-7f33-1e18cf5ac44c"
-        style={{ opacity: 0 }}
+        style={{ opacity: 1 }}
         className="partner-container spacing-partner"
       >
         <div className="heading-wrapper">

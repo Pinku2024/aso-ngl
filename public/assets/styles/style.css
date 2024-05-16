@@ -14,7 +14,7 @@
 
 body {
   color: #333;
-  font-family: Plus Jakarta Sans;
+  font-family: Plusjakartasans, sans-serif;
   font-size: 14px;
   line-height: 20px;
 }
@@ -6186,4 +6186,43 @@ p {
   font-weight: 400;
   font-style: normal;
   font-display: swap;
+}
+.rating_text {
+  font-size: 16px;
+  margin-left: 10px;
+  color: #778ba5;
+}
+.fa {
+  font-size: 16px;
+  color: #778ba5;
+}
+.checked {
+  color: orange;
+}
+/* Three column layout */
+.side {
+  float: left;
+  width: 15%;
+  margin-top: 10px;
+}
+.link {
+  text-decoration: none;
+  color: black;
+}
+.middle {
+  margin-top: 10px;
+  float: left;
+  width: 70%;
+}
+@media (max-width: 568px) {
+  .rating_text {
+    font-size: 15px;
+    margin-left: 5px;
+  }
+  .fa {
+    font-size: 15px;
+  }
+  .checked {
+    color: orange;
+  }
 }

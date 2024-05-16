@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "sass": "sass --watch public/styles/style.scss:public/assets/css/style.css"
+    "sass": "sass --watch public/assets/styles/style.scss:public/assets/css/style.css"
   },
   "dependencies": {
     "next": "14.2.2",

@@ -14,7 +14,7 @@ const Solutions = () => {
           </h2>
           <p
             data-w-id="1f17c66f-dec9-1c59-a5bf-1fe725e0ed43"
-            style={{ opacity: 0 }}
+            style={{ opacity: "1" }}
             className="paragraph-main-centre"
           >
             Our app marketing solutions for growing an app&#x27;s organic
