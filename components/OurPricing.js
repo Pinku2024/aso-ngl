@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 // import Link from "next/link";
 // import React, { useEffect } from "react";
 
@@ -16,8 +15,8 @@
 //           .classList.remove("hidden");
 //       } else {
 //         if (
-//           !document
-//             .querySelector("#searching-shimmer5")
+          
+//             document.querySelector("#searching-shimmer5")
 //             .classList.contains("hidden")
 //         ) {
 //           document
@@ -1339,7 +1338,7 @@
 //     </>
 //   );
 // };
-=======
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -2336,6 +2335,5 @@ const OurPricing = () => {
     </>
   );
 };
->>>>>>> 8e6d2103198456ace91a0ed795abc0c61316fc18
 
-// export default OurPricing;
+export default OurPricing;
