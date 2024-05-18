@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 const Audit = () => {
+  const [activeTab, setActiveTab] = useState("tab-1");
   useEffect(() => {
     function setupAutoComplete(iOSOuterBox) {
       let iOSAutoCompleteTimer;
@@ -387,6 +388,7 @@ const Audit = () => {
         li.setAttribute("country-code", country.code);
         li.setAttribute("country-name", country.name);
         // Append existing country flag image
+
         let img = countryFlagImages[country.code].cloneNode(true);
         li.appendChild(img);
         let nameSpan = document.createElement("span");
@@ -713,9 +715,354 @@ const Audit = () => {
           .join("");
         optionsInput.innerHTML = arr
           ? arr
-          : `<p style="margin-top: 10px;">Oops! Country not found</p>`;
+          : `<p style={{margin-top: '10px'}}>Oops! Country not found</p>`;
       });
     });
+
+    document.addEventListener("click", (event) => {
+      iOSOuterBoxes.forEach((element) => {
+        const countryContentBox = element.querySelector(".content-country");
+        if (element.contains(event.target)) {
+          return true;
+        } else if (countryContentBox.contains(event.target)) {
+          return true;
+        } else if (
+          event.target.matches('li[onclick="updateSelectedCountryName(this)"]')
+        ) {
+          return true;
+        } else if (event.target === getAuditAppBtn) {
+          return true;
+        } else {
+          try {
+            element
+              .querySelector(".suggestions")
+              .classList.remove("format-suggestions");
+          } catch {}
+          try {
+            element.querySelector(".searching-shimmer").classList.add("hidden");
+          } catch {}
+          try {
+            element
+              .querySelector(".country-select-button.active")
+              .classList.remove("active");
+            element
+              .querySelector(".content-country.active")
+              .classList.remove("active");
+          } catch {}
+        }
+      });
+    });
+    const inputBoxClick = document.querySelectorAll(
+      ".main-box-holder .search-input"
+    );
+    inputBoxClick.forEach((inputBox) => {
+      if (window.screen.width < 550) {
+        inputBox.placeholder = "Search your app";
+      }
+      inputBox.addEventListener("click", (event) => {
+        let mainBoxHolder = event.target.closest(".main-box-holder");
+        let fullListData = mainBoxHolder.querySelector(".suggestions");
+        let data = fullListData.querySelector("li.li-suggestion-item");
+        const allCountrySelectBtn = document.querySelectorAll(
+          ".country-select-button"
+        );
+        allCountrySelectBtn.forEach((btn) => {
+          if (btn.classList.contains("active")) {
+            btn.click();
+          }
+        });
+        if (data) {
+          fullListData.classList.add("format-suggestions");
+        } else {
+          try {
+            let recentSelectedApp = JSON.parse(
+              localStorage.getItem("Recent Selected App")
+            );
+            let recentSuggestion = recentSelectedApp.map((item) => {
+              let deviceIcon;
+              if (item.device == "apple")
+                deviceIcon =
+                  "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+              else
+                deviceIcon =
+                  "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+              return `<li class="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info">${item.packageName}</div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"></div></li>`;
+            });
+            if (recentSuggestion.length > 0) {
+              fullListData.classList.add("format-suggestions");
+              recentSuggestion.unshift(
+                '<p class= "info-search">Recently selected apps:</p>'
+              );
+            }
+            fullListData.insertAdjacentHTML(
+              "beforeend",
+              recentSuggestion.join("")
+            );
+          } catch {}
+        }
+      });
+    });
+
+    document
+      .querySelector("#suggestions-box1")
+      .addEventListener("click", (event) => {
+        let { appPackageURL, applicationId, imageURL, device } =
+          selectAppHandler(event);
+        displayAppRelatedBox(appPackageURL, applicationId, imageURL, device);
+      });
+
+    async function fetchAppleAppData(appPackageURL, t) {
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow",
+      };
+      const regex = /\/id(\d+)/;
+      const id = appPackageURL.match(regex)[1];
+      const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`;
+      try {
+        const response = await fetch(requestURL, requestOptions);
+        const data = await response.json();
+        return data["results"][0];
+      } catch (error) {
+        throw new Error(`Error fetching Apple app data: ${error}`);
+      }
+    }
+    async function fetchPlayStoreAppData(applicationId, t) {
+      const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`;
+      try {
+        const response = await fetch(url);
+        return await response.json();
+      } catch (error) {
+        throw new Error(`Error fetching Play Store app data: ${error}`);
+      }
+    }
+    function getDataObjectForApple(row_data) {
+      let userRating = row_data.averageUserRating.toFixed(2);
+      let dataObject = {
+        TitleLength: row_data.trackCensoredName.length,
+        Size: row_data.fileSizeBytes,
+        ImageCount: row_data.screenshotUrls.length,
+        DescriptionLength: row_data.description.length,
+        Rating: userRating < 1.0 ? 1.2 : userRating,
+        RatingCount: row_data.userRatingCount,
+      };
+      return dataObject;
+    }
+    function getDataObjectForPlay(responseData) {
+      let dataObject = {
+        Score:
+          parseFloat(responseData.score).toFixed(1) < 1.0
+            ? 1.2
+            : responseData.score,
+        DownloadEstimate: responseData.maxInstalls,
+        ImageCount: responseData.screenshots.length,
+        VideoPresent: responseData.video ? true : false,
+        Size: responseData.size || 123456,
+        MHR: 20,
+      };
+      return dataObject;
+    }
+    async function fetchMHRScore(applicationId, country) {
+      const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const todayDate = new Date().toISOString().substr(0, 10);
+        const entry = data.find((entry) => entry.date === todayDate);
+        return entry ? entry.score : 20;
+      } catch (error) {
+        throw new Error(`Error fetching MHR score: ${error}`);
+      }
+    }
+    async function fetchPriceData(url, dataObject) {
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(dataObject),
+        });
+        return await response.json();
+      } catch (error) {
+        throw new Error(`Error fetching price data: ${error}`);
+      }
+    }
+    async function updatePriceToPage(
+      priceData,
+      search_keyword,
+      applicationId,
+      appPackageURL
+    ) {
+      const priceAmount = document.querySelector("#Pricing-Amount");
+      priceAmount.innerHTML = `$${priceData}<span class="suffix">/month onwards</span>`;
+      dataLayer.push({
+        event: "ios_pricing_select",
+        keyword: search_keyword,
+        "gtm.elementId": applicationId,
+        "gtm.elementUrl": appPackageURL,
+        "gtm.price": priceData,
+        "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
+      });
+      rangeSlider.value = priceData;
+      rangeSlider.max = parseInt((parseInt(priceData) * 7) / 1000) * 1000;
+      rangeSlider.min = parseInt(parseInt(priceData) / 2 / 500) * 500;
+    }
+    async function handleAppleDeviceApp(
+      deviceIcon,
+      row_data,
+      search_keyword,
+      applicationId,
+      appPackageURL
+    ) {
+      const allParagraph = document.querySelectorAll(".feature-pointer");
+      try {
+        allParagraph[2].parentNode.classList.add("hidden");
+        allParagraph[5].parentNode.classList.add("hidden");
+      } catch {}
+      deviceIcon.src =
+        "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+      const dataObject = getDataObjectForApple(row_data);
+      allParagraph[0].innerHTML =
+        "Improve visitors - using keyword ranks and ML based keyword field recommendations.";
+      allParagraph[3].innerHTML =
+        "Conversion improvement - by focusing on A/B testing with app Metadata. i.e. Title, Description, etc.";
+      const priceData = await fetchPriceData(
+        "https://nextgrowthlabs.com/wp-json/my-api/v1/apple-price-request",
+        dataObject
+      );
+      updatePriceToPage(
+        priceData,
+        search_keyword,
+        applicationId,
+        appPackageURL
+      );
+    }
+    async function handlePlayStoreDeviceApp(
+      deviceIcon,
+      responseData,
+      search_keyword,
+      applicationId,
+      appPackageURL,
+      country
+    ) {
+      deviceIcon.src =
+        "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+      let dataObject = getDataObjectForPlay(responseData);
+      const MHRScore = await fetchMHRScore(applicationId, country);
+      dataObject.MHR = MHRScore;
+      const allParagraph = document.querySelectorAll(".feature-pointer");
+      allParagraph[0].innerHTML =
+        "Improve visitors - using keyword ranks and similar app section ML based rating improvement plan.";
+      allParagraph[3].innerHTML =
+        "Conversion improvement - by focusing on MHR score, A/B testing.";
+      const priceData = await fetchPriceData(
+        "https://nextgrowthlabs.com/wp-json/my-api/v1/play-price-request",
+        dataObject
+      );
+      updatePriceToPage(
+        priceData,
+        search_keyword,
+        applicationId,
+        appPackageURL
+      );
+    }
+    async function calculatePriceForSelectedApp(
+      appPackageURL,
+      applicationId,
+      imageURL,
+      device,
+      mainBoxHolder
+    ) {
+      const search_keyword = mainBoxHolder.querySelector(".search-input").value;
+      const country = mainBoxHolder
+        .querySelector(".country-select-button")
+        .getAttribute("country-code");
+      let outerSection = document.querySelector("#app-pricing-box_Pr");
+      let image = outerSection.querySelector("#App-Icon");
+      image.src = imageURL;
+      image.setAttribute("image-data", appPackageURL);
+      outerSection.classList.remove("hidden");
+      let deviceIcon = outerSection.querySelector("#App-Platform");
+      const appName = outerSection.querySelector("#App-Name");
+      const appInfo = outerSection.querySelector("#App-Info");
+      try {
+        document
+          .querySelector("#custom-contact-btn")
+          .classList.remove("hidden");
+      } catch {}
+      if (device.toLowerCase() == "apple") {
+        const row_data = await fetchAppleAppData(appPackageURL, country);
+        if (row_data) {
+          appName.innerHTML = row_data.trackCensoredName;
+          appInfo.innerHTML =
+            "&#11088; " +
+            row_data.averageUserRating.toFixed(2) +
+            ", " +
+            row_data.primaryGenreName;
+          try {
+            await handleAppleDeviceApp(
+              deviceIcon,
+              row_data,
+              search_keyword,
+              applicationId,
+              appPackageURL
+            );
+          } catch (error) {
+            window.alert("Error:", error);
+          }
+        } else {
+          window.alert(
+            "Warning! Please select the app from the dropdown menu."
+          );
+        }
+      } else {
+        const responseData = await fetchPlayStoreAppData(
+          applicationId,
+          country
+        );
+        if (responseData.url) {
+          appName.innerHTML = responseData.title;
+          appInfo.innerHTML =
+            "&#11088; " +
+            parseFloat(responseData.score).toFixed(2) +
+            ", " +
+            responseData.genre;
+          try {
+            await handlePlayStoreDeviceApp(
+              deviceIcon,
+              responseData,
+              search_keyword,
+              applicationId,
+              appPackageURL,
+              country
+            );
+          } catch (error) {
+            window.alert("Error:", error);
+          }
+        }
+      }
+    }
+    const rangeSlider = document.getElementById("rangeSlider");
+    const outputDiv = document.querySelector(".calculated-pricing");
+    rangeSlider.addEventListener("input", function () {
+      const sliderValue = rangeSlider.value;
+      outputDiv.innerHTML =
+        "$" + sliderValue + "<span class='suffix'>/month onwards</span>";
+    });
+    setTimeout(() => {
+      let formBtns2 = document.querySelectorAll(
+        '#app-pricing-box_Pr a[href="#lp-contact"]'
+      );
+      formBtns2.forEach(function (element) {
+        element.addEventListener("click", function (event) {
+          let appURL = document.querySelector("#appUrl");
+          appURL.value = document
+            .querySelector("#app-pricing-box_Pr #App-Icon")
+            .getAttribute("image-data");
+        });
+      });
+    }, 6000);
   });
   function mySubmit() {
     const imageElement = document.getElementById("iOS-form-logo");

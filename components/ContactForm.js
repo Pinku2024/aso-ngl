@@ -1,12 +1,12 @@
 import Link from "next/link";
-import React from "react";
+import Image from "next/image";
 
 const ContactForm = () => {
   return (
-    <section id="request-a-quote" class="section request-a-quote">
-      <div class="container-default w-container">
-        <div class="request-a-quote-wrapper">
-          <div class="split-content request-a-quote-left">
+    <section id="request-a-quote" className="section request-a-quote">
+      <div className="container-default w-container">
+        <div className="request-a-quote-wrapper">
+          <div className="split-content request-a-quote-left">
             <div
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4671"
               style={{
@@ -20,7 +20,7 @@ const ContactForm = () => {
                   "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Ensure opacity value is a string
               }}
-              class="subtitle hidden"
+              className="subtitle hidden"
             >
               Request a quote
             </div>
@@ -53,7 +53,7 @@ const ContactForm = () => {
                   "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Ensure opacity value is a string
               }}
-              class="paragraph request-a-quote"
+              className="paragraph request-a-quote"
             >
               Elevate your app&#x27;s success with our ASO expertise – we
               specialize in optimizing keywords, enhancing visibility, boost
@@ -76,37 +76,41 @@ const ContactForm = () => {
                   "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Ensure opacity value is a string
               }}
-              class="request-a-quote-contact-main-wrapper"
+              className="request-a-quote-contact-main-wrapper"
             >
               <Link
                 href="mailto:contact@nextgrowthlabs.com"
-                class="request-a-quote-contact-wrapper w-inline-block"
+                className="request-a-quote-contact-wrapper w-inline-block"
               >
-                <div class="image-wrapper request-a-quote-contact">
-                  <img
+                <div className="image-wrapper request-a-quote-contact">
+                  <Image
+                    width={38}
+                    height={28}
                     src="assets/imgs/icon-quote-contact-1-seo-template.svg"
                     alt="Email Icon - SEO Webflow Template"
-                    class="image request-a-quote-contact"
+                    className="image request-a-quote-contact"
                   />
                 </div>
                 <div>contact@nextgrowthlabs.com</div>
               </Link>
               <Link
                 href="tel:(546)232-9872"
-                class="request-a-quote-contact-wrapper last hidden w-inline-block"
+                className="request-a-quote-contact-wrapper last hidden w-inline-block"
               >
-                <div class="image-wrapper request-a-quote-contact _1">
-                  <img
+                <div className="image-wrapper request-a-quote-contact _1">
+                  <Image
+                    width={37}
+                    height={36}
                     src="assets/imgs/icon-quote-contact-2-seo-template.svg"
                     alt="Phone Icon - SEO Webflow Template"
-                    class="image request-a-quote-contact"
+                    className="image request-a-quote-contact"
                   />
                 </div>
                 <div>(546) 232 - 9872</div>
               </Link>
             </div>
           </div>
-          <div class="split-content request-a-quote-right">
+          <div className="split-content request-a-quote-right">
             <div
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4683"
               style={{
@@ -120,9 +124,9 @@ const ContactForm = () => {
                   "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Ensure opacity value is a string
               }}
-              class="card request-a-quote-form"
+              className="card request-a-quote-form"
             >
-              <div class="w-form">
+              <div className="w-form">
                 <form
                   id="email-form-2"
                   name="email-form-2"
@@ -131,11 +135,11 @@ const ContactForm = () => {
                   data-wf-page-id="6576f808b0f14ea0f93c043d"
                   data-wf-element-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4685"
                 >
-                  <div class="w-layout-grid request-a-quote-form-grid">
-                    <div class="input-wrapper">
+                  <div className="w-layout-grid request-a-quote-form-grid">
+                    <div className="input-wrapper">
                       <label for="Name">Full Name</label>
                       <input
-                        class="input w-input"
+                        className="input w-input"
                         maxlength="256"
                         name="Name"
                         data-name="Name"
@@ -145,10 +149,10 @@ const ContactForm = () => {
                         required=""
                       />
                     </div>
-                    <div class="input-wrapper">
+                    <div className="input-wrapper">
                       <label for="Email">Email Address</label>
                       <input
-                        class="input w-input"
+                        className="input w-input"
                         maxlength="256"
                         name="Email"
                         data-name="Email"
@@ -158,10 +162,10 @@ const ContactForm = () => {
                         required=""
                       />
                     </div>
-                    <div class="input-wrapper">
+                    <div className="input-wrapper">
                       <label for="Company">Phone </label>
                       <input
-                        class="input w-input"
+                        className="input w-input"
                         maxlength="256"
                         name="Company"
                         data-name="Company"
@@ -171,10 +175,10 @@ const ContactForm = () => {
                         required=""
                       />
                     </div>
-                    <div class="input-wrapper">
+                    <div className="input-wrapper">
                       <label for="App-URL">App URL</label>
                       <input
-                        class="input w-input"
+                        className="input w-input"
                         maxlength="256"
                         name="App-URL"
                         data-name="App URL"
@@ -186,7 +190,7 @@ const ContactForm = () => {
                     </div>
                     <div
                       id="w-node-_2408ce64-3e73-6c5b-6f9c-1dd071cb4697-f93c043d"
-                      class="input-wrapper"
+                      className="input-wrapper"
                     >
                       <label for="Company">Message</label>
                       <textarea
@@ -195,25 +199,25 @@ const ContactForm = () => {
                         id="Message"
                         name="Message"
                         data-name="Message"
-                        class="message w-input"
+                        className="message w-input"
                       ></textarea>
                     </div>
                     <input
                       type="submit"
                       data-wait="Please wait..."
                       id="w-node-_2408ce64-3e73-6c5b-6f9c-1dd071cb469b-f93c043d"
-                      class="button-primary w-button"
+                      className="button-primary w-button"
                       value="Submit Message"
                     />
                   </div>
                 </form>
-                <div class="success-message w-form-done">
+                <div className="success-message w-form-done">
                   <div>
                     Your request has been submitted. <br />
                     We will get back to you within 24-48 hours.
                   </div>
                 </div>
-                <div class="error-message w-form-fail">
+                <div className="error-message w-form-fail">
                   <div>Oops! Something went wrong.</div>
                 </div>
               </div>
@@ -231,7 +235,7 @@ const ContactForm = () => {
                   "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Ensure opacity value is a string
               }}
-              class="bg request-a-quote-form-2"
+              className="bg request-a-quote-form-2"
             ></div>
             <div
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb46a5"
@@ -246,7 +250,7 @@ const ContactForm = () => {
                   "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Ensure opacity value is a string
               }}
-              class="bg request-a-quote-form-1"
+              className="bg request-a-quote-form-1"
             ></div>
           </div>
         </div>

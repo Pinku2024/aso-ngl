@@ -1,20 +1,184 @@
-import Link from "next/link";
-import React from "react";
-
+import { useEffect, useState } from "react";
 const Solutions = () => {
+  const [activeSol, setActiveSol] = useState(null);
+  useEffect(() => {
+    if (activeSol === "solution1") {
+      const installRangeSliderMb = document.querySelector("#install-slider2");
+      installRangeSliderMb.addEventListener("input", (event) => {
+        handleInstallRangeSliderFn(event);
+      });
+    }
+    if (activeSol === "solution2") {
+      const ratingRangeSliderMb = document.querySelector("#rating-slider2");
+      ratingRangeSliderMb.addEventListener("input", (event) => {
+        handleRatingSliderFn(event);
+      });
+    }
+    if (activeSol === "solution1") {
+      const installRangeSlider = document.querySelector("#install-slider");
+      installRangeSlider.addEventListener("input", (event) => {
+        handleInstallRangeSliderFn(event);
+      });
+    }
+    function handleInstallRangeSliderFn(event) {
+      const sliderValue = parseInt(event.target.value);
+      event.target.nextSibling.innerHTML = sliderValue + " Days";
+      const contentBox = event.target.closest(".app-info-display");
+      const resultTextBox = contentBox.querySelector(".result-text-box");
+      const ourSuggestionList = contentBox.querySelectorAll(
+        ".review-suggestion-list li"
+      );
+      if (sliderValue <= 90) {
+        ourSuggestionList[0].classList.remove("hidden");
+        ourSuggestionList[1].classList.add("hidden");
+        ourSuggestionList[2].classList.add("hidden");
+      } else if (sliderValue <= 180) {
+        ourSuggestionList[0].classList.remove("hidden");
+        ourSuggestionList[1].classList.remove("hidden");
+        ourSuggestionList[2].classList.add("hidden");
+      } else {
+        for (let li of ourSuggestionList) {
+          li.classList.remove("hidden");
+        }
+      }
+      const fullAppData = JSON.parse(localStorage.getItem("selectedAppData"));
+      if (fullAppData.apple !== undefined) {
+      } else {
+        displayCalculatedInstallsToUser(
+          resultTextBox,
+          fullAppData.android,
+          sliderValue
+        );
+      }
+    }
+    function displayCalculatedInstallsToUser(box, appData, sliderValue) {
+      const maxInstalls = calculateNextMilestone(appData.minInstalls);
+      const exactInstalls = appData.maxInstalls;
+      const result = (maxInstalls - exactInstalls) / sliderValue;
+      const formattedResult = result.toFixed(0);
+      box.querySelector("h5").innerHTML =
+        "To achieve the target, you need to attain " +
+        Number(formattedResult).toLocaleString() +
+        " installs daily for the next " +
+        sliderValue +
+        " days.";
+      box.classList.remove("hidden");
+    }
+    if (activeSol === "solution2") {
+      const ratingRangeSlider = document.querySelector("#rating-slider");
+      ratingRangeSlider.addEventListener("input", (event) => {
+        handleRatingSliderFn(event);
+      });
+    }
+    function handleRatingSliderFn(event) {
+      const sliderValue = parseFloat(event.target.value);
+      const contentBox = event.target.closest(".app-info-display");
+      const nextTarget = contentBox.querySelector(".next-milestone span");
+      nextTarget.innerHTML = sliderValue;
+      let minValue = event.target.getAttribute("min-value");
+      minValue = parseFloat(minValue);
+      event.target.nextSibling.innerHTML = sliderValue;
+      if (sliderValue < minValue) {
+        event.target.value = minValue;
+        event.target.nextSibling.innerHTML = minValue;
+        nextTarget.innerHTML = minValue;
+      }
+      const resultTextBox = contentBox.querySelector(".result-text-box");
+      const currentRank = contentBox.querySelector(".current-milestone span");
+      const ourSuggestionList = contentBox.querySelectorAll(
+        ".review-suggestion-list li"
+      );
+      const currentValue = parseFloat(currentRank.innerText);
+      const difference = sliderValue - currentValue;
+      if (difference <= 0.01) {
+        for (let li of ourSuggestionList) {
+          li.classList.add("hidden");
+        }
+        resultTextBox.classList.add("hidden");
+        return false;
+      } else if (difference <= 0.2) {
+        ourSuggestionList[0].classList.remove("hidden");
+        ourSuggestionList[1].classList.add("hidden");
+        ourSuggestionList[2].classList.add("hidden");
+      } else {
+        for (let li of ourSuggestionList) {
+          li.classList.remove("hidden");
+        }
+      }
+      const fullAppData = JSON.parse(localStorage.getItem("selectedAppData"));
+      if (fullAppData.apple !== undefined) {
+        displayCalculatedRankToUserApple(
+          resultTextBox,
+          fullAppData.apple,
+          sliderValue
+        );
+      } else {
+        displayCalculatedRankToUser(
+          resultTextBox,
+          fullAppData.android.histogram,
+          sliderValue
+        );
+      }
+    }
+    function displayCalculatedRankToUserApple(box, appData, targetRating) {
+      const totalStar = (
+        appData.userRatingCount * appData.averageUserRating
+      ).toFixed(0);
+      const totalRating = appData.userRatingCount;
+      const day = 60;
+      const star = 5;
+      const retention = 50;
+      const averageRating = totalStar / totalRating;
+      const result =
+        ((targetRating * totalRating - totalStar) /
+          (day * (star - targetRating)) /
+          retention) *
+        100;
+      const formattedResult = result.toFixed(0);
+      box.querySelector("h5").innerHTML =
+        "To achieve the target, you need to attain " +
+        Number(formattedResult).toLocaleString() +
+        " ratings daily for the next 60 days.";
+      box.classList.remove("hidden");
+    }
+    function displayCalculatedRankToUser(box, reviewData, targetRating) {
+      let totalStar = 0;
+      let totalRating = 0;
+      for (let p in reviewData) {
+        let rat = parseInt(reviewData[p]);
+        totalStar += rat * parseInt(p);
+        totalRating += rat;
+      }
+      const day = 60;
+      const star = 5;
+      const retention = 50;
+      const averageRating = totalStar / totalRating;
+      const result =
+        ((targetRating * totalRating - totalStar) /
+          (day * (star - targetRating)) /
+          retention) *
+        100;
+      const formattedResult = result.toFixed(0);
+      box.querySelector("h5").innerHTML =
+        "To achieve the target, you need to attain " +
+        Number(formattedResult).toLocaleString() +
+        " ratings daily for the next 60 days.";
+      box.classList.remove("hidden");
+    }
+  });
   return (
-    <div id="solutions" className="tabsection">
+    <section id="solutions" className="tabsection">
       <div className="container-11">
         <div className="title-wrap-2 horizontal lesspadding">
           <h2
-            data-w-id="1f17c66f-dec9-1c59-a5bf-1fe725e0ed41"
+            data-w-id="0862d6f9-a925-7b8c-65e6-58a2fd5c72b5"
             className="heading tabsectiontitle"
           >
             Improve App&#x27;s Organic Visibility
           </h2>
           <p
-            data-w-id="1f17c66f-dec9-1c59-a5bf-1fe725e0ed43"
-            style={{ opacity: "1" }}
+            data-w-id="0862d6f9-a925-7b8c-65e6-58a2fd5c72b7"
+            style={{ opacity: 0 }}
             className="paragraph-main-centre"
           >
             Our app marketing solutions for growing an app&#x27;s organic
@@ -29,11 +193,12 @@ const Solutions = () => {
           className="tab-component w-tabs"
         >
           <div className="tabs-menu w-tab-menu">
-            <Link
-              href=""
+            <div
+              onClick={() => setActiveSol("solution1")}
               data-w-tab="Tab 2"
-              data-w-id="1f17c66f-dec9-1c59-a5bf-1fe725e0ed47"
-              className="tab-button-2 w-inline-block w-tab-link w--current"
+              className={`tab-button-2 w-inline-block w-tab-link ${
+                activeSol === "solution1" ? "w--current" : ""
+              }`}
             >
               <div className="tab-button-content-2">
                 <div className="tab-button-title">
@@ -53,31 +218,355 @@ const Solutions = () => {
                     alt="Expanding list"
                     src="/assets/imgs/expand_less_black_24dp-1.svg"
                     loading="lazy"
-                    className="chevron-2"
+                    className="chevron-2 hidden"
                   />
                 </div>
-                <div className="tab-button-desc-wrapper">
-                  <div className="tab-button-desc">
-                    Rank on your target keywords, get into similar and related
-                    app section and improve chart rankings.
+                {activeSol === "solution1" && (
+                  <div className="tab-button-desc-wrapper">
+                    <div className="tab-button-desc">
+                      Rank on your target keywords, get into similar and related
+                      app section and improve chart rankings.
+                    </div>
+
+                    <div className="app-search-box-holder margin-top new-height mobile">
+                      <div className="search-box_holder flex-custom">
+                        <div className="code-left">
+                          <div className="html-embed-14 w-embed">
+                            <div
+                              id="search-box6"
+                              className="main-box-holder mini-main-container"
+                            >
+                              <div className="search-box-suggestion">
+                                <div className="main-search-bar">
+                                  <input
+                                    type="text"
+                                    autocomplete="off"
+                                    id="search-bar-input6"
+                                    className="search-input"
+                                    placeholder="Search your iOS or android app"
+                                  />
+                                  <button
+                                    id="close-search-form6"
+                                    className="hidden close-search-form"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                                      width="16px"
+                                      height="16px"
+                                      viewbox="0 0 16 16"
+                                      version="1.1"
+                                    >
+                                      <g id="surface6">
+                                        <path
+                                          style={{
+                                            stroke: "none",
+                                            fillRule: "nonzero",
+                                            fill: "#5a5a5c",
+                                            fillOpacity: 1,
+                                          }}
+                                          d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                        ></path>
+                                      </g>
+                                    </svg>
+                                  </button>
+                                </div>
+                                <div className="app-output-box">
+                                  <div
+                                    id="searching-shimmer6"
+                                    className="hidden searching-shimmer"
+                                  >
+                                    <ul className="o-vertical-spacing o-vertical-spacing--l">
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <ul
+                                    id="suggestions-box6"
+                                    className="suggestions"
+                                  ></ul>
+                                </div>
+                              </div>
+                              <div className="country-selection-box">
+                                <div
+                                  className="country-select-button"
+                                  id="select-country-btn6"
+                                  country-code="us"
+                                  country-name="United State"
+                                >
+                                  <span>
+                                    <img
+                                      src="https://flagcdn.com/40x30/us.png"
+                                      alt="United States"
+                                      loading="eager"
+                                      className="country-flags"
+                                    />
+                                    US
+                                  </span>
+                                  <i>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      fill="currentColor"
+                                      className="bi bi-chevron-down"
+                                      viewbox="0 0 16 16"
+                                    >
+                                      <path
+                                        fill-rule="evenodd"
+                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                      ></path>
+                                    </svg>
+                                  </i>
+                                </div>
+                                <div className="country-search-box">
+                                  <div
+                                    className="content-country"
+                                    id="content-box6"
+                                  >
+                                    <div className="search">
+                                      <input
+                                        spellcheck="false"
+                                        autocomplete="off"
+                                        type="text"
+                                        placeholder="Search"
+                                        id="country-search-input6"
+                                      />
+                                    </div>
+                                    <ul className="options"></ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="image-content-wrapper">
+                            <div
+                              className="lottie-animation-2"
+                              data-w-id="718ee9f6-6a94-5117-7fb2-aa897f9e7f6e"
+                              data-animation-type="lottie"
+                              data-src="/assets/documents/aso-green.json"
+                              data-loop="1"
+                              data-direction="1"
+                              data-autoplay="1"
+                              data-is-ix2-target="0"
+                              data-renderer="svg"
+                              data-default-duration="5"
+                              data-duration="0"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="app-info-display installs mobile hidden">
+                        <div className="w-embed w-script">
+                          <div className="app-basic-info-box">
+                            <div className="app-img-box">
+                              <img
+                                src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+                                alt="application logo"
+                                className="app-image"
+                              />
+                            </div>
+                            <div className="app-information">
+                              <div>
+                                <h4></h4>
+                              </div>
+                              <div>
+                                <img src="/assets/imgs/target.svg" alt="R: " />
+                                <strong></strong>
+                                <em> </em>
+                              </div>
+                              <div className="app-developer-name"></div>
+                            </div>
+                          </div>
+                          <div className="milestones">
+                            <h4>Next Milestone</h4>
+                            <div className="milestones-images">
+                              <div className="current-milestone">
+                                <img
+                                  src="/assets/imgs/milestonereached.svg"
+                                  alt="currentIMG"
+                                />
+                                <span></span>
+                              </div>
+                              <img
+                                src="/assets/imgs/Arrow-vector-blue.svg"
+                                alt="Arrow"
+                              />
+                              <div className="next-milestone">
+                                <img
+                                  src="/assets/imgs/milestonetarget.svg"
+                                  alt="nextIMG"
+                                />
+                                <span></span>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="slider-intro-text">
+                              <h4>
+                                How fast do you want to reach the next Target.
+                              </h4>
+                            </div>
+                            <div
+                              className="range-slider-box"
+                              style={{ margin: "16px 0" }}
+                            >
+                              <input
+                                type="range"
+                                name="range-slider"
+                                id="install-slider2"
+                                className="app-range-slider"
+                                min="30"
+                                max="360"
+                                step="10"
+                                value="180"
+                              />
+                              <strong>180 Days</strong>
+                            </div>
+                          </div>
+                          <div className="result-text-box hidden">
+                            <h5>
+                              To achieve the target, you need to attain{" "}
+                              <em>6,000</em> installs daily for the next
+                              <em>180</em> days.
+                            </h5>
+                          </div>
+                          <ul className="review-suggestion-list">
+                            <h4>Our Suggestion to Improve Installs</h4>
+                            <li className="review-first-line">
+                              Detailed Keyword Research.
+                            </li>
+                            <li className="review-second-line">
+                              Content Gap Analysis.
+                            </li>
+                            <li className="review-third-line hidden">
+                              On-Page Recommendation.
+                            </li>
+                          </ul>
+                          <div className="main-button-box">
+                            <button type="submit" className="back-button">
+                              Back
+                            </button>
+                            <button className="contact-button-display-form">
+                              Submit App
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <img
-                    width="840"
-                    height="630"
-                    alt="Analysis"
-                    src="/assets/imgs/2_12.webp"
-                    loading="lazy"
-                    srcset="images/2_1-p-500.png 500w, images/2_12.webp 840w"
-                    sizes="(max-width: 479px) 83vw, (max-width: 767px) 85vw, 100vw"
-                    className="tab-mobile-img"
-                  />
-                </div>
+                )}
               </div>
-            </Link>
-            <Link
-              href=""
+            </div>
+            <div
+              onClick={() => setActiveSol("solution2")}
               data-w-tab="Tab 3"
-              className="tab-button-2 w-inline-block w-tab-link"
+              className={`tab-button-2 w-inline-block w-tab-link ${
+                activeSol === "solution2" ? "w--current" : ""
+              }`}
             >
               <div className="tab-button-content-2">
                 <div className="tab-button-title">
@@ -89,9 +578,7 @@ const Solutions = () => {
                         alt=""
                       />
                     </div>
-                    <div className="text-block-4">
-                      Improve Click Through Rate (CTR)
-                    </div>
+                    <div className="text-block-4">Improve Ratings</div>
                   </div>
                   <img
                     width="30"
@@ -99,31 +586,353 @@ const Solutions = () => {
                     alt="Expanding list"
                     src="/assets/imgs/expand_less_black_24dp-1.svg"
                     loading="lazy"
-                    className="chevron-2"
+                    className="chevron-2 hidden"
                   />
                 </div>
-                <div className="tab-button-desc-wrapper">
-                  <div className="tab-button-desc">
-                    How to get more percentage of people click on your result?
-                    1000s of users can give you precise feedback on the same.
+                {activeSol === "solution2" && (
+                  <div className="tab-button-desc-wrapper">
+                    <div className="tab-button-desc">
+                      How to get more percentage of people click on your result?
+                      1000s of users can give you precise feedback on the same.
+                    </div>
+
+                    <div className="app-search-box-holder margin-top new-height mobile">
+                      <div className="search-box_holder flex-custom width">
+                        <div className="code-left">
+                          <div className="html-embed-14 w-embed">
+                            <div
+                              id="search-box7"
+                              className="main-box-holder mini-main-container"
+                            >
+                              <div className="search-box-suggestion">
+                                <div className="main-search-bar">
+                                  <input
+                                    type="text"
+                                    autocomplete="off"
+                                    id="search-bar-input7"
+                                    className="search-input"
+                                    placeholder="Search your iOS or android app"
+                                  />
+                                  <button
+                                    id="close-search-form7"
+                                    className="hidden close-search-form"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                                      width="16px"
+                                      height="16px"
+                                      viewbox="0 0 16 16"
+                                      version="1.1"
+                                    >
+                                      <g id="surface7">
+                                        <path
+                                          style={{
+                                            stroke: "none",
+                                            fillRule: "nonzero",
+                                            fill: "#5a5a5c",
+                                            fillOpacity: 1,
+                                          }}
+                                          d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                        ></path>
+                                      </g>
+                                    </svg>
+                                  </button>
+                                </div>
+                                <div className="app-output-box">
+                                  <div
+                                    id="searching-shimmer7"
+                                    className="hidden searching-shimmer"
+                                  >
+                                    <ul className="o-vertical-spacing o-vertical-spacing--l">
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <ul
+                                    id="suggestions-box7"
+                                    className="suggestions"
+                                  ></ul>
+                                </div>
+                              </div>
+                              <div className="country-selection-box">
+                                <div
+                                  className="country-select-button"
+                                  id="select-country-btn7"
+                                  country-code="us"
+                                  country-name="United State"
+                                >
+                                  <span>
+                                    <img
+                                      src="https://flagcdn.com/40x30/us.png"
+                                      alt="United States"
+                                      loading="eager"
+                                      className="country-flags"
+                                    />
+                                    US
+                                  </span>
+                                  <i>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      fill="currentColor"
+                                      className="bi bi-chevron-down"
+                                      viewbox="0 0 16 16"
+                                    >
+                                      <path
+                                        fill-rule="evenodd"
+                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                      ></path>
+                                    </svg>
+                                  </i>
+                                </div>
+                                <div className="country-search-box">
+                                  <div
+                                    className="content-country"
+                                    id="content-box7"
+                                  >
+                                    <div className="search">
+                                      <input
+                                        spellcheck="false"
+                                        autocomplete="off"
+                                        type="text"
+                                        placeholder="Search"
+                                        id="country-search-input7"
+                                      />
+                                    </div>
+                                    <ul className="options"></ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="image-content-wrapper">
+                            <div
+                              className="lottie-animation-2 height"
+                              data-w-id="536a1adb-be18-88e9-1d52-60395cb0987d"
+                              data-animation-type="lottie"
+                              data-src="/assets/documents/Five-Star-Rating.json"
+                              data-loop="1"
+                              data-direction="1"
+                              data-autoplay="1"
+                              data-is-ix2-target="0"
+                              data-renderer="svg"
+                              data-default-duration="1.8333333333333333"
+                              data-duration="0"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="app-info-display ctr mobile hidden">
+                        <div className="w-embed w-script">
+                          <div className="app-basic-info-box">
+                            <div className="app-img-box">
+                              <img
+                                src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+                                alt="application logo"
+                                className="app-image"
+                              />
+                            </div>
+                            <div className="app-information">
+                              <div>
+                                <h4></h4>
+                              </div>
+                              <div>
+                                <img src="/assets/imgs/target.svg" alt="R: " />
+                                <strong></strong>
+                                <em> </em>
+                              </div>
+                              <div className="app-developer-name"></div>
+                            </div>
+                          </div>
+                          <div className="milestones">
+                            <h4>Next Milestone</h4>
+                            <div className="milestones-images">
+                              <div className="current-milestone">
+                                <img
+                                  src="/assets/imgs/current.svg"
+                                  alt="currentIMG"
+                                />
+                                <span> 2.4</span>
+                              </div>
+                              <img
+                                src="/assets/imgs/Arrow-vector-blue.svg"
+                                alt="Arrow"
+                              />
+                              <div className="next-milestone">
+                                <img
+                                  src="/assets/imgs/target.svg"
+                                  alt="nextIMG"
+                                />
+                                <span>4.9</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div>
+                            <div className="slider-intro-text">
+                              <h4>
+                                What rating are you aiming for within the
+                                upcoming 60 days?
+                              </h4>
+                            </div>
+                            <div className="range-slider-box">
+                              <input
+                                type="range"
+                                name="range-slider"
+                                id="rating-slider2"
+                                className="app-range-slider"
+                                min="0.0"
+                                max="5"
+                                step="0.05"
+                                value="2.9"
+                              />
+                              <strong>2.9</strong>
+                            </div>
+                          </div>
+                          <div className="result-text-box hidden">
+                            <h5>
+                              To achieve the target, you need to attain 6,000
+                              ratings daily for the next 60 days.
+                            </h5>
+                          </div>
+                          <ul className="review-suggestion-list">
+                            <h4>Our Suggestion to Improve Ratting</h4>
+                            <li className="review-first-line hidden">
+                              Sementic Anomalies.
+                            </li>
+                            <li className="review-second-line hidden">
+                              ML based rating prompts.
+                            </li>
+                            <li className="review-third-line hidden">
+                              Integrate our SDK, or allow API access to your
+                              analytics.
+                            </li>
+                          </ul>
+                          <div className="main-button-box">
+                            <button type="submit" className="back-button">
+                              Back
+                            </button>
+                            <button className="contact-button-display-form">
+                              Submit App
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <img
-                    width="840"
-                    height="630"
-                    alt=""
-                    src="/assets/imgs/3_13.webp"
-                    loading="lazy"
-                    srcset="images/3_1-p-500.png 500w, images/3_13.webp 840w"
-                    sizes="(max-width: 479px) 83vw, (max-width: 767px) 85vw, 100vw"
-                    className="tab-mobile-img"
-                  />
-                </div>
+                )}
               </div>
-            </Link>
-            <Link
-              href=""
+            </div>
+            <div
+              onClick={() => setActiveSol("solution3")}
               data-w-tab="Tab 4"
-              className="tab-button-2 w-inline-block w-tab-link"
+              className={`tab-button-2 w-inline-block w-tab-link ${
+                activeSol === "solution3" ? "w--current" : ""
+              }`}
             >
               <div className="tab-button-content-2">
                 <div className="tab-button-title">
@@ -143,725 +952,1276 @@ const Solutions = () => {
                     alt="Expanding list"
                     src="/assets/imgs/expand_less_black_24dp-1.svg"
                     loading="lazy"
-                    className="chevron-2"
+                    className="chevron-2 hidden"
                   />
                 </div>
-                <div className="tab-button-desc-wrapper">
-                  <div className="tab-button-desc">
-                    Get a higher store listing conversion. Focus on MHR (Most
-                    helpful review section), on page assets, description. For
-                    instance, did you know that you can change the font size,
-                    and font Color?
+                {activeSol === "solution3" && (
+                  <div className="tab-button-desc-wrapper">
+                    <div className="tab-button-desc">
+                      Get a higher store listing conversion. Focus on MHR (Most
+                      helpful review section), on page assets, description. For
+                      instance, did you know that you can change the font size,
+                      and font Color?
+                    </div>
+                    <div className="app-search-box-holder margin-top new-height mobile">
+                      <div className="search-box_holder flex-custom width">
+                        <div className="code-left">
+                          <div className="html-embed-14 w-embed">
+                            <div
+                              id="search-box8"
+                              className="main-box-holder mini-main-container"
+                            >
+                              <div className="search-box-suggestion">
+                                <div className="main-search-bar">
+                                  <input
+                                    type="text"
+                                    autocomplete="off"
+                                    id="search-bar-input8"
+                                    className="search-input"
+                                    placeholder="Search your iOS or android app"
+                                  />
+                                  <button
+                                    id="close-search-form8"
+                                    className="hidden close-search-form"
+                                  >
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                                      width="16px"
+                                      height="16px"
+                                      viewbox="0 0 16 16"
+                                      version="1.1"
+                                    >
+                                      <g id="surface8">
+                                        <path
+                                          style={{
+                                            stroke: "none",
+                                            fillRule: "nonzero",
+                                            fill: "#5a5a5c",
+                                            fillOpacity: 1,
+                                          }}
+                                          d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                        ></path>
+                                      </g>
+                                    </svg>
+                                  </button>
+                                </div>
+                                <div className="app-output-box">
+                                  <div
+                                    id="searching-shimmer8"
+                                    className="hidden searching-shimmer"
+                                  >
+                                    <ul className="o-vertical-spacing o-vertical-spacing--l">
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                      <li className="blog-post o-media">
+                                        <div className="o-media__figure">
+                                          <span className="skeleton-box"></span>
+                                        </div>
+                                        <div className="o-media__body">
+                                          <div className="o-vertical-spacing">
+                                            <h3 className="blog-post__headline">
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "55%" }}
+                                              ></span>
+                                            </h3>
+                                            <p>
+                                              <span
+                                                className="skeleton-box"
+                                                style={{ width: "80%" }}
+                                              ></span>
+                                            </p>
+                                          </div>
+                                        </div>
+                                      </li>
+                                    </ul>
+                                  </div>
+                                  <ul
+                                    id="suggestions-box8"
+                                    className="suggestions"
+                                  ></ul>
+                                </div>
+                              </div>
+                              <div className="country-selection-box">
+                                <div
+                                  className="country-select-button"
+                                  id="select-country-btn8"
+                                  country-code="us"
+                                  country-name="United State"
+                                >
+                                  <span>
+                                    <img
+                                      src="https://flagcdn.com/40x30/us.png"
+                                      alt="United States"
+                                      loading="eager"
+                                      className="country-flags"
+                                    />
+                                    US
+                                  </span>
+                                  <i>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="16"
+                                      height="16"
+                                      fill="currentColor"
+                                      className="bi bi-chevron-down"
+                                      viewbox="0 0 16 16"
+                                    >
+                                      <path
+                                        fill-rule="evenodd"
+                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                      ></path>
+                                    </svg>
+                                  </i>
+                                </div>
+                                <div className="country-search-box">
+                                  <div
+                                    className="content-country"
+                                    id="content-box8"
+                                  >
+                                    <div className="search">
+                                      <input
+                                        spellcheck="false"
+                                        autocomplete="off"
+                                        type="text"
+                                        placeholder="Search"
+                                        id="country-search-input8"
+                                      />
+                                    </div>
+                                    <ul className="options"></ul>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="image-content-wrapper">
+                            <div
+                              className="lottie-animation-2"
+                              data-w-id="c0fa6ddc-52af-703f-b070-a70c19cf04e3"
+                              data-animation-type="lottie"
+                              data-src="/assets/documents/conversion-marketing.json"
+                              data-loop="1"
+                              data-direction="1"
+                              data-autoplay="1"
+                              data-is-ix2-target="0"
+                              data-renderer="svg"
+                              data-default-duration="5.683333333333334"
+                              data-duration="0"
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="app-info-display mhr mobile hidden">
+                        <div className="w-embed">
+                          <div className="app-basic-info-box">
+                            <div className="app-img-box">
+                              <img
+                                src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+                                alt="application logo"
+                                className="app-image"
+                              />
+                            </div>
+                            <div className="app-information">
+                              <div>
+                                <h4></h4>
+                              </div>
+                              <div>
+                                <img src="/assets/imgs/target.svg" alt="R: " />
+                                <strong></strong>
+                                <em> </em>
+                              </div>
+                              <div className="app-developer-name"></div>
+                            </div>
+                          </div>
+                          <ul className="conversion-suggestion-list">
+                            <h4>Our Deep Recommendation</h4>
+                            <li className="conversion-first-line">
+                              Nice that you have added 8 Screenshots.
+                            </li>
+                            <li className="conversion-second-line">
+                              Great! Work Adding Video to your Store listing.
+                            </li>
+                            <li className="conversion-third-line">
+                              MHR Score is 40, This is not good for your ASO
+                              strategy.
+                            </li>
+                          </ul>
+                          <div className="main-button-box">
+                            <button type="submit" className="back-button">
+                              Back
+                            </button>
+                            <button className="contact-button-display-form">
+                              Submit App
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <img
-                    width="840"
-                    height="630"
-                    alt=""
-                    src="/assets/imgs/4_14.webp"
-                    loading="lazy"
-                    srcset="images/4_1-p-500.png 500w, images/4_14.webp 840w"
-                    sizes="(max-width: 479px) 83vw, (max-width: 767px) 85vw, 100vw"
-                    className="tab-mobile-img"
-                  />
-                </div>
+                )}
               </div>
-            </Link>
+            </div>
           </div>
           <div className="tabs-content-2 align-top w-tab-content">
-            <div
-              data-w-tab="Tab 2"
-              className="tab-pane w-tab-pane w--tab-active"
-            >
-              <div className="instruction-heading-wrapper">
-                <h3 className="heading-search hidden">
-                  Search Your App to improve installs{" "}
-                </h3>
-              </div>
-              <div className="app-search-box-holder margin-top new-height">
-                <div className="search-box_holder flex-custom width">
-                  <div className="code-left">
-                    <div className="html-embed-14 w-embed">
-                      <div
-                        id="search-box2"
-                        className="main-box-holder mini-main-container"
-                      >
-                        <div className="search-box-suggestion">
-                          <div className="main-search-bar">
-                            <input
-                              type="text"
-                              autocomplete="off"
-                              id="search-bar-input2"
-                              className="search-input"
-                              placeholder="Search your iOS or android app"
-                            />
-                            <button
-                              id="close-search-form2"
-                              className="hidden close-search-form"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                width="16px"
-                                height="16px"
-                                viewbox="0 0 16 16"
-                                version="1.1"
-                              >
-                                <g id="surface2">
-                                  <path
-                                    style={{
-                                      stroke: "none",
-                                      fillRule: "nonzero",
-                                      fill: "#5a5a5c",
-                                      fillOpacity: 1,
-                                    }}
-                                    d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                  ></path>
-                                </g>
-                              </svg>
-                            </button>
-                          </div>
-                          <div className="app-output-box">
-                            <div
-                              id="searching-shimmer2"
-                              className="hidden searching-shimmer"
-                            >
-                              <ul className="o-vertical-spacing o-vertical-spacing--l">
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                            <ul
-                              id="suggestions-box2"
-                              className="suggestions"
-                            ></ul>
-                          </div>
-                        </div>
-                        <div className="country-selection-box">
-                          <div
-                            className="country-select-button"
-                            id="select-country-btn2"
-                            country-code="us"
-                            country-name="United State"
-                          >
-                            <span>
-                              <img
-                                src="https://flagcdn.com/40x30/us.png"
-                                alt="United States"
-                                loading="eager"
-                                className="country-flags"
+            {activeSol === "solution1" && (
+              <div
+                data-w-tab="Tab 2"
+                className={`tab-pane w-tab-pane ${
+                  activeSol === "solution1" ? "w--tab-active" : ""
+                }`}
+              >
+                <div className="instruction-heading-wrapper">
+                  <h3 className="heading-search hidden">
+                    Search Your App to improve installs{" "}
+                  </h3>
+                </div>
+                <div className="app-search-box-holder margin-top new-height">
+                  <div className="search-box_holder flex-custom width">
+                    <div className="code-left">
+                      <div className="html-embed-14 w-embed">
+                        <div
+                          id="search-box2"
+                          className="main-box-holder mini-main-container"
+                        >
+                          <div className="search-box-suggestion">
+                            <div className="main-search-bar">
+                              <input
+                                type="text"
+                                autocomplete="off"
+                                id="search-bar-input2"
+                                className="search-input"
+                                placeholder="Search your iOS or android app"
                               />
-                              US
-                            </span>
-                            <i>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-chevron-down"
-                                viewbox="0 0 16 16"
+                              <button
+                                id="close-search-form2"
+                                className="hidden close-search-form"
                               >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                ></path>
-                              </svg>
-                            </i>
-                          </div>
-                          <div className="country-search-box">
-                            <div className="content-country" id="content-box2">
-                              <div className="search">
-                                <input
-                                  spellcheck="false"
-                                  autocomplete="off"
-                                  type="text"
-                                  placeholder="Search"
-                                  id="country-search-input2"
-                                />
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                                  width="16px"
+                                  height="16px"
+                                  viewbox="0 0 16 16"
+                                  version="1.1"
+                                >
+                                  <g id="surface2">
+                                    <path
+                                      style={{
+                                        stroke: "none",
+                                        fillRule: "nonzero",
+                                        fill: "#5a5a5c",
+                                        fillOpacity: 1,
+                                      }}
+                                      d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                    ></path>
+                                  </g>
+                                </svg>
+                              </button>
+                            </div>
+                            <div className="app-output-box">
+                              <div
+                                id="searching-shimmer2"
+                                className="hidden searching-shimmer"
+                              >
+                                <ul className="o-vertical-spacing o-vertical-spacing--l">
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
-                              <ul className="options"></ul>
+                              <ul
+                                id="suggestions-box2"
+                                className="suggestions"
+                              ></ul>
+                            </div>
+                          </div>
+                          <div className="country-selection-box">
+                            <div
+                              className="country-select-button"
+                              id="select-country-btn2"
+                              country-code="us"
+                              country-name="United State"
+                            >
+                              <span>
+                                <img
+                                  src="https://flagcdn.com/40x30/us.png"
+                                  alt="United States"
+                                  loading="eager"
+                                  className="country-flags"
+                                />
+                                US
+                              </span>
+                              <i>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-chevron-down"
+                                  viewbox="0 0 16 16"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                  ></path>
+                                </svg>
+                              </i>
+                            </div>
+                            <div className="country-search-box">
+                              <div
+                                className="content-country"
+                                id="content-box2"
+                              >
+                                <div className="search">
+                                  <input
+                                    spellcheck="false"
+                                    autocomplete="off"
+                                    type="text"
+                                    placeholder="Search"
+                                    id="country-search-input2"
+                                  />
+                                </div>
+                                <ul className="options"></ul>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div className="image-content-wrapper">
+                        <div
+                          className="lottie-animation-2"
+                          data-w-id="e1308b87-bbc9-cb62-6006-967056c3ecc5"
+                          data-animation-type="lottie"
+                          data-src="/assets/documents/aso-green.json"
+                          data-loop="1"
+                          data-direction="1"
+                          data-autoplay="1"
+                          data-is-ix2-target="0"
+                          data-renderer="svg"
+                          data-default-duration="5"
+                          data-duration="0"
+                        ></div>
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className="image-content-wrapper">
-                  <img
-                    loading="lazy"
-                    src="/assets/imgs/our-process-2-seo-template.svg"
-                    alt="Keyword Research - SEO Webflow Template"
-                  />
-                </div>
-                <div className="app-info-display installs"></div>
-              </div>
-            </div>
-            <div data-w-tab="Tab 3" className="tab-pane w-tab-pane">
-              <div className="instruction-heading-wrapper">
-                <h3 className="heading-search hidden">
-                  Search Your App to improve CTR
-                </h3>
-              </div>
-              <div className="app-search-box-holder margin-top new-height">
-                <div className="search-box_holder flex-custom width">
-                  <div className="code-left">
-                    <div className="html-embed-14 w-embed">
-                      <div
-                        id="search-box3"
-                        className="main-box-holder mini-main-container"
-                      >
-                        <div className="search-box-suggestion">
-                          <div className="main-search-bar">
-                            <input
-                              type="text"
-                              autocomplete="off"
-                              id="search-bar-input3"
-                              className="search-input"
-                              placeholder="Search your iOS or android app"
+                  <div className="app-info-display installs hidden">
+                    <div className="w-embed w-script">
+                      <div className="app-basic-info-box">
+                        <div className="app-img-box">
+                          <img
+                            src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+                            alt="application logo"
+                            className="app-image"
+                          />
+                        </div>
+                        <div className="app-information">
+                          <div>
+                            <h4></h4>
+                          </div>
+                          <div>
+                            <img src="/assets/imgs/target.svg" alt="R: " />
+                            <strong></strong>
+                            <em> </em>
+                          </div>
+                          <div className="app-developer-name"></div>
+                        </div>
+                      </div>
+                      <div className="milestones">
+                        <h4>Next Milestone</h4>
+                        <div className="milestones-images">
+                          <div className="current-milestone">
+                            <img
+                              src="/assets/imgs/milestonereached.svg"
+                              alt="currentIMG"
                             />
-                            <button
-                              id="close-search-form3"
-                              className="hidden close-search-form"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                width="16px"
-                                height="16px"
-                                viewbox="0 0 16 16"
-                                version="1.1"
-                              >
-                                <g id="surface3">
-                                  <path
-                                    style={{
-                                      stroke: "none",
-                                      fillRule: "nonzero",
-                                      fill: "#5a5a5c",
-                                      fillOpacity: 1,
-                                    }}
-                                    d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                  ></path>
-                                </g>
-                              </svg>
-                            </button>
+                            <span></span>
                           </div>
-                          <div className="app-output-box">
-                            <div
-                              id="searching-shimmer3"
-                              className="hidden searching-shimmer"
-                            >
-                              <ul className="o-vertical-spacing o-vertical-spacing--l">
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: " 55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                            <ul
-                              id="suggestions-box3"
-                              className="suggestions"
-                            ></ul>
+                          <img
+                            src="/assets/imgs/Arrow-vector-blue.svg"
+                            alt="Arrow"
+                          />
+                          <div className="next-milestone">
+                            <img
+                              src="/assets/imgs/milestonetarget.svg"
+                              alt="nextIMG"
+                            />
+                            <span></span>
                           </div>
                         </div>
-                        <div className="country-selection-box">
-                          <div
-                            className="country-select-button"
-                            id="select-country-btn3"
-                            country-code="us"
-                            country-name="United State"
-                          >
-                            <span>
-                              <img
-                                src="https://flagcdn.com/40x30/us.png"
-                                alt="United States"
-                                loading="eager"
-                                className="country-flags"
-                              />
-                              US
-                            </span>
-                            <i>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-chevron-down"
-                                viewbox="0 0 16 16"
-                              >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                ></path>
-                              </svg>
-                            </i>
-                          </div>
-                          <div className="country-search-box">
-                            <div className="content-country" id="content-box3">
-                              <div className="search">
-                                <input
-                                  spellcheck="false"
-                                  autocomplete="off"
-                                  type="text"
-                                  placeholder="Search"
-                                  id="country-search-input3"
-                                />
-                              </div>
-                              <ul className="options"></ul>
-                            </div>
-                          </div>
+                      </div>
+                      <div>
+                        <div className="slider-intro-text">
+                          <h4>
+                            How fast do you want to reach the next Target.
+                          </h4>
                         </div>
+                        <div
+                          className="range-slider-box"
+                          style={{ margin: "16px 0" }}
+                        >
+                          <input
+                            type="range"
+                            name="range-slider"
+                            id="install-slider"
+                            className="app-range-slider"
+                            min="30"
+                            max="360"
+                            step="10"
+                            value="180"
+                          />
+                          <strong>180 Days</strong>
+                        </div>
+                      </div>
+                      <div className="result-text-box hidden">
+                        <h5>
+                          To achieve the target, you need to attain{" "}
+                          <em>6,000</em> installs daily for the next
+                          <em>180</em> days.
+                        </h5>
+                      </div>
+                      <ul className="review-suggestion-list">
+                        <h4>Our Suggestion to Improve Installs</h4>
+                        <li className="review-first-line">
+                          Detailed Keyword Research.
+                        </li>
+                        <li className="review-second-line">
+                          Content Gap Analysis.
+                        </li>
+                        <li className="review-third-line hidden">
+                          On-Page Recommendation.
+                        </li>
+                      </ul>
+                      <div className="main-button-box">
+                        <button type="submit" className="back-button">
+                          Back
+                        </button>
+                        <button className="contact-button-display-form">
+                          Submit App
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="image-content-wrapper">
-                  <img
-                    loading="lazy"
-                    src="/assets/imgs/our-process-2-seo-template.svg"
-                    alt="Keyword Research - SEO Webflow Template"
-                  />
+              </div>
+            )}
+            {activeSol === "solution2" && (
+              <div
+                data-w-tab="Tab 3"
+                className={`tab-pane w-tab-pane ${
+                  activeSol === "solution2" ? "w--tab-active" : ""
+                }`}
+              >
+                <div className="instruction-heading-wrapper">
+                  <h3 className="heading-search hidden">
+                    Search Your App to improve CTR
+                  </h3>
                 </div>
-                <div className="app-info-display ctr"></div>
-              </div>
-            </div>
-            <div data-w-tab="Tab 4" className="tab-pane w-tab-pane">
-              <div className="instruction-heading-wrapper">
-                <h3 className="heading-search hidden">
-                  Search Your App to improve MHR
-                </h3>
-              </div>
-              <div className="app-search-box-holder margin-top new-height">
-                <div className="search-box_holder flex-custom width">
-                  <div className="code-left">
-                    <div className="html-embed-14 w-embed">
-                      <div
-                        id="search-box4"
-                        className="main-box-holder mini-main-container"
-                      >
-                        <div className="search-box-suggestion">
-                          <div className="main-search-bar">
-                            <input
-                              type="text"
-                              autocomplete="off"
-                              id="search-bar-input4"
-                              className="search-input"
-                              placeholder="Search your iOS or android app"
-                            />
-                            <button
-                              id="close-search-form4"
-                              className="hidden close-search-form"
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                width="16px"
-                                height="16px"
-                                viewbox="0 0 16 16"
-                                version="1.1"
-                              >
-                                <g id="surface4">
-                                  <path
-                                    style={{
-                                      stroke: "none",
-                                      fillRule: "nonzero",
-                                      fill: "#5a5a5c",
-                                      fillOpacity: 1,
-                                    }}
-                                    d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                  ></path>
-                                </g>
-                              </svg>
-                            </button>
-                          </div>
-                          <div className="app-output-box">
-                            <div
-                              id="searching-shimmer4"
-                              className="hidden searching-shimmer"
-                            >
-                              <ul className="o-vertical-spacing o-vertical-spacing--l">
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                                <li className="blog-post o-media">
-                                  <div className="o-media__figure">
-                                    <span className="skeleton-box"></span>
-                                  </div>
-                                  <div className="o-media__body">
-                                    <div className="o-vertical-spacing">
-                                      <h3 className="blog-post__headline">
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "55%" }}
-                                        ></span>
-                                      </h3>
-                                      <p>
-                                        <span
-                                          className="skeleton-box"
-                                          style={{ width: "80%" }}
-                                        ></span>
-                                      </p>
-                                    </div>
-                                  </div>
-                                </li>
-                              </ul>
-                            </div>
-                            <ul
-                              id="suggestions-box4"
-                              className="suggestions"
-                            ></ul>
-                          </div>
-                        </div>
-                        <div className="country-selection-box">
-                          <div
-                            className="country-select-button"
-                            id="select-country-btn4"
-                            country-code="us"
-                            country-name="United State"
-                          >
-                            <span>
-                              <img
-                                src="https://flagcdn.com/40x30/us.png"
-                                alt="United States"
-                                loading="eager"
-                                className="country-flags"
+                <div className="app-search-box-holder margin-top new-height">
+                  <div className="search-box_holder flex-custom width">
+                    <div className="code-left">
+                      <div className="html-embed-14 w-embed">
+                        <div
+                          id="search-box3"
+                          className="main-box-holder mini-main-container"
+                        >
+                          <div className="search-box-suggestion">
+                            <div className="main-search-bar">
+                              <input
+                                type="text"
+                                autocomplete="off"
+                                id="search-bar-input3"
+                                className="search-input"
+                                placeholder="Search your iOS or android app"
                               />
-                              US
-                            </span>
-                            <i>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
-                                fill="currentColor"
-                                className="bi bi-chevron-down"
-                                viewbox="0 0 16 16"
+                              <button
+                                id="close-search-form3"
+                                className="hidden close-search-form"
                               >
-                                <path
-                                  fill-rule="evenodd"
-                                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                ></path>
-                              </svg>
-                            </i>
-                          </div>
-                          <div className="country-search-box">
-                            <div className="content-country" id="content-box4">
-                              <div className="search">
-                                <input
-                                  spellcheck="false"
-                                  autocomplete="off"
-                                  type="text"
-                                  placeholder="Search"
-                                  id="country-search-input4"
-                                />
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                                  width="16px"
+                                  height="16px"
+                                  viewbox="0 0 16 16"
+                                  version="1.1"
+                                >
+                                  <g id="surface3">
+                                    <path
+                                      style={{
+                                        stroke: "none",
+                                        fillRule: "nonzero",
+                                        fill: "#5a5a5c",
+                                        fillOpacity: 1,
+                                      }}
+                                      d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                    ></path>
+                                  </g>
+                                </svg>
+                              </button>
+                            </div>
+                            <div className="app-output-box">
+                              <div
+                                id="searching-shimmer3"
+                                className="hidden searching-shimmer"
+                              >
+                                <ul className="o-vertical-spacing o-vertical-spacing--l">
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
                               </div>
-                              <ul className="options"></ul>
+                              <ul
+                                id="suggestions-box3"
+                                className="suggestions"
+                              ></ul>
+                            </div>
+                          </div>
+                          <div className="country-selection-box">
+                            <div
+                              className="country-select-button"
+                              id="select-country-btn3"
+                              country-code="us"
+                              country-name="United State"
+                            >
+                              <span>
+                                <img
+                                  src="https://flagcdn.com/40x30/us.png"
+                                  alt="United States"
+                                  loading="eager"
+                                  className="country-flags"
+                                />
+                                US
+                              </span>
+                              <i>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-chevron-down"
+                                  viewbox="0 0 16 16"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                  ></path>
+                                </svg>
+                              </i>
+                            </div>
+                            <div className="country-search-box">
+                              <div
+                                className="content-country"
+                                id="content-box3"
+                              >
+                                <div className="search">
+                                  <input
+                                    spellcheck="false"
+                                    autocomplete="off"
+                                    type="text"
+                                    placeholder="Search"
+                                    id="country-search-input3"
+                                  />
+                                </div>
+                                <ul className="options"></ul>
+                              </div>
                             </div>
                           </div>
                         </div>
                       </div>
+                      <div className="image-content-wrapper">
+                        <div
+                          className="lottie-animation-2 height"
+                          data-w-id="39e870d9-3d34-b7b4-aa65-f6252d3aff03"
+                          data-animation-type="lottie"
+                          data-src="/assets/documents/Five-Star-Rating.json"
+                          data-loop="1"
+                          data-direction="1"
+                          data-autoplay="1"
+                          data-is-ix2-target="0"
+                          data-renderer="svg"
+                          data-default-duration="1.8333333333333333"
+                          data-duration="0"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="app-info-display ctr hidden">
+                    <div className="w-embed w-script">
+                      <div className="app-basic-info-box">
+                        <div className="app-img-box">
+                          <img
+                            src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+                            alt="application logo"
+                            className="app-image"
+                          />
+                        </div>
+                        <div className="app-information">
+                          <div>
+                            <h4></h4>
+                          </div>
+                          <div>
+                            <img src="/assets/imgs/target.svg" alt="R: " />
+                            <strong></strong>
+                            <em> </em>
+                          </div>
+                          <div className="app-developer-name"></div>
+                        </div>
+                      </div>
+                      <div className="milestones">
+                        <h4>Next Milestone</h4>
+                        <div className="milestones-images">
+                          <div className="current-milestone">
+                            <img
+                              src="/assets/imgs/current.svg"
+                              alt="currentIMG"
+                            />
+                            <span> 2.4</span>
+                          </div>
+                          <img
+                            src="/assets/imgs/Arrow-vector-blue.svg"
+                            alt="Arrow"
+                          />
+                          <div className="next-milestone">
+                            <img src="/assets/imgs/target.svg" alt="nextIMG" />
+                            <span>4.9</span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <div className="slider-intro-text">
+                          <h4>
+                            What rating are you aiming for within the upcoming
+                            60 days?
+                          </h4>
+                        </div>
+                        <div className="range-slider-box">
+                          <input
+                            type="range"
+                            name="range-slider"
+                            id="rating-slider"
+                            className="app-range-slider"
+                            min="0.0"
+                            max="5"
+                            step="0.05"
+                            value="2.9"
+                          />
+                          <strong>2.9</strong>
+                        </div>
+                      </div>
+                      <div className="result-text-box hidden">
+                        <h5>
+                          To achieve the target, you need to attain 6,000
+                          ratings daily for the next 60 days.
+                        </h5>
+                      </div>
+                      <ul className="review-suggestion-list">
+                        <h4>Our Suggestion to Improve Ratting</h4>
+                        <li className="review-first-line hidden">
+                          Sementic Anomalies.
+                        </li>
+                        <li className="review-second-line hidden">
+                          ML based rating prompts.
+                        </li>
+                        <li className="review-third-line hidden">
+                          Integrate our SDK, or allow API access to your
+                          analytics.
+                        </li>
+                      </ul>
+                      <div className="main-button-box">
+                        <button type="submit" className="back-button">
+                          Back
+                        </button>
+                        <button className="contact-button-display-form">
+                          Submit App
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="image-content-wrapper">
-                  <img
-                    loading="lazy"
-                    src="/assets/imgs/our-process-2-seo-template.svg"
-                    alt="Keyword Research - SEO Webflow Template"
-                  />
-                </div>
-                <div className="app-info-display mhr"></div>
               </div>
-            </div>
+            )}
+            {activeSol === "solution3" && (
+              <div
+                data-w-tab="Tab 4"
+                className={`tab-pane w-tab-pane ${
+                  activeSol === "solution3" ? "w--tab-active" : ""
+                }`}
+              >
+                <div className="instruction-heading-wrapper">
+                  <h3 className="heading-search hidden">
+                    Search Your App to improve MHR
+                  </h3>
+                </div>
+                <div className="app-search-box-holder margin-top new-height">
+                  <div className="search-box_holder flex-custom width">
+                    <div className="code-left">
+                      <div className="html-embed-14 w-embed">
+                        <div
+                          id="search-box4"
+                          className="main-box-holder mini-main-container"
+                        >
+                          <div className="search-box-suggestion">
+                            <div className="main-search-bar">
+                              <input
+                                type="text"
+                                autocomplete="off"
+                                id="search-bar-input4"
+                                className="search-input"
+                                placeholder="Search your iOS or android app"
+                              />
+                              <button
+                                id="close-search-form4"
+                                className="hidden close-search-form"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                                  width="16px"
+                                  height="16px"
+                                  viewbox="0 0 16 16"
+                                  version="1.1"
+                                >
+                                  <g id="surface4">
+                                    <path
+                                      style={{
+                                        stroke: "none",
+                                        fillRule: "nonzero",
+                                        fill: "#5a5a5c",
+                                        fillOpacity: 1,
+                                      }}
+                                      d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                    ></path>
+                                  </g>
+                                </svg>
+                              </button>
+                            </div>
+                            <div className="app-output-box">
+                              <div
+                                id="searching-shimmer4"
+                                className="hidden searching-shimmer"
+                              >
+                                <ul className="o-vertical-spacing o-vertical-spacing--l">
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  <li className="blog-post o-media">
+                                    <div className="o-media__figure">
+                                      <span className="skeleton-box"></span>
+                                    </div>
+                                    <div className="o-media__body">
+                                      <div className="o-vertical-spacing">
+                                        <h3 className="blog-post__headline">
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "55%" }}
+                                          ></span>
+                                        </h3>
+                                        <p>
+                                          <span
+                                            className="skeleton-box"
+                                            style={{ width: "80%" }}
+                                          ></span>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                </ul>
+                              </div>
+                              <ul
+                                id="suggestions-box4"
+                                className="suggestions"
+                              ></ul>
+                            </div>
+                          </div>
+                          <div className="country-selection-box">
+                            <div
+                              className="country-select-button"
+                              id="select-country-btn4"
+                              country-code="us"
+                              country-name="United State"
+                            >
+                              <span>
+                                <img
+                                  src="https://flagcdn.com/40x30/us.png"
+                                  alt="United States"
+                                  loading="eager"
+                                  className="country-flags"
+                                />
+                                US
+                              </span>
+                              <i>
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="16"
+                                  height="16"
+                                  fill="currentColor"
+                                  className="bi bi-chevron-down"
+                                  viewbox="0 0 16 16"
+                                >
+                                  <path
+                                    fill-rule="evenodd"
+                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
+                                  ></path>
+                                </svg>
+                              </i>
+                            </div>
+                            <div className="country-search-box">
+                              <div
+                                className="content-country"
+                                id="content-box4"
+                              >
+                                <div className="search">
+                                  <input
+                                    spellcheck="false"
+                                    autocomplete="off"
+                                    type="text"
+                                    placeholder="Search"
+                                    id="country-search-input4"
+                                  />
+                                </div>
+                                <ul className="options"></ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="image-content-wrapper">
+                        <div
+                          className="lottie-animation-2"
+                          data-w-id="ae9b3491-4e2b-274b-3684-bee67d9f88d0"
+                          data-animation-type="lottie"
+                          data-src="/assets/documents/conversion-marketing.json"
+                          data-loop="1"
+                          data-direction="1"
+                          data-autoplay="1"
+                          data-is-ix2-target="0"
+                          data-renderer="svg"
+                          data-default-duration="5.683333333333334"
+                          data-duration="0"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="app-info-display mhr hidden">
+                    <div className="w-embed">
+                      <div className="app-basic-info-box">
+                        <div className="app-img-box">
+                          <img
+                            src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
+                            alt="application logo"
+                            className="app-image"
+                          />
+                        </div>
+                        <div className="app-information">
+                          <div>
+                            <h4></h4>
+                          </div>
+                          <div>
+                            <img src="/assets/imgs/target.svg" alt="R: " />
+                            <strong></strong>
+                            <em> </em>
+                          </div>
+                          <div className="app-developer-name"></div>
+                        </div>
+                      </div>
+                      <ul className="conversion-suggestion-list">
+                        <h4>Our Deep Recommendation</h4>
+                        <li className="conversion-first-line">
+                          Nice that you have added 8 Screenshots.
+                        </li>
+                        <li className="conversion-second-line">
+                          Great! Work Adding Video to your Store listing.{" "}
+                        </li>
+                        <li className="conversion-third-line">
+                          MHR Score is 40, This is not good for your ASO
+                          strategy.
+                        </li>
+                      </ul>
+                      <div className="main-button-box">
+                        <button type="submit" className="back-button">
+                          Back
+                        </button>
+                        <button className="contact-button-display-form">
+                          Submit App
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

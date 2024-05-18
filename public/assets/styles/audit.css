@@ -1,8 +1,3 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
 .audit-button {
   background-color: #1c7df8;
   padding: 0 50px;
@@ -372,4 +367,18 @@ img.device-icon-logo {
     width: 280px;
     margin: 0 25px;
   }
+}
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-508.5%));
+  }
+}
+.scroll {
+  animation: scroll 40s linear infinite;
+}
+.reverse {
+  animation-direction: reverse;
 }

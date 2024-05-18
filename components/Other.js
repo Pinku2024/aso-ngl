@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 const Other = () => {
   useEffect(() => {
     const chart1 = (id) => {
@@ -201,21 +202,20 @@ const Other = () => {
 
   return (
     <>
-      {" "}
       <div
         data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad0b"
-        class="section bg-neutral-200"
+        className="section bg-neutral-200"
       >
-        <div class="container-default w-container">
-          <div class="about-this-service-wrapper">
-            <div class="images-wrapper about-this-service">
-              <div class="sunburst-chart-1 w-embed w-script">
+        <div className="container-default w-container">
+          <div className="about-this-service-wrapper">
+            <div className="images-wrapper about-this-service">
+              <div className="sunburst-chart-1 w-embed w-script">
                 <div>
                   <div id="chart-container-2"></div>
                 </div>
               </div>
             </div>
-            <div class="split-content about-this-service-left">
+            <div className="split-content about-this-service-left">
               <div
                 data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad0f"
                 style={{
@@ -229,7 +229,7 @@ const Other = () => {
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                   opacity: "1",
                 }}
-                class="subtitle hidden"
+                className="subtitle hidden"
               >
                 about this service
               </div>
@@ -262,7 +262,7 @@ const Other = () => {
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                   opacity: "1",
                 }}
-                class="paragraph about-this-service"
+                className="paragraph about-this-service"
               >
                 ● We work on all 7 areas of acquisition (
                 <strong>
@@ -294,9 +294,12 @@ const Other = () => {
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                   opacity: "1",
                 }}
-                class="animation-div"
+                className="animation-div"
               >
-                <Link href="#request-a-quote" class="button-primary w-button">
+                <Link
+                  href="#request-a-quote"
+                  className="button-primary w-button"
+                >
                   Schedule a Demo
                 </Link>
               </div>
@@ -304,7 +307,7 @@ const Other = () => {
           </div>
         </div>
       </div>
-      <div class="container-default w-container">
+      <div className="container-default w-container">
         <div
           data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb466c"
           style={{
@@ -318,13 +321,13 @@ const Other = () => {
               "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
             opacity: "1",
           }}
-          class="divider"
+          className="divider"
         ></div>
       </div>
-      <div class="section our-process">
-        <div class="container-large-1105px">
-          <div class="top-content our-process flex-vert">
-            <div class="split-content our-process-left padding-down">
+      <div className="section our-process">
+        <div className="container-large-1105px">
+          <div className="top-content our-process flex-vert">
+            <div className="split-content our-process-left padding-down">
               <div
                 data-w-id="666a60c7-0210-e87c-3245-0bf6d4ab87f3"
                 style={{
@@ -338,7 +341,7 @@ const Other = () => {
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                   opacity: "1",
                 }}
-                class="subtitle mb-8px hidden"
+                className="subtitle mb-8px hidden"
               >
                 Our Process
               </div>
@@ -355,7 +358,7 @@ const Other = () => {
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                   opacity: "1",
                 }}
-                class="title-3 our-process cantre-align"
+                className="title-3 our-process cantre-align"
               >
                 Best App Marketing Agency for a Reason
               </h2>
@@ -373,15 +376,15 @@ const Other = () => {
                   "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1",
               }}
-              class="paragraph-7 our-process centre-align"
+              className="paragraph-7 our-process centre-align"
             >
               We unlock deep insights on traffic and engagement, surpassing
               standard analytics, by engaging the right users at the right time.
             </p>
           </div>
-          <div class="container-default w-container">
-            <div class="about-this-service-wrapper">
-              <div class="split-content about-this-service-left">
+          <div className="container-default w-container">
+            <div className="about-this-service-wrapper">
+              <div className="split-content about-this-service-left">
                 <div
                   data-w-id="a8f96690-42ec-7f05-0855-a926811f9646"
                   style={{
@@ -395,7 +398,7 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="subtitle hidden"
+                  className="subtitle hidden"
                 >
                   about this service
                 </div>
@@ -428,7 +431,7 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="paragraph about-this-service"
+                  className="paragraph about-this-service"
                 >
                   ● Deep Insights on the traffic and engagement .<br />● Go
                   beyond your standard analytics.
@@ -448,28 +451,34 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="animation-div"
+                  className="animation-div"
                 >
-                  <Link href="#request-a-quote" class="button-primary w-button">
+                  <Link
+                    href="#request-a-quote"
+                    className="button-primary w-button"
+                  >
                     Schedule a Demo
                   </Link>
                 </div>
               </div>
-              <div class="images-wrapper about-this-service">
-                <div class="sunburst-chart-1 w-embed w-script">
+              <div className="images-wrapper about-this-service">
+                <div className="sunburst-chart-1 w-embed w-script">
                   <div id="chart-container-1"></div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="container-default w-container">
-            <div class="about-this-service-wrapper margin-top">
-              <div class="images-wrapper about-this-service left-aligned">
-                <div class="image-wrapper about-this-service-1">
-                  <img
-                    src="images/AdvRankDashboard.svg"
+          <div className="container-default w-container">
+            <div className="about-this-service-wrapper margin-top">
+              <div className="images-wrapper about-this-service left-aligned">
+                <div className="image-wrapper about-this-service-1">
+                  <Image
+                    height={312}
+                    width={415}
+                    layout="responsive"
+                    src="/assets/imgs/AdvRankDashboard.svg"
                     alt=""
-                    class="image about-this-service-1"
+                    className="image about-this-service-1"
                   />
                 </div>
                 <div
@@ -485,16 +494,18 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="image-wrapper about-this-service-2 new _2"
+                  className="image-wrapper about-this-service-2 new _2"
                 >
-                  <img
-                    src="images/Dashboard-Float-two.svg"
+                  <Image
+                    width={415}
+                    height={147}
+                    src="/assets/imgs/Dashboard-Float-two.svg"
                     alt=""
-                    class="image about-this-service-1"
+                    className="image about-this-service-1"
                   />
                 </div>
               </div>
-              <div class="split-content about-this-service-left">
+              <div className="split-content about-this-service-left">
                 <div
                   data-w-id="5126ad55-90a0-56db-cba6-5e9cc42aa74b"
                   style={{
@@ -508,7 +519,7 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="subtitle hidden"
+                  className="subtitle hidden"
                 >
                   about this service
                 </div>
@@ -541,7 +552,7 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="paragraph about-this-service"
+                  className="paragraph about-this-service"
                 >
                   Automatically build profiles for every user who visits your
                   app, storing demographic data along with all their different
@@ -560,9 +571,12 @@ const Other = () => {
                       "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                     opacity: "1",
                   }}
-                  class="animation-div"
+                  className="animation-div"
                 >
-                  <Link href="#request-a-quote" class="button-primary w-button">
+                  <Link
+                    href="#request-a-quote"
+                    className="button-primary w-button"
+                  >
                     Schedule a Demo
                   </Link>
                 </div>
