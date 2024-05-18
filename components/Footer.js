@@ -4,11 +4,11 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer class="footer-2">
-      <div class="container-hero-logos w-container">
-        <div class="footer-links-block-2">
-          <div class="footer-main-content-wrapper-2">
-            <Link href="#" class="footer-logo-link w-nav-brand">
+    <footer className="footer-2">
+      <div className="container-hero-logos w-container">
+        <div className="footer-links-block-2">
+          <div className="footer-main-content-wrapper-2">
+            <Link href="#" className="footer-logo-link w-nav-brand">
               <Image
                 src="/assets/imgs/nextlabs_logo.png"
                 height={34}
@@ -16,24 +16,24 @@ const Footer = () => {
                 layout="responsive"
                 loading="lazy"
                 alt="nextlabs.io logo"
-                class="footer-logo-2"
+                className="footer-logo-2"
               />
             </Link>
           </div>
-          <div class="html-embed-6 w-embed">
-            <span class="fa checked">★★★★★</span>
-            <span class="rating_text">
+          <div className="html-embed-6 w-embed">
+            <span className="fa checked">★★★★★</span>
+            <span className="rating_text">
               Rating: 4.8 &nbsp;· &nbsp;496 reviews
             </span>
           </div>
-          <div class="footer-mobile-content-2">
-            <div class="footer-content-links-2">
-              <ul role="list" class="list-footer-2 w-list-unstyled">
-                <li class="footer-list-item-2">
-                  <div class="text-block-21">Reach out to us : </div>
+          <div className="footer-mobile-content-2">
+            <div className="footer-content-links-2">
+              <ul role="list" className="list-footer-2 w-list-unstyled">
+                <li className="footer-list-item-2">
+                  <div className="text-block-21">Reach out to us : </div>
                   <Link
                     href="mailto:contact@nextgrowthlabs.com"
-                    class="footer-link-2 email"
+                    className="footer-link-2 email"
                   >
                     contact@nextgrowthlabs.com
                   </Link>
@@ -42,10 +42,10 @@ const Footer = () => {
             </div>
           </div>
         </div>
-        <div class="small-print-2">© 2023 NextGrowthLabs</div>
+        <div className="small-print-2">© 2023 NextGrowthLabs</div>
       </div>
-      <div class="floatingbutton">
-        <Link href="#" class="floatingcta-button-2 _100 w-button">
+      <div className="floatingbutton">
+        <Link href="#" className="floatingcta-button-2 _100 w-button">
           Get App Audit
         </Link>
       </div>

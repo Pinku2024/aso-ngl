@@ -1,11 +1,12 @@
+import Image from "next/image";
 import React from "react";
 
 const AppIntelligence = () => {
   return (
-    <section id="app-intelligence" class="section bg-neutral-200">
-      <div class="container-default w-container">
-        <div class="top-content service-features flex">
-          <div class="split-content service-features-left">
+    <section id="app-intelligence" className="section bg-neutral-200">
+      <div className="container-default w-container">
+        <div className="top-content service-features flex">
+          <div className="split-content service-features-left">
             <div
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45ea"
               style={{
@@ -19,7 +20,7 @@ const AppIntelligence = () => {
                   "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Make sure opacity value is a string
               }}
-              class="subtitle hidden"
+              className="subtitle hidden"
             >
               Our Services
             </div>
@@ -36,7 +37,7 @@ const AppIntelligence = () => {
                   "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
                 opacity: "1", // Make sure opacity value is a string
               }}
-              class="title service-features"
+              className="title service-features"
             >
               Let&#x27;s Talk Data &amp; Processes
             </h2>
@@ -48,14 +49,16 @@ const AppIntelligence = () => {
         </div>
         <div
           data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45f1"
-          class="w-layout-grid service-features-grid"
+          className="w-layout-grid service-features-grid"
         >
-          <div class="card service-feature">
-            <div class="image-wrapper service-feature">
-              <img
+          <div className="card service-feature">
+            <div className="image-wrapper service-feature">
+              <Image
+                width={128}
+                height={136}
                 src="assets/imgs/icon-service-feature-1-seo-template.svg"
                 alt="Keyword Research - SEO Webflow Template"
-                class="image service-feature"
+                className="image service-feature"
               />
             </div>
             <h3>Listing Intelligence</h3>
@@ -64,12 +67,15 @@ const AppIntelligence = () => {
               close eye on the changes they make.
             </p>
           </div>
-          <div class="card service-feature">
-            <div class="image-wrapper service-feature _1">
-              <img
+          <div className="card service-feature">
+            <div className="image-wrapper service-feature _1">
+              <Image
+                width={128}
+                height={133}
+                // layout="responsive"
                 src="assets/imgs/icon-service-feature-2-seo-template.svg"
                 alt="Keyword Ranking - SEO Webflow Template"
-                class="image service-feature"
+                className="image service-feature"
               />
             </div>
             <h3>Anomalies</h3>
@@ -78,12 +84,14 @@ const AppIntelligence = () => {
               mismatches. And there&#x27;s a way to fix it.
             </p>
           </div>
-          <div class="card service-feature">
-            <div class="image-wrapper service-feature _2">
-              <img
+          <div className="card service-feature">
+            <div className="image-wrapper service-feature _2">
+              <Image
+                width={128}
+                height={119}
                 src="assets/imgs/icon-service-feature-3-seo-template.svg"
                 alt="Competitor Analysis - SEO Webflow Template"
-                class="image service-feature"
+                className="image service-feature"
               />
             </div>
             <h3>Ratings &amp; MHR</h3>
@@ -92,12 +100,14 @@ const AppIntelligence = () => {
               Helpful Review Section) Score - developed by us.
             </p>
           </div>
-          <div class="card service-feature">
-            <div class="image-wrapper service-feature">
-              <img
+          <div className="card service-feature">
+            <div className="image-wrapper service-feature">
+              <Image
+                width={128}
+                height={145}
                 src="assets/imgs/icon-service-feature-4-seo-template.svg"
                 alt="Website Optimization - SEO Webflow Template"
-                class="image service-feature"
+                className="image service-feature"
               />
             </div>
             <h3>Engagement and Open Count</h3>

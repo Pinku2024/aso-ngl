@@ -1,9 +1,7 @@
 import Link from "next/link";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import LoginPopup from "./elements/LoginPopup";
-
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
@@ -680,55 +678,7 @@ const Audit = () => {
                           ></ul>
                         </div>
                       </div>
-
-                      {/* <div className="country-selection-box">
-                        <div
-                          className="country-select-button"
-                          id="select-country-btn1"
-                          country-code="us"
-                          country-name="United State"
-                        >
-                          <span>
-                            <img
-                              src="https://flagcdn.com/40x30/us.png"
-                              alt="United States"
-                              loading="eager"
-                              className="country-flags"
-                            />
-                            United State
-                          </span>
-                          <i>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="16"
-                              height="16"
-                              fill="currentColor"
-                              className="bi bi-chevron-down"
-                              viewBox="0 0 16 16"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                              ></path>
-                            </svg>
-                          </i>
-                        </div>
-                        <div className="country-search-box">
-                          <div className="content-country" id="content-box1">
-                            <div className="search">
-                              <input
-                                spellCheck="false"
-                                autoComplete="off"
-                                type="text"
-                                placeholder="Search"
-                                id="country-search-input"
-                              />
-                            </div>
-                            <ul className="options"></ul>
-                          </div>
-                        </div>
-                      </div> */}
-
+                      
                       <CountrySelect
                         setSelectedCountryCode={setSelectedCountryCode}
                       />

@@ -1,9 +1,10 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const ASOTools = () => {
   return (
-    <section id="aso-tools" class="section">
-      <div class="container-medium-666px process">
+    <section id="aso-tools" className="section">
+      <div className="container-medium-666px process">
         <div
           data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4610"
           style={{
@@ -17,7 +18,7 @@ const ASOTools = () => {
               "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
             opacity: 1,
           }}
-          class="subtitle hidden"
+          className="subtitle hidden"
         >
           Our Process
         </div>
@@ -50,14 +51,14 @@ const ASOTools = () => {
               "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
             opacity: 1,
           }}
-          class="paragraph process"
+          className="paragraph process"
         >
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus ante
           velit nunc morbi pretium. Ut nullam dolor.
         </p>
       </div>
-      <div class="container-default w-container">
-        <div class="w-layout-grid process-grid">
+      <div className="container-default w-container">
+        <div className="w-layout-grid process-grid">
           <div
             data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb461a"
             style={{
@@ -71,19 +72,21 @@ const ASOTools = () => {
                 "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               opacity: 1,
             }}
-            class="process-wrapper"
+            className="process-wrapper"
           >
-            <div class="image-wrapper process">
-              <img
+            <div className="image-wrapper process">
+              <Image
+                width={127}
+                height={128}
                 src="/assets/imgs/icon-service-process-1-seo-template.svg"
                 alt="Growth - SEO Webflow Template"
-                class="image process"
+                className="image process"
               />
             </div>
-            <div class="process-step-content">
-              <div class="subtitle process hidden">Step 1</div>
+            <div className="process-step-content">
+              <div className="subtitle process hidden">Step 1</div>
               <h3>App Intelligence </h3>
-              <p class="paragraph process-step">
+              <p className="paragraph process-step">
                 Increase organic search visibility to improve retention and
                 revenue. ROI is maximised when ASO strategies are in place to
                 use the most relevant keywords with high traffic.
@@ -103,15 +106,21 @@ const ASOTools = () => {
                 "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               opacity: 1,
             }}
-            class="process-wrapper"
+            className="process-wrapper"
           >
-            <div class="image-wrapper process">
-              <img src="/assets/imgs/SDKs.svg" alt="" class="image process" />
+            <div className="image-wrapper process">
+              <Image
+                width={139}
+                height={139}
+                src="/assets/imgs/SDKs.svg"
+                alt=""
+                className="image process"
+              />
             </div>
-            <div class="process-step-content">
-              <div class="subtitle process hidden">Step 2</div>
+            <div className="process-step-content">
+              <div className="subtitle process hidden">Step 2</div>
               <h3>SDKs</h3>
-              <p class="paragraph process-step">
+              <p className="paragraph process-step">
                 Conversion rate optimization (CRO) on your app&#x27;s display
                 page can be used to your advantage to drive maximum views.{" "}
               </p>
@@ -130,19 +139,21 @@ const ASOTools = () => {
                 "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               opacity: 1,
             }}
-            class="process-wrapper"
+            className="process-wrapper"
           >
-            <div class="image-wrapper process">
-              <img
+            <div className="image-wrapper process">
+              <Image
+                width={139}
+                height={139}
                 src="/assets/imgs/Chrome-Addon.png"
                 alt=""
-                class="image process"
+                className="image process"
               />
             </div>
-            <div class="process-step-content">
-              <div class="subtitle process hidden">Step 3</div>
+            <div className="process-step-content">
+              <div className="subtitle process hidden">Step 3</div>
               <h3>Chrome Add-Ons</h3>
-              <p class="paragraph process-step">
+              <p className="paragraph process-step">
                 Leverage strategies like link building, in order to improve your
                 visibility on search engines.
               </p>
@@ -161,19 +172,21 @@ const ASOTools = () => {
                 "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               opacity: 1,
             }}
-            class="process-wrapper"
+            className="process-wrapper"
           >
-            <div class="image-wrapper process">
-              <img
+            <div className="image-wrapper process">
+              <Image
+                width={115}
+                height={142}
                 src="/assets/imgs/icon-service-process-3-seo-template.svg"
                 alt="Checklist - SEO Webflow Template"
-                class="image process"
+                className="image process"
               />
             </div>
-            <div class="process-step-content">
-              <div class="subtitle process hidden">Step 3</div>
+            <div className="process-step-content">
+              <div className="subtitle process hidden">Step 3</div>
               <h3>Doc Add-Ons</h3>
-              <p class="paragraph process-step">
+              <p className="paragraph process-step">
                 We don&#x27;t just translate, we localize your keywords to
                 ensure your app can reach a global audience. Recommended
                 languages: Arabic, French, German, Japanese, Korean, Mandarin,
@@ -194,19 +207,21 @@ const ASOTools = () => {
                 "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               opacity: 1,
             }}
-            class="process-wrapper"
+            className="process-wrapper"
           >
-            <div class="image-wrapper process">
-              <img
+            <div className="image-wrapper process">
+              <Image
+                width={128}
+                height={128}
                 src="/assets/imgs/icon-service-process-2-seo-template.svg"
                 alt="SEO Optimization - SEO Webflow Template"
-                class="image process"
+                className="image process"
               />
             </div>
-            <div class="process-step-content">
-              <div class="subtitle process hidden">Step 3</div>
+            <div className="process-step-content">
+              <div className="subtitle process hidden">Step 3</div>
               <h3>BigQuery Connector</h3>
-              <p class="paragraph process-step">
+              <p className="paragraph process-step">
                 We are a team of experience digital marketers who strive to be
                 on the cutting edge of digital growth. Even though we specialize
                 in ASO, our team has decades of combined experience in ASO.
@@ -226,19 +241,21 @@ const ASOTools = () => {
                 "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
               opacity: 1,
             }}
-            class="process-wrapper"
+            className="process-wrapper"
           >
-            <div class="image-wrapper process">
-              <img
+            <div className="image-wrapper process">
+              <Image
+                width={139}
+                height={139}
                 src="/assets/imgs/Data-Studio.svg"
                 alt=""
-                class="image process"
+                className="image process"
               />
             </div>
-            <div class="process-step-content">
-              <div class="subtitle process hidden">Step 3</div>
+            <div className="process-step-content">
+              <div className="subtitle process hidden">Step 3</div>
               <h3>Data Studio Connector</h3>
-              <p class="paragraph process-step">
+              <p className="paragraph process-step">
                 Get your Playstore data using our DataStudio connector. (Request
                 for an invite now).
               </p>
@@ -258,9 +275,9 @@ const ASOTools = () => {
               "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
             opacity: 1,
           }}
-          class="flex-vc"
+          className="flex-vc"
         >
-          <Link href="#request-a-quote" class="button-primary w-button">
+          <Link href="#request-a-quote" className="button-primary w-button">
             Get Access
           </Link>
         </div>
