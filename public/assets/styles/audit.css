@@ -284,13 +284,15 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
   border-radius: 5px;
   background: #f2f2f2;
 }
+
 p.info-search {
-  padding: 10px 5px;
-  border-bottom: 1px solid #e5dfdf;
-  background: rgba(28, 125, 248, 0.1);
-  color: black;
-  text-align: left;
+  padding: 10px 5px !important;
+  border-bottom: 1px solid #e5dfdf !important;
+  background: rgba(28, 125, 248, 0.1) !important;
+  color: black !important;
+  text-align: left !important;
 }
+
 .show-device-icon {
   display: flex;
   justify-content: space-between;
