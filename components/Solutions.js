@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 const Solutions = () => {
-  const [activeSol, setActiveSol] = useState(null);
+  const [activeSol, setActiveSol] = useState("solution1");
   useEffect(() => {
     if (activeSol === "solution1") {
       const installRangeSliderMb = document.querySelector("#install-slider2");
