@@ -4,12 +4,13 @@ import Head from "next/head";
 import Audit from "../components/Audit";
 import Solutions from "../components/Solutions";
 import Testimonials from "../components/Testimonials";
-import OurPricing from "../components/OurPricing";
+// import OurPricing from "../components/OurPricing";
 import ASOTools from "../components/ASOTools";
 import AppIntelligence from "../components/AppIntelligence";
 import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
-
+import Clients from "../components/Clients";
+import LoginPopup from "../components/elements/LoginPopup";
 export default function Home() {
   return (
     <>
@@ -26,10 +27,12 @@ export default function Home() {
       </Head>
       <main>
         <Header />
+        {/* <LoginPopup /> */}
         <Audit />
+        <Clients />
         <Solutions />
         <Testimonials />
-        <OurPricing />
+        {/* <OurPricing /> */}
         <ASOTools />
         <AppIntelligence />
         <Other />

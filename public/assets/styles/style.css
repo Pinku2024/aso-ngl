@@ -1983,7 +1983,9 @@ p {
   justify-content: space-around;
   display: flex;
 }
-
+.scroll {
+  animation: scroll 40s linear infinite;
+}
 .div-block {
   z-index: 2;
   position: relative;
@@ -4939,6 +4941,7 @@ p {
 
   .image-17 {
     left: 40px;
+
   }
 
   .heading-large-sf1 {
@@ -5827,6 +5830,7 @@ p {
     top: 10px;
     bottom: 0;
     left: 10px;
+    cursor: pointer;
   }
 
   .heading-large-sf1.feature-heading.form-heading {
