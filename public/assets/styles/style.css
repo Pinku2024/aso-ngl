@@ -3257,7 +3257,7 @@ p {
 
 .html-embed-40,
 .form-holder {
-  display: none;
+  /* display: none; */
 }
 
 .input-3 {
@@ -5830,7 +5830,7 @@ p {
     top: 10px;
     bottom: 0;
     left: 10px;
-    cursor: pointer;
+    cursor: pointer !important;
   }
 
   .heading-large-sf1.feature-heading.form-heading {

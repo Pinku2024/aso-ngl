@@ -1,23 +1,16 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState , useRef} from "react";
 import CountrySelect from "./elements/CountrySelect";
-import LoginPopup from "./elements/LoginPopup";
+import FormPopup from "./elements/FormPopup";
+
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-
-  useEffect(() => {
-    const handleEvent = () => {
-      const formHolder = document.querySelector(".form-holder");
-      if (formHolder && formHolder.style.display === "none") {
-        setIsPopupVisible(true);
-        formHolder.style.display = "block";
-      }
-    };
-
-    // logic when user select app from suggestions
-  }, []);
-
+  
+  // Function to close the popup
+  const togglePopup = () => {
+    setIsPopupVisible(!isPopupVisible);
+  };
   const closePopup = () => {
     setIsPopupVisible(false);
   };
@@ -57,6 +50,7 @@ const Audit = () => {
         }, 500);
       });
     }
+
     function encodingName(e) {
       return encodeURIComponent(e);
     }
@@ -120,8 +114,8 @@ const Audit = () => {
         const playResponse = await response2.json();
 
         const mergedData = {
-          iOSResponse,
-          playResponse,
+          iOSResponse: iOSResponse,
+          playResponse: playResponse
         };
         // console.log("Merged Data", mergedData);
 
@@ -160,7 +154,7 @@ const Audit = () => {
     }
 
     function clearSearchBar(mainBoxHolder) {
-      console.log(mainBoxHolder);
+      // console.log(mainBoxHolder);
       let inputBox = mainBoxHolder.querySelector(".search-input");
       inputBox.value = "";
       inputBox.removeAttribute("application-url");
@@ -222,6 +216,14 @@ const Audit = () => {
       return appDataMain;
     }
 
+    setInterval(() => {
+      const inputBox = document.querySelectorAll(".search-input");
+      inputBox.forEach((input) => {
+        if (input.value === '') {
+          input.closest('.main-box-holder').querySelector('.searching-shimmer').classList.add("hidden");
+        }
+      })
+    }, 500)
     document.getElementById("search-bar-input1").focus();
     const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
     const closeSearchBtn = document.querySelectorAll(".close-search-form");
@@ -278,23 +280,24 @@ const Audit = () => {
     } else {
       localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
     }
-    if (device == "apple") {
-      dataLayer.push({
-        event: "ios_app_select",
-        keyword: keyword,
-        "gtm.elementId": applicationId,
-        "gtm.elementUrl": appPackageURL,
-        "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
-      });
-    } else {
-      dataLayer.push({
-        event: "play_app_select",
-        keyword: keyword,
-        "gtm.elementId": applicationId,
-        "gtm.elementUrl": appPackageURL,
-        "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
-      });
-    }
+    // if (device == "apple") {
+    //   dataLayer.push({
+    //     event: "ios_app_select",
+    //     keyword: keyword,
+    //     "gtm.elementId": applicationId,
+    //     "gtm.elementUrl": appPackageURL,
+    //     "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
+    //   });
+    // } else {
+    //   dataLayer.push({
+    //     event: "play_app_select",
+    //     keyword: keyword,
+    //     "gtm.elementId": applicationId,
+    //     "gtm.elementUrl": appPackageURL,
+    //     "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
+    //   });
+    // }
+
     try {
       mainBoxHolder
         .querySelector(".suggestions")
@@ -309,34 +312,40 @@ const Audit = () => {
   }
 
   // handle event *****************************************
+
   const handleClick = (event) => {
-    let { appPackageURL, applicationId, imageURL, device } =
-      selectAppHandler(event);
+    console.log("Clicked on app")
+    let { appPackageURL, applicationId, imageURL, device } = selectAppHandler(event);
     displayAppRelatedBox(appPackageURL, imageURL, device);
-    let mainBoxHolder = event.target.closest(".main-box-holder");
-    const country = mainBoxHolder
-      .querySelector(".country-select-button")
-      .getAttribute("country-code");
-    updateOtherSectionToSelectedApp(
-      appPackageURL,
-      applicationId,
-      imageURL,
-      device,
-      country
-    );
+    // let mainBoxHolder = event.target.closest(".main-box-holder");
+    // const country = mainBoxHolder
+      // .querySelector(".country-select-button")
+      // .getAttribute("country-code");
+    // updateOtherSectionToSelectedApp(
+    //   appPackageURL,
+    //   applicationId,
+    //   imageURL,
+    //   device,
+    //   country
+    // );
   };
 
   // ******************************************************
-  function displayAppRelatedBox(packageURL, appLogo, device) {
+   function displayAppRelatedBox(packageURL, appLogo, device) {
     if (packageURL !== undefined) {
-      const formHolder = document.querySelector(".form-holder");
-      formHolder.style.display = "block";
-      let form = formHolder.querySelector("#wf-form-ContactUsForm2");
-      form.setAttribute("app-url", packageURL);
+       setIsPopupVisible(true)
+      // const formHolder = document.querySelector(".form-holder");
+      // formHolder.style.display = "block";
+      // let form = formHolder.querySelector("#wf-form-ContactUsForm2");
+      // form.setAttribute("app-url", packageURL);
     } else {
       window.alert("Warning! Please select the app from the dropdown menu.");
     }
   }
+
+
+
+
   // ***************************************************************
   async function updateOtherSectionToSelectedApp(
     appPackageURL,
@@ -392,6 +401,7 @@ const Audit = () => {
       });
     } catch {}
   }
+
 
   function mySubmit() {
     const imageElement = document.getElementById("iOS-form-logo");
@@ -676,7 +686,8 @@ const Audit = () => {
                           <ul
                             id="suggestions-box1"
                             className="suggestions"
-                            onClick={handleClick}
+                          
+                          onClick={(e)=>handleClick(e)}
                           ></ul>
                         </div>
                       </div>
@@ -690,6 +701,7 @@ const Audit = () => {
                         type="submit"
                         className="audit-button"
                         id="Audit-App-button"
+                        onClick={togglePopup}
                       >
                         Start Now
                       </button>
@@ -868,7 +880,7 @@ const Audit = () => {
           />
         </div>
       </div>
-      {isPopupVisible && <LoginPopup closePopup={closePopup} />}
+      {isPopupVisible && <FormPopup onClose={closePopup} />}
     </>
   );
 };

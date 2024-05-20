@@ -1,6 +1,6 @@
+import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import Head from "next/head";
 import Audit from "../components/Audit";
 import Solutions from "../components/Solutions";
 import Testimonials from "../components/Testimonials";
@@ -10,7 +10,6 @@ import AppIntelligence from "../components/AppIntelligence";
 import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
 import Clients from "../components/Clients";
-import LoginPopup from "../components/elements/LoginPopup";
 export default function Home() {
   return (
     <>
@@ -27,7 +26,6 @@ export default function Home() {
       </Head>
       <main>
         <Header />
-        {/* <LoginPopup /> */}
         <Audit />
         <Clients />
         <Solutions />

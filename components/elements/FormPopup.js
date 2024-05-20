@@ -1,11 +1,12 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef } from "react";
 
-const LoginPopup = () => {
+const FormPopup = ({onClose}) => {
+
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
   const formRef = useRef(null);
   const successMessageRef = useRef(null);
@@ -22,11 +23,22 @@ const LoginPopup = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const imageData = formRef.current.getAttribute('app-url');
+    const imageData = formRef.current.getAttribute("app-url");
     const { name, email, phone, message } = formData;
     const pageURL = window.location.href;
 
-    const domains = ["yahoo", "protonmail", "aol", "mail", "gmail", "outlook", "hotmail", "zoho", "icloud", "gmx"];
+    const domains = [
+      "yahoo",
+      "protonmail",
+      "aol",
+      "mail",
+      "gmail",
+      "outlook",
+      "hotmail",
+      "zoho",
+      "icloud",
+      "gmx",
+    ];
     const domain = email.slice(email.indexOf("@") + 1, email.lastIndexOf("."));
     let con_value;
     if (domains.includes(domain)) {
@@ -37,9 +49,12 @@ const LoginPopup = () => {
       con_value = 1237;
     }
 
-    const eventNameW = imageData.split("/")[2].split('.')[1] === "apple" ? "iOS_hsForm_field" : "play_hsForm_field";
+    const eventNameW =
+      imageData.split("/")[2].split(".")[1] === "apple"
+        ? "iOS_hsForm_field"
+        : "play_hsForm_field";
 
-    if (typeof dataLayer !== 'undefined' && Array.isArray(dataLayer)) {
+    if (typeof dataLayer !== "undefined" && Array.isArray(dataLayer)) {
       dataLayer.push({
         event: eventNameW,
         "gtm.username": name,
@@ -48,8 +63,8 @@ const LoginPopup = () => {
         "gtm.uniqueAnalyticsReports": "AnalyticsHSFormWeb_nl",
         "gtm.phone": phone,
         "gtm.currency": "INR",
-        'gtm.value': con_value,
-        "gtm.message": message
+        "gtm.value": con_value,
+        "gtm.message": message,
       });
     }
 
@@ -57,32 +72,35 @@ const LoginPopup = () => {
     myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
-      "fields": [
-        { "name": "firstname", "value": name },
-        { "name": "email", "value": email },
-        { "name": "phone", "value": phone },
-        { "name": "app_url", "value": imageData },
-        { "name": "message", "value": message },
+      fields: [
+        { name: "firstname", value: name },
+        { name: "email", value: email },
+        { name: "phone", value: phone },
+        { name: "app_url", value: imageData },
+        { name: "message", value: message },
       ],
-      "context": { "pageUri": pageURL },
+      context: { pageUri: pageURL },
     });
 
     const requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: myHeaders,
       body: raw,
-      redirect: 'follow'
+      redirect: "follow",
     };
 
-    fetch("https://api.hsforms.com/submissions/v3/integration/submit/3885214/efaf7e24-de65-496d-9983-ffb476f65524", requestOptions)
-      .then(response => response.text())
-      .then(result => {
+    fetch(
+      "https://api.hsforms.com/submissions/v3/integration/submit/3885214/efaf7e24-de65-496d-9983-ffb476f65524",
+      requestOptions
+    )
+      .then((response) => response.text())
+      .then((result) => {
         showSuccessMessage();
         hideForm();
         console.log(result);
       })
-      .catch(error => {
-        console.log('error', error);
+      .catch((error) => {
+        console.log("error", error);
         showErrorMessage();
       });
   };
@@ -103,11 +121,19 @@ const LoginPopup = () => {
 
   return (
     <section id="lead-form" className="form-section">
-      <div className="form-holder">
+      <div
+        className="form-holder" 
+      >
         <div className="loginpopupcontainer">
           <div className="popup-content contact lead-form spacing">
             <div className="close-button-holder">
-              <img src="/assets/imgs/close-button.svg" loading="lazy" alt="" className="image-17" />
+              <img
+                src="/assets/imgs/close-button.svg"
+                loading="lazy"
+                alt=""
+                className="image-17"
+                onClick={onClose}
+              />
             </div>
             <div>
               <h2 className="heading-large-sf1 feature-heading form-heading">
@@ -157,7 +183,9 @@ const LoginPopup = () => {
                     />
                   </div>
                   <div className="input-wrapper-2">
-                    <label htmlFor="Phone-5" className="field-label">Phone</label>
+                    <label htmlFor="Phone-5" className="field-label">
+                      Phone
+                    </label>
                     <input
                       type="tel"
                       className="input-2 w-input"
@@ -189,9 +217,13 @@ const LoginPopup = () => {
                   />
                 </div>
               </form>
-              <div className="success-message w-form-done" ref={successMessageRef}>
+              <div
+                className="success-message w-form-done"
+                ref={successMessageRef}
+              >
                 <div className="text-block-23">
-                  Your message has been submitted. <br />We will get back to you within 24-48 hours.
+                  Your message has been submitted. <br />
+                  We will get back to you within 24-48 hours.
                 </div>
                 <div className="button-holder-error-message"></div>
               </div>
@@ -199,7 +231,10 @@ const LoginPopup = () => {
                 <div>Oops! Something went wrong.</div>
               </div>
             </div>
-            <div bind="e13c0449-4019-f45b-f539-378de6e63eea" className="hide w-embed"></div>
+            <div
+              bind="e13c0449-4019-f45b-f539-378de6e63eea"
+              className="hide w-embed"
+            ></div>
           </div>
         </div>
       </div>
@@ -207,4 +242,4 @@ const LoginPopup = () => {
   );
 };
 
-export default LoginPopup;
+export default FormPopup;

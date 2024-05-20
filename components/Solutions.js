@@ -61,6 +61,7 @@ const Solutions = () => {
         .insertAdjacentHTML("beforeend", listData.join(""));
     }
   }
+
   useEffect(() => {
     if (activeSol === "solution1") {
       const installRangeSliderMb = document.querySelector("#install-slider2");
@@ -968,6 +969,7 @@ const Solutions = () => {
                                   console.log("input value change");
                                 }}
                                 defaultValue="180"
+                                defaultValue="180"
                               />
                               <strong>180 Days</strong>
                             </div>
@@ -1247,6 +1249,8 @@ const Solutions = () => {
                                       <input
                                         spellCheck="false"
                                         autoComplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
                                         onChange={() => {
@@ -1345,6 +1349,7 @@ const Solutions = () => {
                                 onChange={() => {
                                   console.log("input value change");
                                 }}
+                                defaultValue="2.9"
                                 defaultValue="2.9"
                               />
                               <strong>2.9</strong>
@@ -2025,6 +2030,7 @@ const Solutions = () => {
                             onChange={() => {
                               console.log("input value change");
                             }}
+                            defaultValue="180"
                           />
                           <strong>180 Days</strong>
                         </div>
@@ -2372,6 +2378,7 @@ const Solutions = () => {
                             onChange={() => {
                               console.log("input value change");
                             }}
+                            defaultValue="2.9"
                           />
                           <strong>2.9</strong>
                         </div>
