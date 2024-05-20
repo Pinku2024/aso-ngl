@@ -3,7 +3,7 @@ import React from "react";
 
 const AppIntelligence = () => {
   return (
-    <section id="app-intelligence" className="section bg-neutral-200">
+    <section id="aso-intelligence" className="section bg-neutral-200">
       <div className="container-default w-container">
         <div className="top-content service-features flex">
           <div className="split-content service-features-left">

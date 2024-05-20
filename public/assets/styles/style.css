@@ -12,6 +12,7 @@ body {
   font-family: Plus Jakarta Sans, sans-serif;
   font-size: 14px;
   line-height: 20px;
+  scroll-behavior: smooth;
 }
 
 h1 {
@@ -4941,7 +4942,6 @@ p {
 
   .image-17 {
     left: 40px;
-
   }
 
   .heading-large-sf1 {
@@ -6430,4 +6430,7 @@ p {
 .slider::-moz-range-thumb {
   width: 25px;
   height: 25px;
+}
+.suggestions {
+  z-index: 999;
 }

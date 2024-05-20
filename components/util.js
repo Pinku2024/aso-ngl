@@ -61,3 +61,5 @@ setInterval(() => {
     }
   }
 }, 500);
+
+// funcion for search queries

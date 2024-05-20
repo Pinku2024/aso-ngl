@@ -25,8 +25,8 @@ const Audit = () => {
   // ************************************
 
   useEffect(() => {
-    function setupAutoComplete(iOSOuterBox) {
-      let iOSAutoCompleteTimer;
+    function setupautoComplete(iOSOuterBox) {
+      let iOSautoCompleteTimer;
       const inputElement = iOSOuterBox.querySelector(".search-input");
       const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form");
       inputElement.addEventListener("input", (event) => {
@@ -51,8 +51,8 @@ const Audit = () => {
         try {
           appSearchCloseBtn.classList.add("hidden");
         } catch {}
-        clearTimeout(iOSAutoCompleteTimer);
-        iOSAutoCompleteTimer = setTimeout(function () {
+        clearTimeout(iOSautoCompleteTimer);
+        iOSautoCompleteTimer = setTimeout(function () {
           prepareDataForRequests(iOSOuterBox);
         }, 500);
       });
@@ -129,9 +129,11 @@ const Audit = () => {
         const suggestionList = createListWithDevice(fullAppData);
 
         if (suggestionList.length > 0) {
-          suggestionList.unshift('<p class="info-search">Search Results</p>');
+          suggestionList.unshift(
+            '<p className="info-search">Search Results</p>'
+          );
           suggestionList.push(
-            '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
+            '<p className="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
           );
         }
 
@@ -152,7 +154,7 @@ const Audit = () => {
           else
             deviceIcon =
               "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
+          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div className="show-device-icon"><div className="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" className="app-icon-li-item" /></div><div className="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div className="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" className="device-icon-logo"/></div></li>`;
         }
       });
     }
@@ -231,7 +233,7 @@ const Audit = () => {
       });
     });
     iOSOuterBoxes.forEach((iOSOuterBox) => {
-      setupAutoComplete(iOSOuterBox);
+      setupautoComplete(iOSOuterBox);
     });
   });
 
@@ -681,6 +683,7 @@ const Audit = () => {
 
                       <CountrySelect
                         setSelectedCountryCode={setSelectedCountryCode}
+                        showCode={false}
                       />
 
                       <button

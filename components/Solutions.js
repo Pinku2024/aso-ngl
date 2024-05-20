@@ -1,6 +1,66 @@
 import { useEffect, useState } from "react";
+import CountrySelect from "./elements/CountrySelect";
+import Lottie from "lottie-react";
+import asoGreen from "../public/assets/documents/aso-green.json";
+import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
+import starRating from "../public/assets/documents/Five-Star-Rating.json";
 const Solutions = () => {
   const [activeSol, setActiveSol] = useState("solution1");
+  const [selectedCountryCode, setSelectedCountryCode] = useState("us");
+  function appSearch(event) {
+    async function prepareDataForRequests(mainWorkingBox) {
+      const inputElement = event;
+      // const inputElement = mainWorkingBox.querySelector(".search-input");
+      const appSearchCloseBtn =
+        mainWorkingBox.querySelector(".close-search-form");
+      try {
+        appSearchCloseBtn.classList.remove("hidden");
+      } catch {}
+      let currentNameIOS = inputElement.value;
+      let currentNamePlay = encodingName(inputElement.value);
+      let country = selectedCountryCode;
+      // let country = mainWorkingBox
+      //   .querySelector(".country-select-button")
+      //   .getAttribute("country-code");
+      if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        return false;
+      }
+      const newKeyword = currentNameIOS.split(" ").join("+");
+      const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`;
+      if (
+        requestIOS.trim() ===
+        `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
+      ) {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        return false;
+      }
+      let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`;
+      if (
+        requestPlay.trim() ===
+        `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
+      ) {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        return false;
+      }
+      let listData = await handleRequestsAndProcessData(
+        requestPlay,
+        requestIOS
+      );
+      if (listData.length > 0) {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        mainWorkingBox
+          .querySelector(".suggestions")
+          .classList.add("format-suggestions");
+      }
+      mainWorkingBox
+        .querySelector(".searching-shimmer")
+        .classList.add("hidden");
+      mainWorkingBox
+        .querySelector(".suggestions")
+        .insertAdjacentHTML("beforeend", listData.join(""));
+    }
+  }
   useEffect(() => {
     if (activeSol === "solution1") {
       const installRangeSliderMb = document.querySelector("#install-slider2");
@@ -166,6 +226,376 @@ const Solutions = () => {
       box.classList.remove("hidden");
     }
   });
+
+  useEffect(() => {
+    function setupautoComplete(iOSOuterBox) {
+      let iOSautoCompleteTimer;
+      const inputElement = iOSOuterBox.querySelector(".search-input");
+      const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form");
+      inputElement.addEventListener("input", (event) => {
+        if (event.target.value.trim() === "" && event.target.value.length < 1) {
+          console.log("Keyword Not Found!");
+          return false;
+        }
+        iOSOuterBox
+          .querySelector(".searching-shimmer")
+          .classList.remove("hidden");
+        try {
+          iOSOuterBox
+            .querySelector(".suggestions")
+            .classList.remove("format-suggestions");
+        } catch {}
+        try {
+          //Hiding Contact form
+          document
+            .querySelector(".apple-ios-app_store")
+            .classList.add("hidden");
+        } catch {}
+        try {
+          appSearchCloseBtn.classList.add("hidden");
+        } catch {}
+        clearTimeout(iOSautoCompleteTimer);
+        iOSautoCompleteTimer = setTimeout(function () {
+          prepareDataForRequests(iOSOuterBox);
+        }, 500);
+      });
+    }
+    function encodingName(e) {
+      return encodeURIComponent(e);
+    }
+    async function prepareDataForRequests(mainWorkingBox) {
+      const inputElement = mainWorkingBox.querySelector(".search-input");
+      const appSearchCloseBtn =
+        mainWorkingBox.querySelector(".close-search-form");
+      try {
+        appSearchCloseBtn.classList.remove("hidden");
+      } catch {}
+      let currentNameIOS = inputElement.value;
+      let currentNamePlay = encodingName(inputElement.value);
+      let country = selectedCountryCode;
+      // let country = mainWorkingBox
+      //   .querySelector(".country-select-button")
+      //   .getAttribute("country-code");
+      if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        return false;
+      }
+      const newKeyword = currentNameIOS.split(" ").join("+");
+      const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`;
+      if (
+        requestIOS.trim() ===
+        `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
+      ) {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        return false;
+      }
+      let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`;
+      if (
+        requestPlay.trim() ===
+        `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
+      ) {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        return false;
+      }
+      let listData = await handleRequestsAndProcessData(
+        requestPlay,
+        requestIOS
+      );
+      if (listData.length > 0) {
+        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        mainWorkingBox
+          .querySelector(".suggestions")
+          .classList.add("format-suggestions");
+      }
+      mainWorkingBox
+        .querySelector(".searching-shimmer")
+        .classList.add("hidden");
+      mainWorkingBox
+        .querySelector(".suggestions")
+        .insertAdjacentHTML("beforeend", listData.join(""));
+    }
+
+    async function handleRequestsAndProcessData(requestPlay, requestIOS) {
+      try {
+        const response1 = await fetch(requestIOS);
+        const response2 = await fetch(requestPlay);
+        const iOSResponse = await response1.json();
+        const playResponse = await response2.json();
+
+        const mergedData = {
+          iOSResponse,
+          playResponse,
+        };
+        // console.log("Merged Data", mergedData);
+
+        const fullAppData = mergedExtractedData(mergedData);
+        const suggestionList = createListWithDevice(fullAppData);
+
+        if (suggestionList.length > 0) {
+          suggestionList.unshift(
+            '<p className="info-search">Search Results</p>'
+          );
+          suggestionList.push(
+            '<p className="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
+          );
+        }
+
+        return suggestionList;
+      } catch (error) {
+        console.error("Error:", error);
+        return false;
+      }
+    }
+
+    function createListWithDevice(data) {
+      return data.map((item) => {
+        if (item.appName !== undefined) {
+          let deviceIcon;
+          if (item.device == "apple")
+            deviceIcon =
+              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+          else
+            deviceIcon =
+              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div className="show-device-icon"><div className="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" className="app-icon-li-item"  /></div><div className="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div className="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" className="device-icon-logo"/></div></li>`;
+        }
+      });
+    }
+
+    function clearSearchBar(mainBoxHolder) {
+      console.log(mainBoxHolder);
+      let inputBox = mainBoxHolder.querySelector(".search-input");
+      inputBox.value = "";
+      inputBox.removeAttribute("application-url");
+      inputBox.removeAttribute("application-id");
+      inputBox.removeAttribute("application-img-logo");
+      try {
+        mainBoxHolder
+          .querySelector(".suggestions")
+          .classList.remove("format-suggestions");
+      } catch {}
+      mainBoxHolder.querySelector(".suggestions").innerHTML = "";
+    }
+
+    function clearFormElement() {
+      document.querySelector(".apple-ios-app_store").classList.add("hidden");
+      const imageBox = document.querySelector("#iOS-form-logo");
+      imageBox.src = "";
+      imageBox.setAttribute("image-data", "");
+    }
+
+    function mergedExtractedData(rowData) {
+      let appDataMain = [];
+      let appDataA = [];
+      let appDataP = [];
+      rowData.iOSResponse.results.map((item) => {
+        if (item.trackViewUrl) {
+          let iosData = {
+            dataPackageUrl: item.trackViewUrl,
+            appPackageId: item.trackViewUrl.split("/")[5],
+            app_icon: item.artworkUrl100,
+            appName: item.trackName,
+            developer: "By " + item.artistName,
+            device: "apple",
+            deviceIcon: "apple_icon.svg",
+          };
+          appDataA.push(iosData);
+        }
+      });
+      rowData.playResponse.map((item) => {
+        let playData = {
+          dataPackageUrl:
+            "https://play.google.com/store/apps/details?id=" + item.package_id,
+          appPackageId: item.package_id,
+          app_icon: item.app_icon,
+          appName: item.title,
+          developer: "By " + item.developer_name,
+          device: "android",
+          deviceIcon: "android_icon.svg",
+        };
+        appDataP.push(playData);
+      });
+      appDataA.map((app, index) => {
+        appDataMain.push(appDataA[index]);
+        if (appDataP[index]) {
+          appDataMain.push(appDataP[index]);
+        }
+      });
+      if (appDataA.length === 0) appDataMain = appDataP;
+      return appDataMain;
+    }
+
+    document.getElementById("search-bar-input1").focus();
+    const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
+    const closeSearchBtn = document.querySelectorAll(".close-search-form");
+    closeSearchBtn.forEach((close) => {
+      close.addEventListener("click", (event) => {
+        event.target.classList.add("hidden");
+        clearSearchBar(event.target.closest(".main-box-holder"));
+        clearFormElement();
+      });
+    });
+    iOSOuterBoxes.forEach((iOSOuterBox) => {
+      setupautoComplete(iOSOuterBox);
+    });
+  });
+
+  function selectAppHandler(event) {
+    const selectedLi = event.target.closest("li.li-suggestion-item");
+    const mainBoxHolder = selectedLi.closest(".main-box-holder");
+    return getDetailsOfSelectedLi(selectedLi, mainBoxHolder);
+  }
+
+  function getDetailsOfSelectedLi(selectedItem, mainBoxHolder) {
+    const inputBox = mainBoxHolder.querySelector(".search-input");
+    const keyword = inputBox.value;
+    const applicationId = selectedItem.getAttribute("application-id");
+    const imageURL = selectedItem.getAttribute("application-img-logo");
+    const appPackageURL = selectedItem.getAttribute("application-url");
+    const device = selectedItem.getAttribute("device");
+    const appName = selectedItem.querySelector(
+      ".li-suggestion-item-info"
+    ).innerHTML;
+    inputBox.setAttribute("application-id", applicationId);
+    inputBox.setAttribute("application-img-logo", imageURL);
+    inputBox.setAttribute("application-url", appPackageURL);
+    inputBox.setAttribute("device", device);
+    const appData = {
+      packageName: appName,
+      icon_urls: imageURL,
+      "app-package-id": applicationId,
+      "data-package-url": appPackageURL,
+      device: device,
+    };
+    let oldAppData = localStorage.getItem("Recent Selected App");
+    if (oldAppData) {
+      let Array = JSON.parse(oldAppData);
+      Array.unshift(appData);
+      let uniqueArray = Array.filter(
+        (item, index) =>
+          Array.findIndex(
+            (obj) => JSON.stringify(obj) === JSON.stringify(item)
+          ) === index
+      );
+      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray));
+    } else {
+      localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
+    }
+    if (device == "apple") {
+      dataLayer.push({
+        event: "ios_app_select",
+        keyword: keyword,
+        "gtm.elementId": applicationId,
+        "gtm.elementUrl": appPackageURL,
+        "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
+      });
+    } else {
+      dataLayer.push({
+        event: "play_app_select",
+        keyword: keyword,
+        "gtm.elementId": applicationId,
+        "gtm.elementUrl": appPackageURL,
+        "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl",
+      });
+    }
+    try {
+      mainBoxHolder
+        .querySelector(".suggestions")
+        .classList.remove("format-suggestions");
+    } catch {}
+    try {
+      mainBoxHolder
+        .querySelector(".close-search-form")
+        .classList.remove("hidden");
+    } catch {}
+    return { appPackageURL, applicationId, imageURL, device };
+  }
+
+  // handle event *****************************************
+  const handleClick = (event) => {
+    let { appPackageURL, applicationId, imageURL, device } =
+      selectAppHandler(event);
+    displayAppRelatedBox(appPackageURL, imageURL, device);
+    let mainBoxHolder = event.target.closest(".main-box-holder");
+    const country = mainBoxHolder
+      .querySelector(".country-select-button")
+      .getAttribute("country-code");
+    updateOtherSectionToSelectedApp(
+      appPackageURL,
+      applicationId,
+      imageURL,
+      device,
+      country
+    );
+  };
+
+  // ******************************************************
+  function displayAppRelatedBox(packageURL, appLogo, device) {
+    if (packageURL !== undefined) {
+      const formHolder = document.querySelector(".form-holder");
+      formHolder.style.display = "block";
+      let form = formHolder.querySelector("#wf-form-ContactUsForm2");
+      form.setAttribute("app-url", packageURL);
+    } else {
+      window.alert("Warning! Please select the app from the dropdown menu.");
+    }
+  }
+  // ***************************************************************
+  async function updateOtherSectionToSelectedApp(
+    appPackageURL,
+    applicationId,
+    imageURL,
+    device,
+    country
+  ) {
+    const countryResult = countries.find(
+      (cn) => cn.code === country.toLowerCase()
+    );
+    const countryName = country ? countryResult.name : country;
+    const flag = countryFlagImages[country];
+    countrySelectBtn.forEach((button) => {
+      const result = button.offsetWidth > 200 ? true : false;
+      let cName = result ? countryName : country.toUpperCase();
+      button.setAttribute("country-code", country);
+      button.setAttribute("country-name", cName);
+      const oldSpanElement = button.firstElementChild;
+      // Create a new span element
+      const newSpan = document.createElement("span");
+      // Create a text node for the country code
+      const countryCodeNode = document.createTextNode(cName);
+      // Append the img and text nodes to the new span element
+      const clonedFlag = flag.cloneNode(true);
+      newSpan.appendChild(clonedFlag);
+      newSpan.appendChild(countryCodeNode);
+      // Replace the existing span element with the new span element
+      button.replaceChild(newSpan, oldSpanElement);
+    });
+    calculatePriceForSelectedApp(
+      appPackageURL,
+      applicationId,
+      imageURL,
+      device,
+      document.querySelector("#search-box1")
+    );
+    document.querySelector("#custom-contact-btn").classList.add("hidden");
+    let pricingBtn = document.querySelector("#solutions");
+    pricingBtn.click();
+    pricingBtn.scrollIntoView({ behavior: "smooth" });
+    const response = await fetchAndStoreAppDataToBox(
+      appPackageURL,
+      applicationId,
+      device,
+      country
+    );
+    const allMiniContainer = document.querySelectorAll(".mini-main-container");
+    showResponseToAllSmallBox(response, device, allMiniContainer);
+    try {
+      closeSearchBtn.forEach((close) => {
+        close.classList.remove("hidden");
+      });
+    } catch {}
+  }
+
   return (
     <section id="solutions" className="tabsection">
       <div className="container-11">
@@ -178,7 +608,6 @@ const Solutions = () => {
           </h2>
           <p
             data-w-id="0862d6f9-a925-7b8c-65e6-58a2fd5c72b7"
-            style={{ opacity: 0 }}
             className="paragraph-main-centre"
           >
             Our app marketing solutions for growing an app&#x27;s organic
@@ -240,10 +669,13 @@ const Solutions = () => {
                                 <div className="main-search-bar">
                                   <input
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     id="search-bar-input6"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
+                                    onChange={(e) => {
+                                      appSearch(e);
+                                    }}
                                   />
                                   <button
                                     id="close-search-form6"
@@ -254,7 +686,7 @@ const Solutions = () => {
                                       xmlnsXlink="http://www.w3.org/1999/xlink"
                                       width="16px"
                                       height="16px"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                       version="1.1"
                                     >
                                       <g id="surface6">
@@ -413,10 +845,10 @@ const Solutions = () => {
                                       height="16"
                                       fill="currentColor"
                                       className="bi bi-chevron-down"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                     >
                                       <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                       ></path>
                                     </svg>
@@ -429,11 +861,14 @@ const Solutions = () => {
                                   >
                                     <div className="search">
                                       <input
-                                        spellcheck="false"
-                                        autocomplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
                                         id="country-search-input6"
+                                        onChange={() => {
+                                          appSearch();
+                                        }}
                                       />
                                     </div>
                                     <ul className="options"></ul>
@@ -443,7 +878,14 @@ const Solutions = () => {
                             </div>
                           </div>
                           <div className="image-content-wrapper">
-                            <div
+                            <div className="lottie-animation-2 height">
+                              <Lottie
+                                animationData={asoGreen}
+                                loop={true}
+                                style={{ height: 300, width: 300 }}
+                              />
+                            </div>
+                            {/* <div
                               className="lottie-animation-2"
                               data-w-id="718ee9f6-6a94-5117-7fb2-aa897f9e7f6e"
                               data-animation-type="lottie"
@@ -455,7 +897,7 @@ const Solutions = () => {
                               data-renderer="svg"
                               data-default-duration="5"
                               data-duration="0"
-                            ></div>
+                            ></div> */}
                           </div>
                         </div>
                       </div>
@@ -522,7 +964,10 @@ const Solutions = () => {
                                 min="30"
                                 max="360"
                                 step="10"
-                                value="180"
+                                onChange={() => {
+                                  console.log("input value change");
+                                }}
+                                defaultValue="180"
                               />
                               <strong>180 Days</strong>
                             </div>
@@ -608,9 +1053,12 @@ const Solutions = () => {
                                 <div className="main-search-bar">
                                   <input
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     id="search-bar-input7"
                                     className="search-input"
+                                    onChange={() => {
+                                      appSearch();
+                                    }}
                                     placeholder="Search your iOS or android app"
                                   />
                                   <button
@@ -622,7 +1070,7 @@ const Solutions = () => {
                                       xmlnsXlink="http://www.w3.org/1999/xlink"
                                       width="16px"
                                       height="16px"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                       version="1.1"
                                     >
                                       <g id="surface7">
@@ -781,10 +1229,10 @@ const Solutions = () => {
                                       height="16"
                                       fill="currentColor"
                                       className="bi bi-chevron-down"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                     >
                                       <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                       ></path>
                                     </svg>
@@ -797,10 +1245,13 @@ const Solutions = () => {
                                   >
                                     <div className="search">
                                       <input
-                                        spellcheck="false"
-                                        autocomplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
+                                        onChange={() => {
+                                          appSearch();
+                                        }}
                                         id="country-search-input7"
                                       />
                                     </div>
@@ -811,8 +1262,11 @@ const Solutions = () => {
                             </div>
                           </div>
                           <div className="image-content-wrapper">
+                            <div className="lottie-animation-2 height">
+                              <Lottie animationData={starRating} loop={true} />
+                            </div>
                             <div
-                              className="lottie-animation-2 height"
+                              className="lottie-animation-2"
                               data-w-id="536a1adb-be18-88e9-1d52-60395cb0987d"
                               data-animation-type="lottie"
                               data-src="/assets/documents/Five-Star-Rating.json"
@@ -888,7 +1342,10 @@ const Solutions = () => {
                                 min="0.0"
                                 max="5"
                                 step="0.05"
-                                value="2.9"
+                                onChange={() => {
+                                  console.log("input value change");
+                                }}
+                                defaultValue="2.9"
                               />
                               <strong>2.9</strong>
                             </div>
@@ -975,10 +1432,13 @@ const Solutions = () => {
                                 <div className="main-search-bar">
                                   <input
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     id="search-bar-input8"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
+                                    onChange={() => {
+                                      appSearch();
+                                    }}
                                   />
                                   <button
                                     id="close-search-form8"
@@ -989,7 +1449,7 @@ const Solutions = () => {
                                       xmlnsXlink="http://www.w3.org/1999/xlink"
                                       width="16px"
                                       height="16px"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                       version="1.1"
                                     >
                                       <g id="surface8">
@@ -1148,10 +1608,10 @@ const Solutions = () => {
                                       height="16"
                                       fill="currentColor"
                                       className="bi bi-chevron-down"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                     >
                                       <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                       ></path>
                                     </svg>
@@ -1164,10 +1624,13 @@ const Solutions = () => {
                                   >
                                     <div className="search">
                                       <input
-                                        spellcheck="false"
-                                        autocomplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
+                                        onChange={() => {
+                                          appSearch();
+                                        }}
                                         id="country-search-input8"
                                       />
                                     </div>
@@ -1270,10 +1733,13 @@ const Solutions = () => {
                             <div className="main-search-bar">
                               <input
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 id="search-bar-input2"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
+                                onChange={() => {
+                                  appSearch();
+                                }}
                               />
                               <button
                                 id="close-search-form2"
@@ -1284,7 +1750,7 @@ const Solutions = () => {
                                   xmlnsXlink="http://www.w3.org/1999/xlink"
                                   width="16px"
                                   height="16px"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                   version="1.1"
                                 >
                                   <g id="surface2">
@@ -1443,10 +1909,10 @@ const Solutions = () => {
                                   height="16"
                                   fill="currentColor"
                                   className="bi bi-chevron-down"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                 >
                                   <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                   ></path>
                                 </svg>
@@ -1459,11 +1925,14 @@ const Solutions = () => {
                               >
                                 <div className="search">
                                   <input
-                                    spellcheck="false"
-                                    autocomplete="off"
+                                    spellCheck="false"
+                                    autoComplete="off"
                                     type="text"
                                     placeholder="Search"
                                     id="country-search-input2"
+                                    onChange={() => {
+                                      console.log("input value change");
+                                    }}
                                   />
                                 </div>
                                 <ul className="options"></ul>
@@ -1552,7 +2021,10 @@ const Solutions = () => {
                             min="30"
                             max="360"
                             step="10"
-                            value="180"
+                            defaultValue="180"
+                            onChange={() => {
+                              console.log("input value change");
+                            }}
                           />
                           <strong>180 Days</strong>
                         </div>
@@ -1613,10 +2085,13 @@ const Solutions = () => {
                             <div className="main-search-bar">
                               <input
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 id="search-bar-input3"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
+                                onChange={() => {
+                                  appSearch();
+                                }}
                               />
                               <button
                                 id="close-search-form3"
@@ -1627,7 +2102,7 @@ const Solutions = () => {
                                   xmlnsXlink="http://www.w3.org/1999/xlink"
                                   width="16px"
                                   height="16px"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                   version="1.1"
                                 >
                                   <g id="surface3">
@@ -1786,10 +2261,10 @@ const Solutions = () => {
                                   height="16"
                                   fill="currentColor"
                                   className="bi bi-chevron-down"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                 >
                                   <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                   ></path>
                                 </svg>
@@ -1802,11 +2277,14 @@ const Solutions = () => {
                               >
                                 <div className="search">
                                   <input
-                                    spellcheck="false"
-                                    autocomplete="off"
+                                    spellCheck="false"
+                                    autoComplete="off"
                                     type="text"
                                     placeholder="Search"
                                     id="country-search-input3"
+                                    onChange={() => {
+                                      console.log("input value change");
+                                    }}
                                   />
                                 </div>
                                 <ul className="options"></ul>
@@ -1890,7 +2368,10 @@ const Solutions = () => {
                             min="0.0"
                             max="5"
                             step="0.05"
-                            value="2.9"
+                            defaultValue="2.9"
+                            onChange={() => {
+                              console.log("input value change");
+                            }}
                           />
                           <strong>2.9</strong>
                         </div>
@@ -1951,9 +2432,12 @@ const Solutions = () => {
                             <div className="main-search-bar">
                               <input
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 id="search-bar-input4"
                                 className="search-input"
+                                onChange={() => {
+                                  appSearch();
+                                }}
                                 placeholder="Search your iOS or android app"
                               />
                               <button
@@ -1965,7 +2449,7 @@ const Solutions = () => {
                                   xmlnsXlink="http://www.w3.org/1999/xlink"
                                   width="16px"
                                   height="16px"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                   version="1.1"
                                 >
                                   <g id="surface4">
@@ -2098,59 +2582,14 @@ const Solutions = () => {
                               <ul
                                 id="suggestions-box4"
                                 className="suggestions"
+                                onClick={handleClick}
                               ></ul>
                             </div>
                           </div>
-                          <div className="country-selection-box">
-                            <div
-                              className="country-select-button"
-                              id="select-country-btn4"
-                              country-code="us"
-                              country-name="United State"
-                            >
-                              <span>
-                                <img
-                                  src="https://flagcdn.com/40x30/us.png"
-                                  alt="United States"
-                                  loading="eager"
-                                  className="country-flags"
-                                />
-                                US
-                              </span>
-                              <i>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  className="bi bi-chevron-down"
-                                  viewbox="0 0 16 16"
-                                >
-                                  <path
-                                    fill-rule="evenodd"
-                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                  ></path>
-                                </svg>
-                              </i>
-                            </div>
-                            <div className="country-search-box">
-                              <div
-                                className="content-country"
-                                id="content-box4"
-                              >
-                                <div className="search">
-                                  <input
-                                    spellcheck="false"
-                                    autocomplete="off"
-                                    type="text"
-                                    placeholder="Search"
-                                    id="country-search-input4"
-                                  />
-                                </div>
-                                <ul className="options"></ul>
-                              </div>
-                            </div>
-                          </div>
+                          <CountrySelect
+                            showCode={true}
+                            setSelectedCountryCode={setSelectedCountryCode}
+                          />
                         </div>
                       </div>
                       <div className="image-content-wrapper">
