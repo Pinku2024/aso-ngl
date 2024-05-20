@@ -137,10 +137,10 @@ const ContactForm = () => {
                 >
                   <div className="w-layout-grid request-a-quote-form-grid">
                     <div className="input-wrapper">
-                      <label for="Name">Full Name</label>
+                      <label htmlFor="Name">Full Name</label>
                       <input
                         className="input w-input"
-                        maxlength="256"
+                        maxLength="256"
                         name="Name"
                         data-name="Name"
                         placeholder="What’s your name?"
@@ -150,10 +150,10 @@ const ContactForm = () => {
                       />
                     </div>
                     <div className="input-wrapper">
-                      <label for="Email">Email Address</label>
+                      <label htmlFor="Email">Email Address</label>
                       <input
                         className="input w-input"
-                        maxlength="256"
+                        maxLength="256"
                         name="Email"
                         data-name="Email"
                         placeholder="What’s your email?"
@@ -163,10 +163,10 @@ const ContactForm = () => {
                       />
                     </div>
                     <div className="input-wrapper">
-                      <label for="Company">Phone </label>
+                      <label htmlFor="Company">Phone </label>
                       <input
                         className="input w-input"
-                        maxlength="256"
+                        maxLength="256"
                         name="Company"
                         data-name="Company"
                         placeholder="What’s your phone number?"
@@ -176,10 +176,10 @@ const ContactForm = () => {
                       />
                     </div>
                     <div className="input-wrapper">
-                      <label for="App-URL">App URL</label>
+                      <label htmlFor="App-URL">App URL</label>
                       <input
                         className="input w-input"
-                        maxlength="256"
+                        maxLength="256"
                         name="App-URL"
                         data-name="App URL"
                         placeholder="Please enter app url"
@@ -192,10 +192,10 @@ const ContactForm = () => {
                       id="w-node-_2408ce64-3e73-6c5b-6f9c-1dd071cb4697-f93c043d"
                       className="input-wrapper"
                     >
-                      <label for="Company">Message</label>
+                      <label htmlFor="Company">Message</label>
                       <textarea
                         placeholder="What can we help you with?"
-                        maxlength="5000"
+                        maxLength="5000"
                         id="Message"
                         name="Message"
                         data-name="Message"

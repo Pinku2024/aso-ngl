@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 const Solutions = () => {
   const [activeSol, setActiveSol] = useState("solution1");
+
   useEffect(() => {
     if (activeSol === "solution1") {
       const installRangeSliderMb = document.querySelector("#install-slider2");
@@ -228,6 +229,7 @@ const Solutions = () => {
                       app section and improve chart rankings.
                     </div>
 
+
                     <div className="app-search-box-holder margin-top new-height mobile">
                       <div className="search-box_holder flex-custom">
                         <div className="code-left">
@@ -240,7 +242,7 @@ const Solutions = () => {
                                 <div className="main-search-bar">
                                   <input
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     id="search-bar-input6"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
@@ -254,7 +256,7 @@ const Solutions = () => {
                                       xmlnsXlink="http://www.w3.org/1999/xlink"
                                       width="16px"
                                       height="16px"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                       version="1.1"
                                     >
                                       <g id="surface6">
@@ -413,10 +415,10 @@ const Solutions = () => {
                                       height="16"
                                       fill="currentColor"
                                       className="bi bi-chevron-down"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                     >
                                       <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                       ></path>
                                     </svg>
@@ -429,8 +431,8 @@ const Solutions = () => {
                                   >
                                     <div className="search">
                                       <input
-                                        spellcheck="false"
-                                        autocomplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
                                         id="country-search-input6"
@@ -522,7 +524,7 @@ const Solutions = () => {
                                 min="30"
                                 max="360"
                                 step="10"
-                                value="180"
+                                defaultValue="180"
                               />
                               <strong>180 Days</strong>
                             </div>
@@ -608,7 +610,7 @@ const Solutions = () => {
                                 <div className="main-search-bar">
                                   <input
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     id="search-bar-input7"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
@@ -622,7 +624,7 @@ const Solutions = () => {
                                       xmlnsXlink="http://www.w3.org/1999/xlink"
                                       width="16px"
                                       height="16px"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                       version="1.1"
                                     >
                                       <g id="surface7">
@@ -781,10 +783,10 @@ const Solutions = () => {
                                       height="16"
                                       fill="currentColor"
                                       className="bi bi-chevron-down"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                     >
                                       <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                       ></path>
                                     </svg>
@@ -797,8 +799,8 @@ const Solutions = () => {
                                   >
                                     <div className="search">
                                       <input
-                                        spellcheck="false"
-                                        autocomplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
                                         id="country-search-input7"
@@ -888,7 +890,7 @@ const Solutions = () => {
                                 min="0.0"
                                 max="5"
                                 step="0.05"
-                                value="2.9"
+                                defaultValue="2.9"
                               />
                               <strong>2.9</strong>
                             </div>
@@ -975,7 +977,7 @@ const Solutions = () => {
                                 <div className="main-search-bar">
                                   <input
                                     type="text"
-                                    autocomplete="off"
+                                    autoComplete="off"
                                     id="search-bar-input8"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
@@ -989,7 +991,7 @@ const Solutions = () => {
                                       xmlnsXlink="http://www.w3.org/1999/xlink"
                                       width="16px"
                                       height="16px"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                       version="1.1"
                                     >
                                       <g id="surface8">
@@ -1148,10 +1150,10 @@ const Solutions = () => {
                                       height="16"
                                       fill="currentColor"
                                       className="bi bi-chevron-down"
-                                      viewbox="0 0 16 16"
+                                      viewBox="0 0 16 16"
                                     >
                                       <path
-                                        fill-rule="evenodd"
+                                        fillRule="evenodd"
                                         d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                       ></path>
                                     </svg>
@@ -1164,8 +1166,8 @@ const Solutions = () => {
                                   >
                                     <div className="search">
                                       <input
-                                        spellcheck="false"
-                                        autocomplete="off"
+                                        spellCheck="false"
+                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
                                         id="country-search-input8"
@@ -1270,7 +1272,7 @@ const Solutions = () => {
                             <div className="main-search-bar">
                               <input
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 id="search-bar-input2"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
@@ -1284,7 +1286,7 @@ const Solutions = () => {
                                   xmlnsXlink="http://www.w3.org/1999/xlink"
                                   width="16px"
                                   height="16px"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                   version="1.1"
                                 >
                                   <g id="surface2">
@@ -1443,10 +1445,10 @@ const Solutions = () => {
                                   height="16"
                                   fill="currentColor"
                                   className="bi bi-chevron-down"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                 >
                                   <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                   ></path>
                                 </svg>
@@ -1459,8 +1461,8 @@ const Solutions = () => {
                               >
                                 <div className="search">
                                   <input
-                                    spellcheck="false"
-                                    autocomplete="off"
+                                    spellCheck="false"
+                                    autoComplete="off"
                                     type="text"
                                     placeholder="Search"
                                     id="country-search-input2"
@@ -1552,7 +1554,7 @@ const Solutions = () => {
                             min="30"
                             max="360"
                             step="10"
-                            value="180"
+                            defaultValue="180"
                           />
                           <strong>180 Days</strong>
                         </div>
@@ -1613,7 +1615,7 @@ const Solutions = () => {
                             <div className="main-search-bar">
                               <input
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 id="search-bar-input3"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
@@ -1627,7 +1629,7 @@ const Solutions = () => {
                                   xmlnsXlink="http://www.w3.org/1999/xlink"
                                   width="16px"
                                   height="16px"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                   version="1.1"
                                 >
                                   <g id="surface3">
@@ -1786,10 +1788,10 @@ const Solutions = () => {
                                   height="16"
                                   fill="currentColor"
                                   className="bi bi-chevron-down"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                 >
                                   <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                   ></path>
                                 </svg>
@@ -1802,8 +1804,8 @@ const Solutions = () => {
                               >
                                 <div className="search">
                                   <input
-                                    spellcheck="false"
-                                    autocomplete="off"
+                                    spellCheck="false"
+                                    autoComplete="off"
                                     type="text"
                                     placeholder="Search"
                                     id="country-search-input3"
@@ -1890,7 +1892,7 @@ const Solutions = () => {
                             min="0.0"
                             max="5"
                             step="0.05"
-                            value="2.9"
+                            defaultValue="2.9"
                           />
                           <strong>2.9</strong>
                         </div>
@@ -1951,7 +1953,7 @@ const Solutions = () => {
                             <div className="main-search-bar">
                               <input
                                 type="text"
-                                autocomplete="off"
+                                autoComplete="off"
                                 id="search-bar-input4"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
@@ -1965,7 +1967,7 @@ const Solutions = () => {
                                   xmlnsXlink="http://www.w3.org/1999/xlink"
                                   width="16px"
                                   height="16px"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                   version="1.1"
                                 >
                                   <g id="surface4">
@@ -2124,10 +2126,10 @@ const Solutions = () => {
                                   height="16"
                                   fill="currentColor"
                                   className="bi bi-chevron-down"
-                                  viewbox="0 0 16 16"
+                                  viewBox="0 0 16 16"
                                 >
                                   <path
-                                    fill-rule="evenodd"
+                                    fillRule="evenodd"
                                     d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
                                   ></path>
                                 </svg>
@@ -2140,8 +2142,8 @@ const Solutions = () => {
                               >
                                 <div className="search">
                                   <input
-                                    spellcheck="false"
-                                    autocomplete="off"
+                                    spellCheck="false"
+                                    autoComplete="off"
                                     type="text"
                                     placeholder="Search"
                                     id="country-search-input4"
