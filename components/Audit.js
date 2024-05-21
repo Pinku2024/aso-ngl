@@ -496,8 +496,8 @@ const Audit = () => {
         <div className="container-hero-logos new-bg w-container">
           <article className="home-hero-wrapper flex-vertical new-spacing">
             <div className="split-content home-hero-left flex-centre margin-new">
-              <h1 className="heading-hero new-centre-aligned white">
-                <strong className="white">App Store Optimization</strong>
+              <h1 className="heading-hero new-centre-aligned">
+                <strong>App Store Optimization</strong>
               </h1>
               <p className="paragraph home-hero new-centre-aligned width">
                 Since 2016, we&#x27;ve been at the forefront of App Marketing.

@@ -4,7 +4,7 @@ import Lottie from "lottie-react";
 import asoGreen from "../public/assets/documents/aso-green.json";
 import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
 import starRating from "../public/assets/documents/Five-Star-Rating.json";
-const Solutions = () => {
+const Services = () => {
   const [activeSol, setActiveSol] = useState(null);
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   function appSearch(event) {
@@ -334,10 +334,10 @@ const Solutions = () => {
 
         if (suggestionList.length > 0) {
           suggestionList.unshift(
-            '<p className="info-search">Search Results</p>'
+            '<p class="info-search">Search Results</p>'
           );
           suggestionList.push(
-            '<p className="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
+            '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
           );
         }
 
@@ -2679,4 +2679,4 @@ const Solutions = () => {
   );
 };
 
-export default Solutions;
+export default Services;

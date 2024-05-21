@@ -2,7 +2,7 @@ import Head from "next/head";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Audit from "../components/Audit";
-import Solutions from "../components/Solutions";
+import Services from "../components/Services";
 import Testimonials from "../components/Testimonials";
 // import OurPricing from "../components/OurPricing";
 import ASOTools from "../components/ASOTools";
@@ -28,7 +28,7 @@ export default function Home() {
         <Header />
         <Audit />
         <Clients />
-        <Solutions />
+        <Services />
         <Testimonials />
         {/* <OurPricing /> */}
         <ASOTools />

@@ -38,7 +38,7 @@ const ContactForm = () => {
                 opacity: "1", // Ensure opacity value is a string
               }}
             >
-              Need help to skyrocket your add-on rankings?
+              Need help to boost your add-on rankings? 
             </h2>
             <p
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4675"
