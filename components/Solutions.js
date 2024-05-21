@@ -5,7 +5,7 @@ import asoGreen from "../public/assets/documents/aso-green.json";
 import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
 import starRating from "../public/assets/documents/Five-Star-Rating.json";
 const Solutions = () => {
-  const [activeSol, setActiveSol] = useState("solution1");
+  const [activeSol, setActiveSol] = useState(null);
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   function appSearch(event) {
     async function prepareDataForRequests(mainWorkingBox) {
@@ -358,7 +358,7 @@ const Solutions = () => {
           else
             deviceIcon =
               "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div className="show-device-icon"><div className="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" className="app-icon-li-item"  /></div><div className="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div className="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" className="device-icon-logo"/></div></li>`;
+          return `<li class="li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" layout="responsive" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
         }
       });
     }
@@ -426,7 +426,7 @@ const Solutions = () => {
       return appDataMain;
     }
 
-    document.getElementById("search-bar-input1").focus();
+    // document.getElementById("search-bar-input1").focus();
     const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
     const closeSearchBtn = document.querySelectorAll(".close-search-form");
     closeSearchBtn.forEach((close) => {
@@ -624,7 +624,11 @@ const Solutions = () => {
         >
           <div className="tabs-menu w-tab-menu">
             <div
-              onClick={() => setActiveSol("solution1")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveSol("solution1");
+              }}
               data-w-tab="Tab 2"
               className={`tab-button-2 w-inline-block w-tab-link ${
                 activeSol === "solution1" ? "w--current" : ""
@@ -969,7 +973,6 @@ const Solutions = () => {
                                   console.log("input value change");
                                 }}
                                 defaultValue="180"
-                                defaultValue="180"
                               />
                               <strong>180 Days</strong>
                             </div>
@@ -1009,7 +1012,11 @@ const Solutions = () => {
               </div>
             </div>
             <div
-              onClick={() => setActiveSol("solution2")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveSol("solution2");
+              }}
               data-w-tab="Tab 3"
               className={`tab-button-2 w-inline-block w-tab-link ${
                 activeSol === "solution2" ? "w--current" : ""
@@ -1249,8 +1256,6 @@ const Solutions = () => {
                                       <input
                                         spellCheck="false"
                                         autoComplete="off"
-                                        spellCheck="false"
-                                        autoComplete="off"
                                         type="text"
                                         placeholder="Search"
                                         onChange={() => {
@@ -1350,7 +1355,6 @@ const Solutions = () => {
                                   console.log("input value change");
                                 }}
                                 defaultValue="2.9"
-                                defaultValue="2.9"
                               />
                               <strong>2.9</strong>
                             </div>
@@ -1390,7 +1394,11 @@ const Solutions = () => {
               </div>
             </div>
             <div
-              onClick={() => setActiveSol("solution3")}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setActiveSol("solution3");
+              }}
               data-w-tab="Tab 4"
               className={`tab-button-2 w-inline-block w-tab-link ${
                 activeSol === "solution3" ? "w--current" : ""
@@ -1646,7 +1654,14 @@ const Solutions = () => {
                             </div>
                           </div>
                           <div className="image-content-wrapper">
-                            <div
+                            <div className="lottie-animation-2 height">
+                              <Lottie
+                                animationData={conversionMarketing}
+                                loop={true}
+                                style={{ height: 300, width: 300 }}
+                              />
+                            </div>
+                            {/* <div
                               className="lottie-animation-2"
                               data-w-id="c0fa6ddc-52af-703f-b070-a70c19cf04e3"
                               data-animation-type="lottie"
@@ -1658,7 +1673,7 @@ const Solutions = () => {
                               data-renderer="svg"
                               data-default-duration="5.683333333333334"
                               data-duration="0"
-                            ></div>
+                            ></div> */}
                           </div>
                         </div>
                       </div>
@@ -2030,7 +2045,6 @@ const Solutions = () => {
                             onChange={() => {
                               console.log("input value change");
                             }}
-                            defaultValue="180"
                           />
                           <strong>180 Days</strong>
                         </div>
@@ -2378,7 +2392,6 @@ const Solutions = () => {
                             onChange={() => {
                               console.log("input value change");
                             }}
-                            defaultValue="2.9"
                           />
                           <strong>2.9</strong>
                         </div>

@@ -76,12 +76,12 @@ const OurPricing = () => {
               else
                 deviceIcon =
                   "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-              return `<li className="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div className="show-device-icon"><div className="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" className="app-icon-li-item" /></div><div className="li-suggestion-item-info">${item.packageName}</div></div> <div className="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" className="device-icon-logo"></div></li>`;
+              return `<li class="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info">${item.packageName}</div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"></div></li>`;
             });
             if (recentSuggestion.length > 0) {
               fullListData.classList.add("format-suggestions");
               recentSuggestion.unshift(
-                '<p className= "info-search">Recently selected apps:</p>'
+                '<p class= "info-search">Recently selected apps:</p>'
               );
             }
             fullListData.insertAdjacentHTML(

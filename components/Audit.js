@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { useEffect, useState , useRef} from "react";
+import { useEffect, useState, useRef } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import FormPopup from "./elements/FormPopup";
 
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  
+
   // Function to close the popup
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -115,7 +115,7 @@ const Audit = () => {
 
         const mergedData = {
           iOSResponse: iOSResponse,
-          playResponse: playResponse
+          playResponse: playResponse,
         };
         // console.log("Merged Data", mergedData);
 
@@ -123,11 +123,9 @@ const Audit = () => {
         const suggestionList = createListWithDevice(fullAppData);
 
         if (suggestionList.length > 0) {
-          suggestionList.unshift(
-            '<p className="info-search">Search Results</p>'
-          );
+          suggestionList.unshift('<p class="info-search">Search Results</p>');
           suggestionList.push(
-            '<p className="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
+            '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
           );
         }
 
@@ -148,7 +146,7 @@ const Audit = () => {
           else
             deviceIcon =
               "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div className="show-device-icon"><div className="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" className="app-icon-li-item" /></div><div className="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div className="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" className="device-icon-logo"/></div></li>`;
+          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
         }
       });
     }
@@ -219,11 +217,14 @@ const Audit = () => {
     setInterval(() => {
       const inputBox = document.querySelectorAll(".search-input");
       inputBox.forEach((input) => {
-        if (input.value === '') {
-          input.closest('.main-box-holder').querySelector('.searching-shimmer').classList.add("hidden");
+        if (input.value === "") {
+          input
+            .closest(".main-box-holder")
+            .querySelector(".searching-shimmer")
+            .classList.add("hidden");
         }
-      })
-    }, 500)
+      });
+    }, 500);
     document.getElementById("search-bar-input1").focus();
     const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
     const closeSearchBtn = document.querySelectorAll(".close-search-form");
@@ -314,13 +315,14 @@ const Audit = () => {
   // handle event *****************************************
 
   const handleClick = (event) => {
-    console.log("Clicked on app")
-    let { appPackageURL, applicationId, imageURL, device } = selectAppHandler(event);
+    console.log("Clicked on app");
+    let { appPackageURL, applicationId, imageURL, device } =
+      selectAppHandler(event);
     displayAppRelatedBox(appPackageURL, imageURL, device);
     // let mainBoxHolder = event.target.closest(".main-box-holder");
     // const country = mainBoxHolder
-      // .querySelector(".country-select-button")
-      // .getAttribute("country-code");
+    // .querySelector(".country-select-button")
+    // .getAttribute("country-code");
     // updateOtherSectionToSelectedApp(
     //   appPackageURL,
     //   applicationId,
@@ -331,9 +333,9 @@ const Audit = () => {
   };
 
   // ******************************************************
-   function displayAppRelatedBox(packageURL, appLogo, device) {
+  function displayAppRelatedBox(packageURL, appLogo, device) {
     if (packageURL !== undefined) {
-       setIsPopupVisible(true)
+      setIsPopupVisible(true);
       // const formHolder = document.querySelector(".form-holder");
       // formHolder.style.display = "block";
       // let form = formHolder.querySelector("#wf-form-ContactUsForm2");
@@ -342,9 +344,6 @@ const Audit = () => {
       window.alert("Warning! Please select the app from the dropdown menu.");
     }
   }
-
-
-
 
   // ***************************************************************
   async function updateOtherSectionToSelectedApp(
@@ -401,7 +400,6 @@ const Audit = () => {
       });
     } catch {}
   }
-
 
   function mySubmit() {
     const imageElement = document.getElementById("iOS-form-logo");
@@ -686,8 +684,7 @@ const Audit = () => {
                           <ul
                             id="suggestions-box1"
                             className="suggestions"
-                          
-                          onClick={(e)=>handleClick(e)}
+                            onClick={(e) => handleClick(e)}
                           ></ul>
                         </div>
                       </div>
