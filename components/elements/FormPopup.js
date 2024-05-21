@@ -137,7 +137,7 @@ const FormPopup = ({onClose}) => {
             </div>
             <div>
               <h2 className="heading-large-sf1 feature-heading form-heading">
-                Please fill in this form to submit your app
+              Please help us know your app better
               </h2>
             </div>
             <div className="hide w-embed"></div>

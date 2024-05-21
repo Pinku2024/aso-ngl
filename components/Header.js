@@ -20,7 +20,7 @@ const Header = () => {
               height={34}
               layout="responsive"
               loading="eager"
-              src="/assets/imgs/nextlabs_logo.png"
+              src="/assets/imgs/new_nextlabs_logo.png"
               alt="nextlabs.io logo"
               className="header-logo-2"
             />
@@ -30,7 +30,7 @@ const Header = () => {
               Audit
             </Link>
             <Link href="#solutions" className="nav-link-2 hide">
-              Solutions
+              Services
             </Link>
             <Link href="#testimonials" className="nav-link-2 hide">
               Testimonials
@@ -50,7 +50,7 @@ const Header = () => {
               href="#form-submit"
               className="button-primary-cleint mobileonly w-button"
             >
-              Schedule a Demo
+              Talk to us
             </Link>
             <div className="menu-button w-nav-button">
               <div

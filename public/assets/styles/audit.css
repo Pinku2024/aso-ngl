@@ -1,5 +1,8 @@
+:root{
+  --bgColor: #5c5cbf;
+}
 .audit-button {
-  background-color: #1c7df8;
+  background-color: var(--bgColor);
   padding: 0 50px;
   font-size: 16px;
   font-weight: 600;
@@ -21,13 +24,13 @@
   padding: 10px;
 }
 .main-box-holder > * {
-  border: 1px solid gray;
+  border: 1.5px solid var(--bgColor);
   height: 50px;
   border-radius: 10px;
 }
 .search-box-suggestion {
   display: flex;
-  width: 800px;
+  width: 500px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -184,6 +187,7 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  width: 210px;
 }
 .country-select-button,
 .content-country li {
@@ -193,9 +197,9 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
 }
 .country-select-button {
   padding: 5px 10px;
-  width: 250px;
+  width: 210px;
   justify-content: space-between;
-  color: #1c7df8;
+
 }
 .country-select-button i {
   font-size: 31px;
