@@ -444,6 +444,7 @@ const Solutions = () => {
   function selectAppHandler(event) {
     const selectedLi = event.target.closest("li.li-suggestion-item");
     const mainBoxHolder = selectedLi.closest(".main-box-holder");
+    console.log("select function executed");
     return getDetailsOfSelectedLi(selectedLi, mainBoxHolder);
   }
 
@@ -1271,22 +1272,16 @@ const Solutions = () => {
                             </div>
                           </div>
                           <div className="image-content-wrapper">
-                            <div className="lottie-animation-2 height">
-                              <Lottie animationData={starRating} loop={true} />
-                            </div>
                             <div
-                              className="lottie-animation-2"
-                              data-w-id="536a1adb-be18-88e9-1d52-60395cb0987d"
-                              data-animation-type="lottie"
-                              data-src="/assets/documents/Five-Star-Rating.json"
-                              data-loop="1"
-                              data-direction="1"
-                              data-autoplay="1"
-                              data-is-ix2-target="0"
-                              data-renderer="svg"
-                              data-default-duration="1.8333333333333333"
-                              data-duration="0"
-                            ></div>
+                              className="lottie-animation-2 height"
+                              style={{ transform: "translateY(100px)" }}
+                            >
+                              <Lottie
+                                animationData={starRating}
+                                loop={true}
+                                type="lottie"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1653,7 +1648,7 @@ const Solutions = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="image-content-wrapper">
+                          <div className="image-content-wrapper height">
                             <div className="lottie-animation-2 height">
                               <Lottie
                                 animationData={conversionMarketing}

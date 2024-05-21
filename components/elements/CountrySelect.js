@@ -158,6 +158,7 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
   // close the dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
+      event.stopPropagation();
       const countrySelectionBox = document.querySelector(
         ".country-selection-box"
       );
@@ -172,7 +173,7 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [selectedCountry]);
 
   return (
     <div className="country-selection-box">
