@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
 const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
+
   const countries = [
     { name: "Afghanistan", code: "af", flag: "af.png" },
     { name: "Algeria", code: "dz", flag: "dz.png" },
@@ -132,12 +133,10 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
     name: "United States",
     flag: "us.png",
   });
-
-  // console.log("Select country", selectedCountry.code)
   const [filteredCountries, setFilteredCountries] = useState(countries);
   const [isDropdownActive, setIsDropdownActive] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  // console.log(isCountrySelected)
+  
   useEffect(() => {
     const lowercasedFilter = searchTerm.toLowerCase();
     const filteredData = countries.filter(
@@ -146,37 +145,37 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
         country.code.toLowerCase().includes(lowercasedFilter)
     );
     setFilteredCountries(filteredData);
-  }, [searchTerm]); // Only depend on searchTerm
+  }, [searchTerm]); 
 
   const handleSelectCountry = (country) => {
     setSelectedCountry(country);
     setSelectedCountryCode(country.code);
-
     setIsDropdownActive(false);
   };
 
   // close the dropdown when clicking outside
+  const countrySelectionBoxRef = useRef(null);
+
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      event.stopPropagation();
-      const countrySelectionBox = document.querySelector(
-        ".country-selection-box"
-      );
-      console.log(countrySelectionBox);
-      if (countrySelectionBox && !countrySelectionBox.contains(event.target)) {
-        setIsDropdownActive(false);
-      }
-    };
+      const handleClickOutside = (event) => {
+          // If the clicked element is outside the country selection box, close the dropdown
+          if (
+              countrySelectionBoxRef.current &&
+              !countrySelectionBoxRef.current.contains(event.target)
+          ) {
+              setIsDropdownActive(false);
+          }
+      };
 
-    document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [selectedCountry]);
+      return () => {
+          document.removeEventListener("mousedown", handleClickOutside);
+      };
+  }, []);
 
   return (
-    <div className="country-selection-box">
+    <div ref={countrySelectionBoxRef} className="country-selection-box">
       <div
         className={`country-select-button ${isDropdownActive ? "active" : ""}`}
         onClick={() => setIsDropdownActive(!isDropdownActive)}

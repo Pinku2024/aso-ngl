@@ -29,7 +29,7 @@ const Header = () => {
             <Link href="#app-audit" className="nav-link-2 hide">
               Audit
             </Link>
-            <Link href="#solutions" className="nav-link-2 hide">
+            <Link href="#services" className="nav-link-2 hide">
               Services
             </Link>
             <Link href="#testimonials" className="nav-link-2 hide">

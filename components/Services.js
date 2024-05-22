@@ -5,7 +5,7 @@ import asoGreen from "../public/assets/documents/aso-green.json";
 import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
 import starRating from "../public/assets/documents/Five-Star-Rating.json";
 const Services = () => {
-  const [activeSol, setActiveSol] = useState(null);
+  const [activeSol, setActiveSol] = useState("solution1");
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   function appSearch(event) {
     async function prepareDataForRequests(mainWorkingBox) {
@@ -333,9 +333,7 @@ const Services = () => {
         const suggestionList = createListWithDevice(fullAppData);
 
         if (suggestionList.length > 0) {
-          suggestionList.unshift(
-            '<p class="info-search">Search Results</p>'
-          );
+          suggestionList.unshift('<p class="info-search">Search Results</p>');
           suggestionList.push(
             '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
           );
@@ -599,7 +597,7 @@ const Services = () => {
   }
 
   return (
-    <section id="solutions" className="tabsection">
+    <section id="services" className="tabsection">
       <div className="container-11">
         <div className="title-wrap-2 horizontal lesspadding">
           <h2
@@ -828,82 +826,21 @@ const Services = () => {
                                   ></ul>
                                 </div>
                               </div>
-                              <div className="country-selection-box">
-                                <div
-                                  className="country-select-button"
-                                  id="select-country-btn6"
-                                  country-code="us"
-                                  country-name="United State"
-                                >
-                                  <span>
-                                    <img
-                                      src="https://flagcdn.com/40x30/us.png"
-                                      alt="United States"
-                                      loading="eager"
-                                      className="country-flags"
-                                    />
-                                    US
-                                  </span>
-                                  <i>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-chevron-down"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                      ></path>
-                                    </svg>
-                                  </i>
-                                </div>
-                                <div className="country-search-box">
-                                  <div
-                                    className="content-country"
-                                    id="content-box6"
-                                  >
-                                    <div className="search">
-                                      <input
-                                        spellCheck="false"
-                                        autoComplete="off"
-                                        type="text"
-                                        placeholder="Search"
-                                        id="country-search-input6"
-                                        onChange={() => {
-                                          appSearch();
-                                        }}
-                                      />
-                                    </div>
-                                    <ul className="options"></ul>
-                                  </div>
-                                </div>
-                              </div>
+                              <CountrySelect
+                                showCode={true}
+                                setSelectedCountryCode={setSelectedCountryCode}
+                              />
                             </div>
                           </div>
                           <div className="image-content-wrapper">
-                            <div className="lottie-animation-2 height">
+                            <div className="lottie-animation-2">
                               <Lottie
                                 animationData={asoGreen}
                                 loop={true}
                                 style={{ height: 300, width: 300 }}
                               />
                             </div>
-                            {/* <div
-                              className="lottie-animation-2"
-                              data-w-id="718ee9f6-6a94-5117-7fb2-aa897f9e7f6e"
-                              data-animation-type="lottie"
-                              data-src="/assets/documents/aso-green.json"
-                              data-loop="1"
-                              data-direction="1"
-                              data-autoplay="1"
-                              data-is-ix2-target="0"
-                              data-renderer="svg"
-                              data-default-duration="5"
-                              data-duration="0"
-                            ></div> */}
+
                           </div>
                         </div>
                       </div>
@@ -1216,64 +1153,15 @@ const Services = () => {
                                   ></ul>
                                 </div>
                               </div>
-                              <div className="country-selection-box">
-                                <div
-                                  className="country-select-button"
-                                  id="select-country-btn7"
-                                  country-code="us"
-                                  country-name="United State"
-                                >
-                                  <span>
-                                    <img
-                                      src="https://flagcdn.com/40x30/us.png"
-                                      alt="United States"
-                                      loading="eager"
-                                      className="country-flags"
-                                    />
-                                    US
-                                  </span>
-                                  <i>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-chevron-down"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                      ></path>
-                                    </svg>
-                                  </i>
-                                </div>
-                                <div className="country-search-box">
-                                  <div
-                                    className="content-country"
-                                    id="content-box7"
-                                  >
-                                    <div className="search">
-                                      <input
-                                        spellCheck="false"
-                                        autoComplete="off"
-                                        type="text"
-                                        placeholder="Search"
-                                        onChange={() => {
-                                          appSearch();
-                                        }}
-                                        id="country-search-input7"
-                                      />
-                                    </div>
-                                    <ul className="options"></ul>
-                                  </div>
-                                </div>
-                              </div>
+                              <CountrySelect
+                            showCode={true}
+                            setSelectedCountryCode={setSelectedCountryCode}
+                          />
                             </div>
                           </div>
                           <div className="image-content-wrapper">
                             <div
-                              className="lottie-animation-2 height"
+                              className="lottie-animation-2"
                               style={{ transform: "translateY(100px)" }}
                             >
                               <Lottie
@@ -1593,82 +1481,22 @@ const Services = () => {
                                   ></ul>
                                 </div>
                               </div>
-                              <div className="country-selection-box">
-                                <div
-                                  className="country-select-button"
-                                  id="select-country-btn8"
-                                  country-code="us"
-                                  country-name="United State"
-                                >
-                                  <span>
-                                    <img
-                                      src="https://flagcdn.com/40x30/us.png"
-                                      alt="United States"
-                                      loading="eager"
-                                      className="country-flags"
-                                    />
-                                    US
-                                  </span>
-                                  <i>
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="16"
-                                      height="16"
-                                      fill="currentColor"
-                                      className="bi bi-chevron-down"
-                                      viewBox="0 0 16 16"
-                                    >
-                                      <path
-                                        fillRule="evenodd"
-                                        d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                      ></path>
-                                    </svg>
-                                  </i>
-                                </div>
-                                <div className="country-search-box">
-                                  <div
-                                    className="content-country"
-                                    id="content-box8"
-                                  >
-                                    <div className="search">
-                                      <input
-                                        spellCheck="false"
-                                        autoComplete="off"
-                                        type="text"
-                                        placeholder="Search"
-                                        onChange={() => {
-                                          appSearch();
-                                        }}
-                                        id="country-search-input8"
-                                      />
-                                    </div>
-                                    <ul className="options"></ul>
-                                  </div>
-                                </div>
-                              </div>
+
+                              <CountrySelect
+                            showCode={true}
+                            setSelectedCountryCode={setSelectedCountryCode}
+                          />
                             </div>
                           </div>
-                          <div className="image-content-wrapper height">
-                            <div className="lottie-animation-2 height">
+                          <div className="image-content-wrapper">
+                            <div className="lottie-animation-2">
                               <Lottie
                                 animationData={conversionMarketing}
                                 loop={true}
                                 style={{ height: 300, width: 300 }}
                               />
                             </div>
-                            {/* <div
-                              className="lottie-animation-2"
-                              data-w-id="c0fa6ddc-52af-703f-b070-a70c19cf04e3"
-                              data-animation-type="lottie"
-                              data-src="/assets/documents/conversion-marketing.json"
-                              data-loop="1"
-                              data-direction="1"
-                              data-autoplay="1"
-                              data-is-ix2-target="0"
-                              data-renderer="svg"
-                              data-default-duration="5.683333333333334"
-                              data-duration="0"
-                            ></div> */}
+  
                           </div>
                         </div>
                       </div>
@@ -1901,75 +1729,22 @@ const Services = () => {
                               ></ul>
                             </div>
                           </div>
-                          <div className="country-selection-box">
-                            <div
-                              className="country-select-button"
-                              id="select-country-btn2"
-                              country-code="us"
-                              country-name="United State"
-                            >
-                              <span>
-                                <img
-                                  src="https://flagcdn.com/40x30/us.png"
-                                  alt="United States"
-                                  loading="eager"
-                                  className="country-flags"
-                                />
-                                US
-                              </span>
-                              <i>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  className="bi bi-chevron-down"
-                                  viewBox="0 0 16 16"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                  ></path>
-                                </svg>
-                              </i>
-                            </div>
-                            <div className="country-search-box">
-                              <div
-                                className="content-country"
-                                id="content-box2"
-                              >
-                                <div className="search">
-                                  <input
-                                    spellCheck="false"
-                                    autoComplete="off"
-                                    type="text"
-                                    placeholder="Search"
-                                    id="country-search-input2"
-                                    onChange={() => {
-                                      console.log("input value change");
-                                    }}
-                                  />
-                                </div>
-                                <ul className="options"></ul>
-                              </div>
-                            </div>
-                          </div>
+
+                          <CountrySelect
+                            showCode={true}
+                            setSelectedCountryCode={setSelectedCountryCode}
+                          />
                         </div>
                       </div>
                       <div className="image-content-wrapper">
-                        <div
-                          className="lottie-animation-2"
-                          data-w-id="e1308b87-bbc9-cb62-6006-967056c3ecc5"
-                          data-animation-type="lottie"
-                          data-src="/assets/documents/aso-green.json"
-                          data-loop="1"
-                          data-direction="1"
-                          data-autoplay="1"
-                          data-is-ix2-target="0"
-                          data-renderer="svg"
-                          data-default-duration="5"
-                          data-duration="0"
-                        ></div>
+                      <div className="lottie-animation-2">
+                              <Lottie
+                                animationData={asoGreen}
+                                loop={true}
+                                style={{ height: 300, width: 300 }}
+                              />
+                            </div>
+
                       </div>
                     </div>
                   </div>
@@ -2253,75 +2028,20 @@ const Services = () => {
                               ></ul>
                             </div>
                           </div>
-                          <div className="country-selection-box">
-                            <div
-                              className="country-select-button"
-                              id="select-country-btn3"
-                              country-code="us"
-                              country-name="United State"
-                            >
-                              <span>
-                                <img
-                                  src="https://flagcdn.com/40x30/us.png"
-                                  alt="United States"
-                                  loading="eager"
-                                  className="country-flags"
-                                />
-                                US
-                              </span>
-                              <i>
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="16"
-                                  height="16"
-                                  fill="currentColor"
-                                  className="bi bi-chevron-down"
-                                  viewBox="0 0 16 16"
-                                >
-                                  <path
-                                    fillRule="evenodd"
-                                    d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-                                  ></path>
-                                </svg>
-                              </i>
-                            </div>
-                            <div className="country-search-box">
-                              <div
-                                className="content-country"
-                                id="content-box3"
-                              >
-                                <div className="search">
-                                  <input
-                                    spellCheck="false"
-                                    autoComplete="off"
-                                    type="text"
-                                    placeholder="Search"
-                                    id="country-search-input3"
-                                    onChange={() => {
-                                      console.log("input value change");
-                                    }}
-                                  />
-                                </div>
-                                <ul className="options"></ul>
-                              </div>
-                            </div>
-                          </div>
+                          <CountrySelect
+                            showCode={true}
+                            setSelectedCountryCode={setSelectedCountryCode}
+                          />
                         </div>
                       </div>
                       <div className="image-content-wrapper">
-                        <div
-                          className="lottie-animation-2 height"
-                          data-w-id="39e870d9-3d34-b7b4-aa65-f6252d3aff03"
-                          data-animation-type="lottie"
-                          data-src="/assets/documents/Five-Star-Rating.json"
-                          data-loop="1"
-                          data-direction="1"
-                          data-autoplay="1"
-                          data-is-ix2-target="0"
-                          data-renderer="svg"
-                          data-default-duration="1.8333333333333333"
-                          data-duration="0"
-                        ></div>
+                      <div className="lottie-animation-2 height">
+                              <Lottie
+                                animationData={starRating}
+                                loop={true}
+                                style={{ height: 300, width: 300 }}
+                              />
+                            </div>
                       </div>
                     </div>
                   </div>
@@ -2608,19 +2328,14 @@ const Services = () => {
                         </div>
                       </div>
                       <div className="image-content-wrapper">
-                        <div
-                          className="lottie-animation-2"
-                          data-w-id="ae9b3491-4e2b-274b-3684-bee67d9f88d0"
-                          data-animation-type="lottie"
-                          data-src="/assets/documents/conversion-marketing.json"
-                          data-loop="1"
-                          data-direction="1"
-                          data-autoplay="1"
-                          data-is-ix2-target="0"
-                          data-renderer="svg"
-                          data-default-duration="5.683333333333334"
-                          data-duration="0"
-                        ></div>
+                      <div className="lottie-animation-2 height">
+                              <Lottie
+                                animationData={conversionMarketing}
+                                loop={true}
+                                style={{ height: 300, width: 300 }}
+                              />
+                            </div>
+
                       </div>
                     </div>
                   </div>

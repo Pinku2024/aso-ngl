@@ -52,6 +52,7 @@
 }
 .app-output-box {
   width: inherit;
+  z-index: 9999999;
 }
 .suggestions,
 .searching-shimmer {
@@ -187,7 +188,7 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  width: 210px;
+  /* width: 210px; */
 }
 .country-select-button,
 .content-country li {

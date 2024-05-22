@@ -6207,8 +6207,9 @@ p {
 
 @media screen and (max-width: 1210px) {
   .mini-main-container .search-box-suggestion {
-    width: 250px;
+    width: 285px;
   }
+  
 }
 
 @media screen and (max-width: 991px) {

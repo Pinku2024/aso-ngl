@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import FormPopup from "./elements/FormPopup";
 
