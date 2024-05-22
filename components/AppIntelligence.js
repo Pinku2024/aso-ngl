@@ -26,24 +26,24 @@ const AppIntelligence = () => {
             </div>
             <h2
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45ec"
-              style={{
-                WebkitTransform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                MozTransform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                msTransform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                transform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                opacity: "1", // Make sure opacity value is a string
-              }}
+              // style={{
+              //   WebkitTransform:
+              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   MozTransform:
+              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   msTransform:
+              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   transform:
+              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   opacity: "1", // Make sure opacity value is a string
+              // }}
               className="title service-features"
             >
-              Let&#x27;s Talk Data &amp; Processes
+              Our Data &amp; Processes
             </h2>
             <p>
               Our ASO Innovation Stack - that captures everything from the app
-              stores.{" "}
+              stores.
             </p>
           </div>
         </div>
@@ -51,7 +51,7 @@ const AppIntelligence = () => {
           data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45f1"
           className="w-layout-grid service-features-grid"
         >
-          <div className="card service-feature">
+          <div className="card service-feature flex-data-process">
             <div className="image-wrapper service-feature">
               <Image
                 width={128}
@@ -61,11 +61,13 @@ const AppIntelligence = () => {
                 className="image service-feature"
               />
             </div>
-            <h3>Listing Intelligence</h3>
-            <p>
-              Identify the keywords that your competitors are using. Keep a
-              close eye on the changes they make.
-            </p>
+            <div>
+              <h3>Listing Intelligence</h3>
+              <p>
+                Identify the keywords that your competitors are using. Keep a
+                close eye on the changes they make.
+              </p>
+            </div>
           </div>
           <div className="card service-feature">
             <div className="image-wrapper service-feature _1">

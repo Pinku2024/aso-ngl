@@ -1497,7 +1497,7 @@ p {
 .heading-hero {
   font-size: 3em;
   color: #5c5cbf;
-  };
+}
 
 .heading-hero.new-centre-aligned {
   text-align: center;
@@ -1538,7 +1538,6 @@ p {
   display: flex;
   position: relative;
 }
-
 
 .home-hero-wrapper.flex-vertical {
   flex-direction: column;
@@ -3630,7 +3629,6 @@ p {
     margin-bottom: 100px;
     display: flex;
   }
-  
 
   .split-content.section-services-left {
     margin-bottom: 30px;
@@ -6209,7 +6207,6 @@ p {
   .mini-main-container .search-box-suggestion {
     width: 285px;
   }
-  
 }
 
 @media screen and (max-width: 991px) {
@@ -6438,4 +6435,61 @@ p {
 }
 .suggestions {
   z-index: 999;
+}
+
+/* custom css */
+
+/* for the data and processes grid */
+.flex-data-process {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5%;
+}
+.form-grid-template-custom {
+  display: grid;
+}
+
+.honeycomb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hex {
+  width: 500px;
+  height: 500px;
+  background-color: white;
+  text-align: center;
+  clip-path: polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: transform 0.3s;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  overflow: visible;
+}
+
+.hex-small {
+  width: 450px;
+  height: 450px;
+  overflow: visible;
+}
+
+.hex-large {
+  width: 700px;
+  height: 700px;
+  overflow: visible;
+}
+
+.hex-grow:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(8px 16px rgba(0, 0, 0, 0.3));
 }

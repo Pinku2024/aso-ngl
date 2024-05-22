@@ -23,8 +23,8 @@ const Footer = () => {
           <div className="html-embed-6 w-embed">
             <span className="rating_text">
               Ratings: 4.8 &nbsp;
-            <span className="fa checked">⭐⭐⭐⭐⭐</span>
-               &nbsp;496 reviews
+              <span className="fa checked">⭐⭐⭐⭐⭐</span>
+              &nbsp;498 reviews
             </span>
           </div>
           <div className="footer-mobile-content-2">
@@ -36,7 +36,7 @@ const Footer = () => {
                     href="mailto:contact@nextgrowthlabs.com"
                     className="footer-link-2 email"
                   >
-                     contact@ngl.com
+                    contact@ngl.com
                   </Link>
                 </li>
               </ul>

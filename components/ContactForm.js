@@ -38,7 +38,7 @@ const ContactForm = () => {
                 opacity: "1", // Ensure opacity value is a string
               }}
             >
-              Need help to boost your add-on rankings? 
+              Need help to boost your add-on rankings?
             </h2>
             <p
               data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4675"
@@ -156,7 +156,7 @@ const ContactForm = () => {
                         maxLength="256"
                         name="Email"
                         data-name="Email"
-                        placeholder="What’s your email?"
+                        placeholder="What’s your company email?"
                         type="email"
                         id="Email"
                         required=""
@@ -207,7 +207,8 @@ const ContactForm = () => {
                       data-wait="Please wait..."
                       id="w-node-_2408ce64-3e73-6c5b-6f9c-1dd071cb469b-f93c043d"
                       className="button-primary w-button"
-                      value="Submit Message"
+                      style={{ width: "210%" }}
+                      value="Submit Details"
                     />
                   </div>
                 </form>

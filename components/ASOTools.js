@@ -282,6 +282,245 @@ const ASOTools = () => {
           </Link>
         </div>
       </div>
+      <div className="honeycomb">
+        <div className="row">
+          <div className="hex hex-small hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={127}
+                  height={128}
+                  src="/assets/imgs/icon-service-process-1-seo-template.svg"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="hex hex-small hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={127}
+                  height={128}
+                  src="/assets/imgs/icon-service-process-1-seo-template.svg"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="hex hex-small hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={127}
+                  height={128}
+                  src="/assets/imgs/SDKs.svg"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="hex hex-large hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={254}
+                  height={256}
+                  src="/assets/imgs/Chrome-Addon.png"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="hex hex-small hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={127}
+                  height={128}
+                  src="/assets/imgs/icon-service-process-1-seo-template.svg"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="row">
+          <div className="hex hex-small hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={127}
+                  height={128}
+                  src="/assets/imgs/icon-service-process-2-seo-template.svg"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="hex hex-small hex-grow">
+            <div
+              style={{
+                WebkitTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                MozTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                msTransform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                transform:
+                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                opacity: 1,
+              }}
+            >
+              <div>
+                <Image
+                  width={127}
+                  height={128}
+                  src="/assets/imgs/Data-Studio.svg"
+                  alt="Growth - SEO Webflow Template"
+                  className="image process"
+                />
+              </div>
+              <div>
+                <h3>App Intelligence </h3>
+                <p style={{ maxWidth: "90%", textAlign: "center" }}>
+                  Increase organic search visibility to improve retention and
+                  revenue. ROI is maximised when ASO strategies are in place to
+                  use the most relevant keywords with high traffic.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 };

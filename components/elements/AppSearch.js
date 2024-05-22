@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 
 const AppSearch = () => {
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-
+  const appSearchRef = useRef();
   // Function to close the popup
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -13,19 +13,10 @@ const AppSearch = () => {
   };
   useEffect(() => {
     document.addEventListener("click", (e) => {
-      //   console.log(
-      //     e.target.classList,
-      //     e.target.classList.contains(
-      //       "app-search-box-holder" ||
-      //         "search-box_holder" ||
-      //         "code-left" ||
-      //         "main-box-holder" ||
-      //         "search-box-suggestion" ||
-      //         "search-input" ||
-      //         "app-output-box"
-      //     )
-      //   );
       const searchHolder = document.getElementById("suggestions-box1");
+      if (appSearchRef.current && !appSearchRef.current.contains(e.target)) {
+        searchHolder.classList.remove("format-suggestions");
+      }
       const target = e.target;
       if (target.classList.contains("search-input")) {
         console.log("Search input clicked");
@@ -39,8 +30,54 @@ const AppSearch = () => {
     });
   });
 
+  // function to handle the queries
+  async function handleRequestsAndProcessData(requestPlay, requestIOS) {
+    try {
+      const response1 = await fetch(requestIOS);
+      const response2 = await fetch(requestPlay);
+      const iOSResponse = await response1.json();
+      const playResponse = await response2.json();
+
+      const mergedData = {
+        iOSResponse: iOSResponse,
+        playResponse: playResponse,
+      };
+      // console.log("Merged Data", mergedData);
+
+      const fullAppData = mergedExtractedData(mergedData);
+      const suggestionList = createListWithDevice(fullAppData);
+
+      if (suggestionList.length > 0) {
+        suggestionList.unshift('<p class="info-search">Search Results</p>');
+        suggestionList.push(
+          '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
+        );
+      }
+
+      return suggestionList;
+    } catch (error) {
+      console.error("Error:", error);
+      return false;
+    }
+  }
+
+  // list shown in the search options/ suggestions box
+  function createListWithDevice(data) {
+    return data.map((item) => {
+      if (item.appName !== undefined) {
+        let deviceIcon;
+        if (item.device == "apple")
+          deviceIcon =
+            "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+        else
+          deviceIcon =
+            "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+        return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
+      }
+    });
+  }
   return (
-    <div className="app-search-box-holder">
+    <div ref={appSearchRef} className="app-search-box-holder">
       <div className="search-box_holder flex-custom width">
         <div className="code-left">
           <div id="search-box1" className="main-box-holder">
@@ -241,98 +278,6 @@ const AppSearch = () => {
               src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
               className="logo-image-lead"
             />
-          </div>
-          <div className="w-form">
-            <form
-              id="wf-form-ContactUsForm2"
-              name="wf-form-ContactUsForm"
-              data-name="ContactUsForm"
-              method="get"
-              data-wf-page-id="6576f808b0f14ea0f93c043d"
-              data-wf-element-id="74b03cde-6fdc-298a-3713-4dbaa67e1f5d"
-            >
-              <div className="w-layout-grid contact-form-grid">
-                <div
-                  id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f61-f93c043d"
-                  className="input-wrapper"
-                >
-                  <label htmlFor="name-2">Full Name</label>
-                  <input
-                    className="input-4 w-input"
-                    maxLength="256"
-                    name="name-2"
-                    data-name="Name 2"
-                    placeholder="What’s your name?"
-                    type="text"
-                    id="name-2"
-                    required=""
-                  />
-                </div>
-                <div className="input-wrapper">
-                  <label htmlFor="Emailaddress">Email Address</label>
-                  <input
-                    className="input-4 w-input"
-                    maxLength="256"
-                    name="Email"
-                    data-name="Email"
-                    placeholder="What’s your email?"
-                    type="email"
-                    id="Emailaddress2"
-                    required=""
-                  />
-                </div>
-                <div className="input-wrapper-2">
-                  <label htmlFor="Phone" className="field-label">
-                    Phone
-                  </label>
-                  <input
-                    className="input-2 w-input"
-                    maxLength="256"
-                    name="Phone-3"
-                    data-name="Phone 3"
-                    placeholder="What&#x27;s your phone number?"
-                    type="tel"
-                    id="Phone-3"
-                  />
-                </div>
-                <div className="input-wrapper">
-                  <label htmlFor="Message-2">Message</label>
-                  <textarea
-                    id="Message2"
-                    name="Message-2"
-                    maxLength="5000"
-                    data-name="Message 2"
-                    placeholder="What can we help you with?"
-                    className="message-2 w-input"
-                  ></textarea>
-                </div>
-                <input
-                  type="submit"
-                  data-wait="Please wait..."
-                  id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f71-f93c043d"
-                  className="button-primary-2 request-a-quote w-button"
-                  value="Submit App"
-                />
-              </div>
-            </form>
-            <div className="success-message w-form-done">
-              <div className="text-block-23">
-                Your message has been submitted. <br />
-                We will get back to you within 24-48 hours.
-              </div>
-              <div className="button-holder-error-message">
-                <Link
-                  href="#"
-                  id="get-custom-pricing-btn"
-                  className="button-primary-cleint width-small w-button"
-                >
-                  Get Custom Pricing
-                </Link>
-              </div>
-            </div>
-            <div className="error-message w-form-fail">
-              <div>Oops! Something went wrong.</div>
-            </div>
           </div>
         </div>
       </div>
