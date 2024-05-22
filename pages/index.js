@@ -10,6 +10,7 @@ import AppIntelligence from "../components/AppIntelligence";
 import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
 import Clients from "../components/Clients";
+import AppSearch from "../components/elements/AppSearch";
 export default function Home() {
   return (
     <>
@@ -28,6 +29,7 @@ export default function Home() {
         <Header />
         <Audit />
         <Clients />
+        <AppSearch />
         <Services />
         <Testimonials />
         {/* <OurPricing /> */}

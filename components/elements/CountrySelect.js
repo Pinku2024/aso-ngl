@@ -162,7 +162,7 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
       const countrySelectionBox = document.querySelector(
         ".country-selection-box"
       );
-      console.log(countrySelectionBox);
+      // console.log(countrySelectionBox);
       if (countrySelectionBox && !countrySelectionBox.contains(event.target)) {
         setIsDropdownActive(false);
       }

@@ -1,4 +1,4 @@
-:root{
+:root {
   --bgColor: #5c5cbf;
 }
 .audit-button {
@@ -199,7 +199,6 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
   padding: 5px 10px;
   width: 210px;
   justify-content: space-between;
-
 }
 .country-select-button i {
   font-size: 31px;
