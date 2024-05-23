@@ -38,7 +38,7 @@ const OurPricing = () => {
                     }`}
                   >
                     <div>
-                      Pricing Guide
+                      Offerings Guide
                       <br />
                     </div>
                   </button>
@@ -100,7 +100,7 @@ const OurPricing = () => {
                                 </div>
                                 <div className="card-package-content">
                                   <div className="heading card-package-features-new left-align">
-                                    Key Offerings:
+                                    Offerings:
                                   </div>
                                   <div className="w-layout-grid grid-8">
                                     <div
@@ -214,7 +214,7 @@ const OurPricing = () => {
                                 </div>
                                 <div className="card-package-content">
                                   <div className="heading card-package-features-new left-align">
-                                    Key Offerings:
+                                    Offerings:
                                   </div>
                                   <div className="w-layout-grid grid-8">
                                     <div
@@ -328,9 +328,9 @@ const OurPricing = () => {
                                 </div>
                                 <div className="card-package-content">
                                   <div className="heading card-package-features-new left-align">
-                                    Key Offerings:
+                                    Offerings:
                                   </div>
-                                  <div className="w-layout-grid grid-8">
+                                  <div className="w-layout-grid grid-8 pricing-height">
                                     <div
                                       id="w-node-_5232b42b-7451-0536-8c39-cebc65da80c2-f93c043d"
                                       className="packahe-feature-wrapper"
@@ -410,7 +410,6 @@ const OurPricing = () => {
                   >
                     <div className="tabs_content-wrapper-service">
                       <div className="max-width-full">
-
                         <div
                           id="pricingBoxPr"
                           className="w-layout-grid tabs-layout_component"
@@ -580,7 +579,9 @@ const OurPricing = () => {
                                         </div>
                                       </div>
                                       <CountrySelect
-                                        setSelectedCountryCode={setSelectedCountryCode}
+                                        setSelectedCountryCode={
+                                          setSelectedCountryCode
+                                        }
                                         // selectedApp={selectedApp}
                                         showCode={false}
                                       />
@@ -588,7 +589,6 @@ const OurPricing = () => {
                                   </div>
                                 </div>
                               </div>
-
 
                               {appSelected && (
                                 <>
@@ -834,7 +834,6 @@ const OurPricing = () => {
                             </div>
                           </div>
                         </div>
-                        
                       </div>
                     </div>
                   </div>

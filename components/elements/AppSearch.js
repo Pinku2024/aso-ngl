@@ -92,6 +92,7 @@ const AppSearch = () => {
                   id="search-bar-input1"
                   className="search-input"
                   placeholder="Search your iOS or android app"
+                  onFocus={() => console.log("search box in focus")}
                 />
                 <button
                   id="close-search-form1"
@@ -282,6 +283,118 @@ const AppSearch = () => {
               className="logo-image-lead"
             />
           </div>
+        </div>
+        <div className="app-output-box">
+          <div id="searching-shimmer5" className="hidden searching-shimmer">
+            <ul className="o-vertical-spacing o-vertical-spacing--l">
+              <li className="blog-post o-media">
+                <div className="o-media__figure">
+                  <span className="skeleton-box"></span>
+                </div>
+                <div className="o-media__body">
+                  <div className="o-vertical-spacing">
+                    <h3 className="blog-post__headline">
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "55%" }}
+                      ></span>
+                    </h3>
+                    <p>
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "80%" }}
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li className="blog-post o-media">
+                <div className="o-media__figure">
+                  <span className="skeleton-box"></span>
+                </div>
+                <div className="o-media__body">
+                  <div className="o-vertical-spacing">
+                    <h3 className="blog-post__headline">
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "55%" }}
+                      ></span>
+                    </h3>
+                    <p>
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "80%" }}
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li className="blog-post o-media">
+                <div className="o-media__figure">
+                  <span className="skeleton-box"></span>
+                </div>
+                <div className="o-media__body">
+                  <div className="o-vertical-spacing">
+                    <h3 className="blog-post__headline">
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "55%" }}
+                      ></span>
+                    </h3>
+                    <p>
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "80%" }}
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li className="blog-post o-media">
+                <div className="o-media__figure">
+                  <span className="skeleton-box"></span>
+                </div>
+                <div className="o-media__body">
+                  <div className="o-vertical-spacing">
+                    <h3 className="blog-post__headline">
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "55%" }}
+                      ></span>
+                    </h3>
+                    <p>
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "80%" }}
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </li>
+              <li className="blog-post o-media">
+                <div className="o-media__figure">
+                  <span className="skeleton-box"></span>
+                </div>
+                <div className="o-media__body">
+                  <div className="o-vertical-spacing">
+                    <h3 className="blog-post__headline">
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "55%" }}
+                      ></span>
+                    </h3>
+                    <p>
+                      <span
+                        className="skeleton-box"
+                        style={{ width: "80%" }}
+                      ></span>
+                    </p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+          <ul id="suggestions-box5" className="suggestions"></ul>
         </div>
       </div>
     </div>
