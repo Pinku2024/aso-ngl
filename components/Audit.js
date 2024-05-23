@@ -249,7 +249,6 @@ const Audit = () => {
     setIsPopupVisible(true);
   };
 
-  
   function mySubmit() {
     const imageElement = document.getElementById("iOS-form-logo");
     const imageData = imageElement.getAttribute("image-data");

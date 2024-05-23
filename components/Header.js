@@ -47,7 +47,7 @@ const Header = () => {
           </nav>
           <div className="split-content header-right">
             <Link
-              href="#form-submit"
+              href="#request-a-quote"
               className="button-primary-cleint mobileonly w-button"
             >
               Talk to us

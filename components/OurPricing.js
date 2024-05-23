@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const OurPricing = () => {
   const [activeTab, setActiveTab] = useState("tab2");
   const [appSelected, setAppSelected] = useState(false);
-  // const [selectedCountry, setSelectedCountry] = useState();
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
 
   return (
@@ -401,7 +400,6 @@ const OurPricing = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     data-w-tab="Tab 2 Form"
                     className={`tabs_tab-pane w-tab-pane ${
