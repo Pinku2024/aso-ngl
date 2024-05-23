@@ -51,7 +51,7 @@ const AppIntelligence = () => {
           data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45f1"
           className="w-layout-grid service-features-grid"
         >
-          <div className="card service-feature flex-data-process">
+          <div className="card service-feature">
             <div className="image-wrapper service-feature">
               <Image
                 width={128}
