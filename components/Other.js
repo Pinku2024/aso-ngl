@@ -255,6 +255,7 @@ const Other = () => {
               >
                 Full spectrum on your acquisition channel
               </h2>
+
               <p
                 data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad13"
                 style={{
@@ -287,6 +288,7 @@ const Other = () => {
                 <br />● Our app store optimization service stands out in a
                 crowded market by delivering guaranteed results.
               </p>
+
               <div
                 data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad15"
                 style={{

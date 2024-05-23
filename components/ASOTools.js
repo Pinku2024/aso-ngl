@@ -53,8 +53,8 @@ const ASOTools = () => {
           }}
           className="paragraph process"
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Faucibus ante
-          velit nunc morbi pretium. Ut nullam dolor.
+          We have have built some of the the most premium ASO tools which help
+          you in every step of tracking and analyzing your app growth.
         </p>
       </div>
       <div className="container-default w-container">
