@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 const OurPricing = () => {
   const [activeTab, setActiveTab] = useState("tab2");
   const [appSelected, setAppSelected] = useState(false);
-  // const [selectedCountry, setSelectedCountry] = useState();
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
 
   return (
@@ -401,7 +400,6 @@ const OurPricing = () => {
                       </div>
                     </div>
                   </div>
-
                   <div
                     data-w-tab="Tab 2 Form"
                     className={`tabs_tab-pane w-tab-pane ${
@@ -410,7 +408,6 @@ const OurPricing = () => {
                   >
                     <div className="tabs_content-wrapper-service">
                       <div className="max-width-full">
-
                         <div
                           id="pricingBoxPr"
                           className="w-layout-grid tabs-layout_component"
@@ -580,7 +577,9 @@ const OurPricing = () => {
                                         </div>
                                       </div>
                                       <CountrySelect
-                                        setSelectedCountryCode={setSelectedCountryCode}
+                                        setSelectedCountryCode={
+                                          setSelectedCountryCode
+                                        }
                                         // selectedApp={selectedApp}
                                         showCode={false}
                                       />
@@ -588,8 +587,6 @@ const OurPricing = () => {
                                   </div>
                                 </div>
                               </div>
-
-
                               {appSelected && (
                                 <>
                                   <div
@@ -834,7 +831,6 @@ const OurPricing = () => {
                             </div>
                           </div>
                         </div>
-                        
                       </div>
                     </div>
                   </div>
