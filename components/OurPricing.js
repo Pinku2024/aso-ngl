@@ -37,7 +37,8 @@ const OurPricing = () => {
                     }`}
                   >
                     <div>
-                      Pricing Guide
+                      {/* Pricing Guide */}
+                      Offerings Guide
                       <br />
                     </div>
                   </button>
@@ -99,8 +100,9 @@ const OurPricing = () => {
                                 </div>
                                 <div className="card-package-content">
                                   <div className="heading card-package-features-new left-align">
-                                    Key Offerings:
+                                    Offerings:
                                   </div>
+
                                   <div className="w-layout-grid grid-8">
                                     <div
                                       id="w-node-_5232b42b-7451-0536-8c39-cebc65da807c-f93c043d"
@@ -115,8 +117,9 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Pay based on the keywords that you’d
-                                        like to target.
+                                        {/* Pay based on the keywords that you’d
+                                        like to target. */}
+                                        Pay for targeted keywords.
                                       </div>
                                     </div>
                                     <div
@@ -132,8 +135,10 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Payout based on the achievements - top
-                                        1, top 3, top 5 and top 8.
+                                        {/* Payout based on the achievements - top
+                                        1, top 3, top 5 and top 8. */}
+                                        Payout for top 1, 3, 5, and 8
+                                        achievements.
                                       </div>
                                     </div>
                                     <div
@@ -149,8 +154,10 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        We can also rank your app in similar app
-                                        section of your competitors.
+                                        {/* We can also rank your app in similar app
+                                        section of your competitors. */}
+                                        Rank your app in competitors' similar
+                                        app sections.
                                       </div>
                                     </div>
                                     <div
@@ -166,13 +173,15 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Minimum plan of 6 months.
+                                        {/* Minimum plan of 6 months. */}
+                                        Minimum 6-month plan.
                                       </div>
                                     </div>
                                   </div>
+
                                   <div className="button-wrapper">
                                     <Link
-                                      href="#"
+                                      href="#request-a-quote"
                                       className="button-primary-4 width-max w-button"
                                     >
                                       Contact Us
@@ -213,7 +222,7 @@ const OurPricing = () => {
                                 </div>
                                 <div className="card-package-content">
                                   <div className="heading card-package-features-new left-align">
-                                    Key Offerings:
+                                    Offerings:
                                   </div>
                                   <div className="w-layout-grid grid-8">
                                     <div
@@ -229,8 +238,10 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Pay for x% growth in your non-brand
-                                        organic downloads.
+                                        {/* Pay for x% growth in your non-brand
+                                        organic downloads. */}
+                                        Pay for x% growth in non-brand organic
+                                        downloads.
                                       </div>
                                     </div>
                                     <div
@@ -246,8 +257,10 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Most of our ASO campaigns break even in
-                                        12 months.
+                                        {/* Most of our ASO campaigns break even in
+                                        12 months. */}
+                                        ASO campaigns typically break even in 12
+                                        months.
                                       </div>
                                     </div>
                                     <div
@@ -263,8 +276,9 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Only available for apps where an
-                                        available market share is present.
+                                        {/* Only available for apps where an
+                                        available market share is present. */}
+                                        Available for apps with market share.
                                       </div>
                                     </div>
                                     <div
@@ -280,13 +294,14 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Minimum plan of 6 months.
+                                        {/* Minimum plan of 6 months. */}
+                                        Minimum 6-month plan.
                                       </div>
                                     </div>
                                   </div>
                                   <div className="button-wrapper">
                                     <Link
-                                      href="#"
+                                      href="#request-a-quote"
                                       className="button-primary-4 width-max w-button"
                                     >
                                       Contact Us
@@ -327,7 +342,7 @@ const OurPricing = () => {
                                 </div>
                                 <div className="card-package-content">
                                   <div className="heading card-package-features-new left-align">
-                                    Key Offerings:
+                                    Offerings:
                                   </div>
                                   <div className="w-layout-grid grid-8">
                                     <div
@@ -343,8 +358,10 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        We help your revenue grow and share
-                                        revenue on the incremental revenue.
+                                        {/* We help your revenue grow and share
+                                        revenue on the incremental revenue. */}
+                                        We grow your revenue and share in the
+                                        incremental gains.
                                       </div>
                                     </div>
                                     <div
@@ -360,9 +377,12 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        Once you submit the app, we will have a
+                                        {/* Once you submit the app, we will have a
                                         call, regarding the baseline install and
-                                        revenue numbers to see if you qualify.
+                                        revenue numbers to see if you qualify. */}
+                                        After app submission, we'll discuss
+                                        baseline installs and revenue to check
+                                        qualification.
                                       </div>
                                     </div>
                                     <div
@@ -378,15 +398,17 @@ const OurPricing = () => {
                                         className="ckeck-icon"
                                       />
                                       <div className="feature-pointer">
-                                        We take app quality and current
+                                        {/* We take app quality and current
                                         revenue/user in consideration while
-                                        deciding the revenue share.
+                                        deciding the revenue share. */}
+                                        Revenue share depends on app quality and
+                                        current revenue per user.
                                       </div>
                                     </div>
                                   </div>
                                   <div className="button-wrapper aligned-3">
                                     <Link
-                                      href="#"
+                                      href="#request-a-quote"
                                       className="button-primary-4 width-max w-button"
                                     >
                                       Contact Us
@@ -880,7 +902,8 @@ const OurPricing = () => {
               >
                 Reduce Cost on UAC Campaigns
               </h2>
-              <p
+
+              {/* <p
                 data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4643"
                 style={{
                   WebkitTransform:
@@ -895,6 +918,7 @@ const OurPricing = () => {
                 }}
                 className="paragraph about-this-service"
               >
+
                 It&#x27;s often assumed that UAC campaign cost is fixed.
                 However, it&#x27;s not. Ratings of your app and that of your
                 competitors, Most Helpful Review Section, number of companies
@@ -907,6 +931,65 @@ const OurPricing = () => {
                 <span className="text-bold">x</span>, then you pay a fee that is
                 much lower than x.
                 <br />
+              </p> */}
+              <p
+                data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad13"
+                style={{
+                  WebkitTransform:
+                    "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                  MozTransform:
+                    "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                  msTransform:
+                    "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                  transform:
+                    "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+                  opacity: "1",
+                }}
+                className="paragraph about-this-service"
+              >
+                <Image
+                  width={23}
+                  height={23}
+                  loading="lazy"
+                  src="/assets/imgs/64c7749ac04c9db7ccffa1fb_icon-package-feature-seo-template.svg"
+                  alt="Check Icon - NextLabs.io"
+                  className="ckeck-icon"
+                />
+                UAC campaign costs are not fixed.
+                <br />
+                <Image
+                  width={23}
+                  height={23}
+                  loading="lazy"
+                  src="/assets/imgs/64c7749ac04c9db7ccffa1fb_icon-package-feature-seo-template.svg"
+                  alt="Check Icon - NextLabs.io"
+                  className="ckeck-icon"
+                />
+                 Factors affecting cost:
+                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● App ratings (yours and competitors')
+                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Most Helpful Review Section
+                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Number of bidding companies
+                <br />  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Engagement and retention rates
+                <br />
+                <Image
+                  width={23}
+                  height={23}
+                  loading="lazy"
+                  src="/assets/imgs/64c7749ac04c9db7ccffa1fb_icon-package-feature-seo-template.svg"
+                  alt="Check Icon - NextLabs.io"
+                  className="ckeck-icon"
+                />
+                You only pay if we reduce the cost.
+                <br />
+                <Image
+                  width={10}
+                  height={10}
+                  loading="lazy"
+                  src="/assets/imgs/64c7749ac04c9db7ccffa1fb_icon-package-feature-seo-template.svg"
+                  alt="Check Icon - NextLabs.io"
+                  className="ckeck-icon"
+                />
+                Fee is significantly lower than the cost reduction (x).
               </p>
               <div
                 data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4645"
@@ -927,7 +1010,8 @@ const OurPricing = () => {
                   href="#request-a-quote"
                   className="button-primary w-button"
                 >
-                  Find Out How
+                  {/* Find Out How */}
+                  How? Let’s find out!
                 </Link>
               </div>
             </div>

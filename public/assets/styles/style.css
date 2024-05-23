@@ -426,6 +426,7 @@ p {
   max-width: 546px;
   margin-bottom: 40px;
   padding-top: 20px;
+  line-height: 1.8;
 }
 
 .paragraph.service-case-study {
@@ -2577,7 +2578,8 @@ p {
   color: #fff;
   text-align: center;
   transform-style: preserve-3d;
-  background-color: #1c7df8;
+  /* background-color: #1c7df8; */
+  background-color: var(--bgColor);
   border-radius: 10px;
   padding: 22px 32px;
   font-weight: 500;

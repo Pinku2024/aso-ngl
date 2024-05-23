@@ -137,7 +137,7 @@ const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
 const handleEvent = ((event)=>{
   let { appPackageURL, applicationId, imageURL, device } = selectAppHandler(event);
   const country = selectedCountry.code;
-  updateOtherSectionToSelectedApp(appPackageURL, applicationId, imageURL, device, country);
+  // updateOtherSectionToSelectedApp(appPackageURL, applicationId, imageURL, device, country);
 
 })
 function selectAppHandler(event) {

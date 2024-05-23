@@ -6,7 +6,7 @@ import FormPopup from "./elements/FormPopup";
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [selectedApp, setSelectedApp] = useState(null)
+  const [selectedApp, setSelectedApp] = useState(null);
 
   // Function to close the popup
   const togglePopup = () => {
@@ -245,7 +245,7 @@ const Audit = () => {
 
   const handleClick = (event) => {
     console.log("Clicked on app");
-    setSelectedApp(event)
+    setSelectedApp(event);
     setIsPopupVisible(true);
   };
 
@@ -348,11 +348,17 @@ const Audit = () => {
                 <strong>App Store Optimization</strong>
               </h1>
               <p className="paragraph home-hero new-centre-aligned width">
-                Since 2016, we&#x27;ve been at the forefront of App Marketing.
+                {/* Since 2016, we&#x27;ve been at the forefront of App Marketing.
                 Some of world&#x27;s top brands too read these lines, before
                 contacting and working with us. The next 5 minutes you spend
                 reading about us will give you a glimpse to our approach. Want a
-                customised presentation? Let us know.
+                customised presentation? Let us know. */}
+
+                Since 2016, we&#x27;ve been leading the way in App Marketing. Many of
+                the world&#x27;s top brands have read these lines before reaching out
+                to work with us. Spend the next five minutes learning about our
+                approach.<br/>
+                <strong style={{fontWeight: "bolder", color: "#5c5cbf"}}>Want a customised presentation? Let us know.</strong>
               </p>
             </div>
             <div className="app-search-box-holder">
@@ -539,7 +545,7 @@ const Audit = () => {
 
                       <CountrySelect
                         setSelectedCountryCode={setSelectedCountryCode}
-                        selectedApp = {selectedApp}
+                        selectedApp={selectedApp}
                         showCode={false}
                       />
 
@@ -685,7 +691,7 @@ const Audit = () => {
         </div>
       </section>
       <div className="container-large-1134px">
-        <div className="images-wrapper hero-service">
+        {/* <div className="images-wrapper hero-service">
           <img
             src="/assets/imgs/BG-Lines-Yellow.svg"
             loading="lazy"
@@ -704,7 +710,7 @@ const Audit = () => {
             alt=""
             className="bg service"
           />
-        </div>
+        </div> */}
         <div className="images-wrapper-mob">
           <img
             src="/assets/imgs/BG-Lines-Yellow.svg"
