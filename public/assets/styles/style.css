@@ -2393,6 +2393,7 @@ p {
 .top-part {
   flex-direction: column;
   display: flex;
+  min-height: 30%;
 }
 
 .top-part.padding {
@@ -4991,7 +4992,7 @@ p {
 
 /* custom media queries */
 @media screen and (min-width: 768px) {
-  .submitBtn{
+  .submitBtn {
     width: 210%;
   }
 }
@@ -6508,4 +6509,14 @@ p {
 }
 .hex p {
   padding-left: 5%;
+}
+
+.pricing-height {
+  min-height: 300px;
+}
+
+@media screen and (max-width: 1360px) {
+  .pricing-height {
+    min-height: 500px;
+  }
 }
