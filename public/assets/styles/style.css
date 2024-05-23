@@ -352,7 +352,8 @@ p {
   color: #fff;
   text-align: center;
   transform-style: preserve-3d;
-  background-color: #1c7df8;
+  /* background-color: #1c7df8; */
+  background-color: var(--bgColor);
   border-radius: 10px;
   padding: 22px 32px;
   font-weight: 500;
@@ -1807,7 +1808,8 @@ p {
   color: #fff;
   text-align: center;
   transform-style: preserve-3d;
-  background-color: #1c7df8;
+  /* background-color: #1c7df8; */
+  background-color: var(--bgColor);
   border-radius: 10px;
   padding: 22px 32px;
   font-weight: 500;
