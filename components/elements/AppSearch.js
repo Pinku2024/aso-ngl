@@ -14,8 +14,11 @@ const AppSearch = () => {
   useEffect(() => {
     document.addEventListener("click", (e) => {
       const searchHolder = document.getElementById("suggestions-box1");
+      const searchInput = document.getElementById("search-bar-input1");
       if (appSearchRef.current && !appSearchRef.current.contains(e.target)) {
         searchHolder.classList.remove("format-suggestions");
+        searchInput.value = "";
+        return;
       }
       const target = e.target;
       if (target.classList.contains("search-input")) {

@@ -253,7 +253,7 @@ const Other = () => {
                   opacity: "1",
                 }}
               >
-                A 360 Degree Focus on Your Acquisition Funnel
+                Full spectrum on your acquisition channel
               </h2>
               <p
                 data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad13"
@@ -366,7 +366,7 @@ const Other = () => {
                 }}
                 className="title-3 our-process cantre-align"
               >
-                Best App Marketing Agency for a Reason
+                We can do lot more than what other agencies do! 🙌{" "}
               </h2>
             </div>
             <p
@@ -548,7 +548,7 @@ const Other = () => {
                     opacity: "1",
                   }}
                 >
-                  Get a complete view of each and every user
+                  Gain a 360° View of Your Customers
                 </h2>
                 <p
                   data-w-id="5126ad55-90a0-56db-cba6-5e9cc42aa74f"
@@ -588,7 +588,7 @@ const Other = () => {
                     href="#request-a-quote"
                     className="button-primary w-button"
                   >
-                    Schedule a Demo
+                    Talk to us
                   </Link>
                 </div>
               </div>

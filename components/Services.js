@@ -656,10 +656,10 @@ const Services = () => {
                 </div>
                 {activeSol === "solution1" && (
                   <div className="tab-button-desc-wrapper">
-                    <div className="tab-button-desc">
+                    {/* <div className="tab-button-desc">
                       Rank on your target keywords, get into similar and related
                       app section and improve chart rankings.
-                    </div>
+                    </div> */}
 
                     <div className="app-search-box-holder margin-top new-height mobile">
                       <div className="search-box_holder flex-custom">
@@ -840,7 +840,6 @@ const Services = () => {
                                 style={{ height: 300, width: 300 }}
                               />
                             </div>
-
                           </div>
                         </div>
                       </div>
@@ -983,10 +982,10 @@ const Services = () => {
                 </div>
                 {activeSol === "solution2" && (
                   <div className="tab-button-desc-wrapper">
-                    <div className="tab-button-desc">
+                    {/* <div className="tab-button-desc">
                       How to get more percentage of people click on your result?
                       1000s of users can give you precise feedback on the same.
-                    </div>
+                    </div> */}
 
                     <div className="app-search-box-holder margin-top new-height mobile">
                       <div className="search-box_holder flex-custom width">
@@ -1154,9 +1153,9 @@ const Services = () => {
                                 </div>
                               </div>
                               <CountrySelect
-                            showCode={true}
-                            setSelectedCountryCode={setSelectedCountryCode}
-                          />
+                                showCode={true}
+                                setSelectedCountryCode={setSelectedCountryCode}
+                              />
                             </div>
                           </div>
                           <div className="image-content-wrapper">
@@ -1310,12 +1309,12 @@ const Services = () => {
                 </div>
                 {activeSol === "solution3" && (
                   <div className="tab-button-desc-wrapper">
-                    <div className="tab-button-desc">
+                    {/* <div className="tab-button-desc">
                       Get a higher store listing conversion. Focus on MHR (Most
                       helpful review section), on page assets, description. For
                       instance, did you know that you can change the font size,
                       and font Color?
-                    </div>
+                    </div> */}
                     <div className="app-search-box-holder margin-top new-height mobile">
                       <div className="search-box_holder flex-custom width">
                         <div className="code-left">
@@ -1483,9 +1482,9 @@ const Services = () => {
                               </div>
 
                               <CountrySelect
-                            showCode={true}
-                            setSelectedCountryCode={setSelectedCountryCode}
-                          />
+                                showCode={true}
+                                setSelectedCountryCode={setSelectedCountryCode}
+                              />
                             </div>
                           </div>
                           <div className="image-content-wrapper">
@@ -1496,7 +1495,6 @@ const Services = () => {
                                 style={{ height: 300, width: 300 }}
                               />
                             </div>
-  
                           </div>
                         </div>
                       </div>
@@ -1737,14 +1735,13 @@ const Services = () => {
                         </div>
                       </div>
                       <div className="image-content-wrapper">
-                      <div className="lottie-animation-2">
-                              <Lottie
-                                animationData={asoGreen}
-                                loop={true}
-                                style={{ height: 300, width: 300 }}
-                              />
-                            </div>
-
+                        <div className="lottie-animation-2">
+                          <Lottie
+                            animationData={asoGreen}
+                            loop={true}
+                            style={{ height: 300, width: 300 }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2035,13 +2032,13 @@ const Services = () => {
                         </div>
                       </div>
                       <div className="image-content-wrapper">
-                      <div className="lottie-animation-2 height">
-                              <Lottie
-                                animationData={starRating}
-                                loop={true}
-                                style={{ height: 300, width: 300 }}
-                              />
-                            </div>
+                        <div className="lottie-animation-2 height">
+                          <Lottie
+                            animationData={starRating}
+                            loop={true}
+                            style={{ height: 300, width: 300 }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2328,14 +2325,13 @@ const Services = () => {
                         </div>
                       </div>
                       <div className="image-content-wrapper">
-                      <div className="lottie-animation-2 height">
-                              <Lottie
-                                animationData={conversionMarketing}
-                                loop={true}
-                                style={{ height: 300, width: 300 }}
-                              />
-                            </div>
-
+                        <div className="lottie-animation-2 height">
+                          <Lottie
+                            animationData={conversionMarketing}
+                            loop={true}
+                            style={{ height: 300, width: 300 }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
