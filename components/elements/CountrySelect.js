@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 
-const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
+const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
   const countries = [
     { name: "Afghanistan", code: "af", flag: "af.png" },
     { name: "Algeria", code: "dz", flag: "dz.png" },
@@ -126,6 +126,22 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
     { name: "Zambia", code: "zm", flag: "zm.png" },
     { name: "Zimbabwe", code: "zw", flag: "zw.png" },
   ];
+  
+  useEffect(() => {
+    if (selectedApp) {
+      handleEvent(selectedApp);
+    }
+  }, [selectedApp]);
+
+
+const handleEvent = ((event)=>{
+  console.log("event triggered", event)
+})
+
+
+
+
+
 
   const [selectedCountry, setSelectedCountry] = useState({
     code: "us",
@@ -245,7 +261,6 @@ const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
           </div>
         </div>
       )}
-      {/* <Audit selectedCountryCode={isCountrySelected} /> */}
     </div>
   );
 };

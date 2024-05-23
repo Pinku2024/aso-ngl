@@ -282,7 +282,8 @@ const ASOTools = () => {
           </Link>
         </div>
       </div>
-      <div className="honeycomb">
+
+      {/* <div className="honeycomb">
         <div className="row">
           <div className="hex hex-small hex-grow">
             <div
@@ -520,7 +521,7 @@ const ASOTools = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

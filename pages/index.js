@@ -4,13 +4,13 @@ import Footer from "../components/Footer";
 import Audit from "../components/Audit";
 import Services from "../components/Services";
 import Testimonials from "../components/Testimonials";
-// import OurPricing from "../components/OurPricing";
+import OurPricing from "../components/OurPricing";
 import ASOTools from "../components/ASOTools";
 import AppIntelligence from "../components/AppIntelligence";
 import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
 import Clients from "../components/Clients";
-import AppSearch from "../components/elements/AppSearch";
+// import AppSearch from "../components/elements/AppSearch";
 export default function Home() {
   return (
     <>
@@ -29,10 +29,10 @@ export default function Home() {
         <Header />
         <Audit />
         <Clients />
-        <AppSearch />
+        {/* <AppSearch /> */}
         <Services />
         <Testimonials />
-        {/* <OurPricing /> */}
+        <OurPricing />
         <ASOTools />
         <AppIntelligence />
         <Other />
