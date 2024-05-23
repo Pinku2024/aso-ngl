@@ -206,8 +206,7 @@ const ContactForm = () => {
                       type="submit"
                       data-wait="Please wait..."
                       id="w-node-_2408ce64-3e73-6c5b-6f9c-1dd071cb469b-f93c043d"
-                      className="button-primary w-button"
-                      style={{ width: "210%" }}
+                      className="button-primary w-button submitBtn"
                       value="Submit Details"
                     />
                   </div>
