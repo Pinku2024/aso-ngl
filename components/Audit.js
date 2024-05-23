@@ -690,7 +690,7 @@ const Audit = () => {
           </article>
         </div>
       </section>
-      <div className="container-large-1134px">
+      {/* <div className="container-large-1134px"> */}
         {/* <div className="images-wrapper hero-service">
           <img
             src="/assets/imgs/BG-Lines-Yellow.svg"
@@ -711,7 +711,7 @@ const Audit = () => {
             className="bg service"
           />
         </div> */}
-        <div className="images-wrapper-mob">
+        {/* <div className="images-wrapper-mob">
           <img
             src="/assets/imgs/BG-Lines-Yellow.svg"
             loading="lazy"
@@ -730,8 +730,8 @@ const Audit = () => {
             alt=""
             className="bg service-2"
           />
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
       {isPopupVisible && <FormPopup onClose={closePopup} />}
     </>
   );
