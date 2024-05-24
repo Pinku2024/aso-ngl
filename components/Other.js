@@ -210,7 +210,7 @@ const Other = () => {
           <div className="about-this-service-wrapper">
             <div className="images-wrapper about-this-service">
               <div className="sunburst-chart-1 w-embed w-script">
-                <div>
+                {/* <div> */}
                   <Image
                     src="/assets/imgs/sunBrustChart.webp"
                     height={500}
@@ -218,7 +218,7 @@ const Other = () => {
                     // layout="responsive"
                     alt="sun-burst-chart"
                   />
-                </div>
+                {/* </div> */}
               </div>
             </div>
             <div className="split-content about-this-service-left">

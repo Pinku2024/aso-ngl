@@ -4824,8 +4824,9 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .sunburst-chart-1 {
-    display: none;
+  .sunburst-chart-1 > img{
+    /* display: none; */
+    height: 420px;
   }
 
   .small-print-2 {
@@ -5703,8 +5704,9 @@ p {
     grid-row-gap: 20px;
   }
 
-  .sunburst-chart-1 {
-    display: none;
+  .sunburst-chart-1 > img{
+    /* display: none; */
+    height: 355px;
   }
 
   .text-block-21 {
