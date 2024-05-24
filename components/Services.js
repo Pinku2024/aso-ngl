@@ -4,9 +4,11 @@ import Lottie from "lottie-react";
 import asoGreen from "../public/assets/documents/aso-green.json";
 import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
 import starRating from "../public/assets/documents/Five-Star-Rating.json";
+
 const Services = () => {
   const [activeSol, setActiveSol] = useState("solution1");
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
+
   function appSearch(event) {
     async function prepareDataForRequests(mainWorkingBox) {
       const inputElement = event;

@@ -1,12 +1,15 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import FormPopup from "./elements/FormPopup";
+import AppSearch from "./elements/AppSearch";
 
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
+  const appSearchRef = useRef(null);
+
 
   // Function to close the popup
   const togglePopup = () => {
@@ -226,7 +229,7 @@ const Audit = () => {
         }
       });
     }, 500);
-    document.getElementById("search-bar-input1").focus();
+    // document.getElementById("search-bar-input1").focus();
     const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
     const closeSearchBtn = document.querySelectorAll(".close-search-form");
     closeSearchBtn.forEach((close) => {
@@ -249,6 +252,29 @@ const Audit = () => {
     setIsPopupVisible(true);
   };
 
+  // **************
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      appSearchRef.current &&
+      !appSearchRef.current.contains(event.target)
+    ) {
+      const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
+      iOSOuterBoxes.forEach((box) => {
+        const suggestion = box.querySelector(".suggestions");
+        if (suggestion) {
+          suggestion.classList.remove("format-suggestions");
+        }
+      });
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
   function mySubmit() {
     const imageElement = document.getElementById("iOS-form-logo");
     const imageData = imageElement.getAttribute("image-data");
@@ -361,12 +387,14 @@ const Audit = () => {
                 <strong style={{fontWeight: "bolder", color: "#5c5cbf"}}>Want a customised presentation? Let us know.</strong>
               </p>
             </div>
-            <div className="app-search-box-holder">
+
+            <div ref={appSearchRef} className="app-search-box-holder">
               <div className="search-box_holder flex-custom width">
                 <div className="code-left">
                   <div className="html-embed-8 w-embed">
                     <div id="search-box1" className="main-box-holder">
-                      <div className="search-box-suggestion">
+
+                       <div className="search-box-suggestion">
                         <div className="main-search-bar">
                           <input
                             type="text"
@@ -535,6 +563,7 @@ const Audit = () => {
                               </li>
                             </ul>
                           </div>
+
                           <ul
                             id="suggestions-box1"
                             className="suggestions"
@@ -542,7 +571,7 @@ const Audit = () => {
                           ></ul>
                         </div>
                       </div>
-
+                      
                       <CountrySelect
                         setSelectedCountryCode={setSelectedCountryCode}
                         selectedApp={selectedApp}
@@ -687,6 +716,7 @@ const Audit = () => {
                 </div>
               </div>
             </div>
+
           </article>
         </div>
       </section>
