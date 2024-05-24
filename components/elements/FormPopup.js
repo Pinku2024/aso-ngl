@@ -49,24 +49,24 @@ const FormPopup = ({onClose}) => {
       con_value = 1237;
     }
 
-    const eventNameW =
-      imageData.split("/")[2].split(".")[1] === "apple"
-        ? "iOS_hsForm_field"
-        : "play_hsForm_field";
+    // const eventNameW =
+    //   imageData.split("/")[2].split(".")[1] === "apple"
+    //     ? "iOS_hsForm_field"
+    //     : "play_hsForm_field";
 
-    if (typeof dataLayer !== "undefined" && Array.isArray(dataLayer)) {
-      dataLayer.push({
-        event: eventNameW,
-        "gtm.username": name,
-        "gtm.email": email,
-        "gtm.elementUrl": imageData,
-        "gtm.uniqueAnalyticsReports": "AnalyticsHSFormWeb_nl",
-        "gtm.phone": phone,
-        "gtm.currency": "INR",
-        "gtm.value": con_value,
-        "gtm.message": message,
-      });
-    }
+    // if (typeof dataLayer !== "undefined" && Array.isArray(dataLayer)) {
+    //   dataLayer.push({
+    //     event: eventNameW,
+    //     "gtm.username": name,
+    //     "gtm.email": email,
+    //     "gtm.elementUrl": imageData,
+    //     "gtm.uniqueAnalyticsReports": "AnalyticsHSFormWeb_nl",
+    //     "gtm.phone": phone,
+    //     "gtm.currency": "INR",
+    //     "gtm.value": con_value,
+    //     "gtm.message": message,
+    //   });
+    // }
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -76,7 +76,7 @@ const FormPopup = ({onClose}) => {
         { name: "firstname", value: name },
         { name: "email", value: email },
         { name: "phone", value: phone },
-        { name: "app_url", value: imageData },
+        // { name: "app_url", value: imageData },
         { name: "message", value: message },
       ],
       context: { pageUri: pageURL },
@@ -93,11 +93,17 @@ const FormPopup = ({onClose}) => {
       "https://api.hsforms.com/submissions/v3/integration/submit/3885214/efaf7e24-de65-496d-9983-ffb476f65524",
       requestOptions
     )
-      .then((response) => response.text())
-      .then((result) => {
-        showSuccessMessage();
-        hideForm();
-        console.log(result);
+      .then((response) => {
+        if (response.ok) {
+           response.text()
+          .then((result) => {
+            showSuccessMessage();
+            hideForm();
+            console.log(result);
+          })
+        } else {
+          showErrorMessage();
+        }
       })
       .catch((error) => {
         console.log("error", error);
@@ -106,11 +112,13 @@ const FormPopup = ({onClose}) => {
   };
 
   const showSuccessMessage = () => {
+    console.log("Success")
     successMessageRef.current.style.display = "block";
     errorMessageRef.current.style.display = "none";
   };
 
   const showErrorMessage = () => {
+    console.log("Error")
     successMessageRef.current.style.display = "none";
     errorMessageRef.current.style.display = "block";
   };
@@ -222,8 +230,9 @@ const FormPopup = ({onClose}) => {
                 ref={successMessageRef}
               >
                 <div className="text-block-23">
-                  Your message has been submitted. <br />
-                  We will get back to you within 24-48 hours.
+                  {/* Your message has been submitted. <br />
+                  We will get back to you within 24-48 hours. */}
+                  Request submitted! Our team will get in touch within 24-48 hours
                 </div>
                 <div className="button-holder-error-message"></div>
               </div>
