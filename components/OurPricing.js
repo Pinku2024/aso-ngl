@@ -343,7 +343,7 @@ const OurPricing = () => {
                                   <div className="heading card-package-features-new left-align">
                                     Offerings:
                                   </div>
-                                  <div className="w-layout-grid grid-8 pricing-height">
+                                  <div className="w-layout-grid grid-8">
                                     <div
                                       id="w-node-_5232b42b-7451-0536-8c39-cebc65da80c2-f93c043d"
                                       className="packahe-feature-wrapper"
