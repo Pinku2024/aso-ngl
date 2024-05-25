@@ -2,15 +2,13 @@ import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import FormPopup from "./elements/FormPopup";
-import AppSearch from "./elements/AppSearch";
+// import AppSearch from "./elements/AppSearch";
 
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
   const appSearchRef = useRef(null);
-
-
   // Function to close the popup
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -244,6 +242,63 @@ const Audit = () => {
     });
   });
 
+  // ********************* Recently seleced app **************************
+  const inputBoxesRef = useRef([]);
+
+  useEffect(() => {
+    const inputBoxes = document.querySelectorAll('.main-box-holder .search-input');
+    inputBoxesRef.current = inputBoxes;
+
+    inputBoxes.forEach((inputBox) => {
+      if (window.screen.width < 550) {
+        inputBox.placeholder = "Search your app";
+      }
+      inputBox.addEventListener('click', handleRecentClick);
+    });
+
+    return () => {
+      inputBoxes.forEach((inputBox) => {
+        inputBox.removeEventListener('click', handleRecentClick);
+      });
+    };
+  }, []);
+
+  const handleRecentClick = (event) => {
+    let mainBoxHolder = event.target.closest('.main-box-holder');
+    let fullListData = mainBoxHolder.querySelector('.suggestions');
+    let data = fullListData.querySelector('li.li-suggestion-item');
+    const allCountrySelectBtn = document.querySelectorAll('.country-select-button');
+
+    allCountrySelectBtn.forEach((btn) => {
+      if (btn.classList.contains("active")) {
+        btn.click();
+      }
+    });
+
+    if (data) {
+      fullListData.classList.add("format-suggestions");
+    } else {
+      try {
+        let recentSelectedApp = JSON.parse(localStorage.getItem('Recent Selected App'));
+        let recentSuggestion = recentSelectedApp.map(item => {
+          let deviceIcon;
+          if (item.device === "apple")
+            deviceIcon = "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+          else
+            deviceIcon = "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+          return `<li class="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info">${item.packageName}</div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"></div></li>`;
+        });
+        if (recentSuggestion.length > 0) {
+          fullListData.classList.add("format-suggestions");
+          recentSuggestion.unshift('<p class= "info-search">Recently selected apps:</p>');
+        }
+        fullListData.insertAdjacentHTML("beforeend", recentSuggestion.join(""));
+      } catch { }
+    }
+  };
+
+
+
   // handle event *****************************************
 
   const handleClick = (event) => {
@@ -275,94 +330,6 @@ useEffect(() => {
     document.removeEventListener("mousedown", handleClickOutside);
   };
 }, []);
-  function mySubmit() {
-    const imageElement = document.getElementById("iOS-form-logo");
-    const imageData = imageElement.getAttribute("image-data");
-    var name2 = $("#name-2").val();
-    var email2 = $("#Emailaddress2").val();
-    var phone2 = $("#Phone-3").val();
-    var url2 = imageData;
-    var message2 = $("#Message2").val();
-    var pageURL = $(location).attr("href");
-    var eventNameW = "play_hsForm_field";
-    if (imageData.split("/")[2].split(".")[1] == "apple") {
-      eventNameW = "iOS_hsForm_field";
-    }
-    var domains = [
-      "yahoo",
-      "protonmail",
-      "aol",
-      "mail",
-      "gmail",
-      "outlook",
-      "hotmail",
-      "zoho",
-      "icloud",
-      "gmx",
-    ];
-    var domain = email2.slice(email2.indexOf("@") + 1, email2.lastIndexOf("."));
-    let con_value;
-    if (domains.includes(domain)) {
-      con_value = 331;
-    } else if (email2 === "") {
-      con_value = 331;
-    } else {
-      con_value = 1237;
-    }
-    dataLayer.push({
-      event: eventNameW,
-      "gtm.username": name2,
-      "gtm.email": email2,
-      "gtm.elementUrl": imageData,
-      "gtm.uniqueAnalyticsReports": "AnalyticsHSFormWeb_nl",
-      "gtm.phone": phone2,
-      "gtm.currency": "INR",
-      "gtm.value": con_value,
-      "gtm.message": message2,
-    });
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    var raw = JSON.stringify({
-      fields: [
-        {
-          name: "firstname",
-          value: name2,
-        },
-        {
-          name: "email",
-          value: email2,
-        },
-        {
-          name: "phone",
-          value: phone2,
-        },
-        {
-          name: "app_url",
-          value: url2,
-        },
-        {
-          name: "message",
-          value: message2,
-        },
-      ],
-      context: {
-        pageUri: pageURL,
-      },
-    });
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow",
-    };
-    fetch(
-      "https://api.hsforms.com/submissions/v3/integration/submit/3885214/efaf7e24-de65-496d-9983-ffb476f65524",
-      requestOptions
-    )
-      .then((response) => response.text())
-      .then((result) => console.log(result))
-      .catch((error) => console.log("error", error));
-  }
 
   return (
     <>
