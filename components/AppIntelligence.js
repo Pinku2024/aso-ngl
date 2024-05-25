@@ -1,6 +1,5 @@
 import Image from "next/image";
-import React from "react";
-
+import Reveal from "../components/elements/Reveal";
 const AppIntelligence = () => {
   return (
     <section id="aso-intelligence" className="section bg-neutral-200">
@@ -24,33 +23,18 @@ const AppIntelligence = () => {
             >
               Our Services
             </div>
-            <h2
-              data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45ec"
-              // style={{
-              //   WebkitTransform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   MozTransform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   msTransform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   transform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   opacity: "1", // Make sure opacity value is a string
-              // }}
-              className="title service-features"
-            >
-              Our Data &amp; Processes
-            </h2>
+            <Reveal>
+              <h2 className="title service-features">
+                Our Data &amp; Processes
+              </h2>
+            </Reveal>
             <p>
               Our ASO Innovation Stack - that captures everything from the app
               stores.
             </p>
           </div>
         </div>
-        <div
-          data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45f1"
-          className="w-layout-grid service-features-grid"
-        >
+        <div className="w-layout-grid service-features-grid">
           <div className="card service-feature">
             <div className="image-wrapper service-feature">
               <Image

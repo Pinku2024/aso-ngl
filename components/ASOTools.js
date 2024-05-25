@@ -1,61 +1,32 @@
 import Image from "next/image";
 import Link from "next/link";
+import Reveal from "./elements/Reveal";
 
 const ASOTools = () => {
   return (
     <section id="aso-tools" className="section">
       <div className="container-medium-666px process">
-        <div
-          data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4610"
-          style={{
-            WebkitTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            MozTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            msTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            transform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            opacity: 1,
-          }}
-          className="subtitle hidden"
-        >
-          Our Process
-        </div>
-        <h2
-          data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4612"
-          style={{
-            WebkitTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            MozTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            msTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            transform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            opacity: 1,
-          }}
-        >
-          Tools built by Us
-        </h2>
-        <p
-          data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4616"
-          style={{
-            WebkitTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            MozTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            msTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            transform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            opacity: 1,
-          }}
-          className="paragraph process"
-        >
-          We have have built some of the the most premium ASO tools which help
-          you in every step of tracking and analyzing your app growth.
-        </p>
+        <div className="subtitle hidden">Our Process</div>
+        <Reveal>
+          <h2>Tools built by Us</h2>
+          <p
+            style={{
+              WebkitTransform:
+                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              MozTransform:
+                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              msTransform:
+                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              transform:
+                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              opacity: 1,
+            }}
+            className="paragraph process"
+          >
+            We have have built some of the the most premium ASO tools which help
+            you in every step of tracking and analyzing your app growth.
+          </p>{" "}
+        </Reveal>
       </div>
       <div className="container-default w-container">
         <div className="w-layout-grid process-grid">

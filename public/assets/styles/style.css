@@ -1745,6 +1745,7 @@ p {
 .logo-carousel-wrapper-2 {
   height: auto;
   flex: none;
+  animation: scroll 60s infinite linear;
   display: flex;
 }
 
@@ -4824,7 +4825,7 @@ p {
     grid-template-columns: 1fr;
   }
 
-  .sunburst-chart-1 > img{
+  .sunburst-chart-1 > img {
     /* display: none; */
     height: 420px;
   }
@@ -5704,7 +5705,7 @@ p {
     grid-row-gap: 20px;
   }
 
-  .sunburst-chart-1 > img{
+  .sunburst-chart-1 > img {
     /* display: none; */
     height: 355px;
   }

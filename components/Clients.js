@@ -364,10 +364,7 @@ const Clients = () => {
           </div>
         </div>
       </div>
-      <div
-        data-w-id="1d6fa538-76d2-a785-245f-450676df0449"
-        className="logo-carousel-container-2"
-      >
+      <div className="logo-carousel-container-2">
         <div className="carousel-2">
           <div
             style={{

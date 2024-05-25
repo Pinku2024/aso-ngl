@@ -10,8 +10,17 @@ import AppIntelligence from "../components/AppIntelligence";
 import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
 import Clients from "../components/Clients";
-// import AppSearch from "../components/elements/AppSearch";
+import { useRef } from "react";
+import Reveal from "../components/elements/Reveal";
+
 export default function Home() {
+  const auditRef = useRef(null);
+  const servicesRef = useRef(null);
+  const testimonialsRef = useRef(null);
+  const pricingRef = useRef(null);
+  const asoToolsRef = useRef(null);
+  const appIntelligenctRef = useRef(null);
+
   return (
     <>
       <Head>
@@ -26,17 +35,43 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       <main>
-        <Header />
-        <Audit /> 
+        <Header
+          navigationRefs={{
+            auditRef,
+            servicesRef,
+            testimonialsRef,
+            pricingRef,
+            asoToolsRef,
+            appIntelligenctRef,
+          }}
+        />
+        <Reveal>
+          <Audit />
+        </Reveal>
+
         <Clients />
-        {/* <AppSearch /> */}
-        <Services />
-        <Testimonials />
-        <OurPricing />
-        <ASOTools />
-        <AppIntelligence />
-        <Other />
-        <ContactForm />
+
+        <Reveal>
+          <Services />
+        </Reveal>
+        <Reveal>
+          <Testimonials />
+        </Reveal>
+        <Reveal>
+          <OurPricing />
+        </Reveal>
+        <Reveal>
+          <ASOTools />
+        </Reveal>
+        <Reveal>
+          <AppIntelligence />
+        </Reveal>
+        <Reveal>
+          <Other />
+        </Reveal>
+        <Reveal>
+          <ContactForm />
+        </Reveal>
         <Footer />
       </main>
     </>
