@@ -2476,6 +2476,7 @@ p {
 .grid-8 {
   grid-template-rows: auto auto auto;
   grid-template-columns: 1fr;
+  height: 310px;
 }
 
 .personal-plan-heading {
@@ -2526,6 +2527,7 @@ p {
   border-bottom-right-radius: 36px;
   border-bottom-left-radius: 36px;
   padding: 3rem 2rem;
+  height: 100%;
 }
 
 .card-package-content.pricing {
@@ -2723,6 +2725,7 @@ p {
   border-radius: 36px;
   flex-direction: column;
   display: flex;
+  margin-top: 30px;
 }
 
 .package-card.logic {
@@ -4339,6 +4342,9 @@ p {
 
   .popup-content.contact.lead-form.spacing {
     margin-bottom: 90px;
+  }
+  .card-flex {
+    flex-direction: column;
   }
 }
 
@@ -6522,4 +6528,50 @@ p {
   .pricing-height {
     min-height: 500px;
   }
+}
+
+.section-client {
+  display: inline-block;
+  width: 100%;
+}
+
+@keyframes slide {
+  100% {
+    transform: translateX(-100%);
+  }
+}
+@keyframes slide2 {
+  0% {
+    transform: translateX(10040);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+.marqueeContainer {
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 20px 0;
+  width: 100%;
+}
+.marqueeContainer .marqueeSlide {
+  display: inline-block;
+  width: 10040px;
+  animation: 39s slide linear infinite;
+}
+.marqueeContainer .marqueeSlide img {
+  margin: 0 40px;
+}
+.marqueeContainer .marqueeSlide2 {
+  display: inline-block;
+  width: 10040px;
+  animation: 39s slide2 linear infinite;
+}
+.marqueeContainer .marqueeSlide2 img {
+  margin: 0 40px;
+}
+
+.card-flex {
+  display: flex;
+  gap: 7%;
 }

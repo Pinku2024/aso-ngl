@@ -9,20 +9,9 @@ const ASOTools = () => {
         <div className="subtitle hidden">Our Process</div>
         <Reveal>
           <h2>Tools built by Us</h2>
-          <p
-            style={{
-              WebkitTransform:
-                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
-            className="paragraph process"
-          >
+        </Reveal>
+        <Reveal>
+          <p className="paragraph process">
             We have have built some of the the most premium ASO tools which help
             you in every step of tracking and analyzing your app growth.
           </p>{" "}
@@ -30,21 +19,7 @@ const ASOTools = () => {
       </div>
       <div className="container-default w-container">
         <div className="w-layout-grid process-grid">
-          <div
-            data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb461a"
-            style={{
-              WebkitTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
-            className="process-wrapper"
-          >
+          <div className="process-wrapper">
             <div className="image-wrapper process">
               <Image
                 width={127}
@@ -97,21 +72,7 @@ const ASOTools = () => {
               </p>
             </div>
           </div>
-          <div
-            data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb462e"
-            style={{
-              WebkitTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
-            className="process-wrapper"
-          >
+          <div className="process-wrapper">
             <div className="image-wrapper process">
               <Image
                 width={139}

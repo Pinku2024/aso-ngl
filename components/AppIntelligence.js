@@ -36,71 +36,85 @@ const AppIntelligence = () => {
         </div>
         <div className="w-layout-grid service-features-grid">
           <div className="card service-feature">
-            <div className="image-wrapper service-feature">
-              <Image
-                width={128}
-                height={136}
-                src="assets/imgs/icon-service-feature-1-seo-template.svg"
-                alt="Keyword Research - SEO Webflow Template"
-                className="image service-feature"
-              />
-            </div>
-            <div>
-              <h3>Listing Intelligence</h3>
-              <p>
-                Identify the keywords that your competitors are using. Keep a
-                close eye on the changes they make.
-              </p>
+            <div className="card-flex">
+              <div className="image-wrapper service-feature">
+                <Image
+                  width={128}
+                  height={136}
+                  src="assets/imgs/icon-service-feature-1-seo-template.svg"
+                  alt="Keyword Research - SEO Webflow Template"
+                  className="image service-feature"
+                />
+              </div>
+              <div>
+                <h3>Listing Intelligence</h3>
+                <p>
+                  Identify the keywords that your competitors are using. Keep a
+                  close eye on the changes they make.
+                </p>
+              </div>
             </div>
           </div>
           <div className="card service-feature">
-            <div className="image-wrapper service-feature _1">
-              <Image
-                width={128}
-                height={133}
-                // layout="responsive"
-                src="assets/imgs/icon-service-feature-2-seo-template.svg"
-                alt="Keyword Ranking - SEO Webflow Template"
-                className="image service-feature"
-              />
+            <div className="card-flex">
+              <div className="image-wrapper service-feature _1">
+                <Image
+                  width={128}
+                  height={133}
+                  // layout="responsive"
+                  src="assets/imgs/icon-service-feature-2-seo-template.svg"
+                  alt="Keyword Ranking - SEO Webflow Template"
+                  className="image service-feature"
+                />
+              </div>
+              <div>
+                <h3>Anomalies</h3>
+                <p>
+                  About 5% of the total 1-star reviews tend to be sementic
+                  mismatches. And there&#x27;s a way to fix it.
+                </p>
+              </div>
             </div>
-            <h3>Anomalies</h3>
-            <p>
-              About 5% of the total 1-star reviews tend to be sementic
-              mismatches. And there&#x27;s a way to fix it.
-            </p>
           </div>
           <div className="card service-feature">
-            <div className="image-wrapper service-feature _2">
-              <Image
-                width={128}
-                height={119}
-                src="assets/imgs/icon-service-feature-3-seo-template.svg"
-                alt="Competitor Analysis - SEO Webflow Template"
-                className="image service-feature"
-              />
+            <div className="card-flex">
+              <div className="image-wrapper service-feature _2">
+                <Image
+                  width={128}
+                  height={119}
+                  src="assets/imgs/icon-service-feature-3-seo-template.svg"
+                  alt="Competitor Analysis - SEO Webflow Template"
+                  className="image service-feature"
+                />
+              </div>
+              <div>
+                <h3>Ratings &amp; MHR</h3>
+                <p>
+                  Get historical ranking context - based on the rating and MHR
+                  (Most Helpful Review Section) Score - developed by us.
+                </p>
+              </div>
             </div>
-            <h3>Ratings &amp; MHR</h3>
-            <p>
-              Get historical ranking context - based on the rating and MHR (Most
-              Helpful Review Section) Score - developed by us.
-            </p>
           </div>
           <div className="card service-feature">
-            <div className="image-wrapper service-feature">
-              <Image
-                width={128}
-                height={145}
-                src="assets/imgs/icon-service-feature-4-seo-template.svg"
-                alt="Website Optimization - SEO Webflow Template"
-                className="image service-feature"
-              />
+            <div className="card-flex">
+              <div className="image-wrapper service-feature">
+                <Image
+                  width={128}
+                  height={145}
+                  src="assets/imgs/icon-service-feature-4-seo-template.svg"
+                  alt="Website Optimization - SEO Webflow Template"
+                  className="image service-feature"
+                />
+              </div>
+              <div>
+                <h3>Engagement and Open Count</h3>
+                <p>
+                  Our app intelligence, that tells you the engagement time of
+                  your peers, and help you improve on it.
+                </p>
+              </div>
             </div>
-            <h3>Engagement and Open Count</h3>
-            <p>
-              Our app intelligence, that tells you the engagement time of your
-              peers, and help you improve on it.
-            </p>
           </div>
         </div>
       </div>

@@ -1,7 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
+import { useState } from "react";
 
 const ContactForm = () => {
+  const [formSubmit, setFormSubmit] = useState(false);
   return (
     <section id="request-a-quote" className="section request-a-quote">
       <div className="container-default w-container">
@@ -208,15 +210,19 @@ const ContactForm = () => {
                       id="w-node-_2408ce64-3e73-6c5b-6f9c-1dd071cb469b-f93c043d"
                       className="button-primary w-button submitBtn"
                       value="Submit Details"
+                      onClick={() => setFormSubmit(true)}
                     />
                   </div>
                 </form>
-                <div className="success-message w-form-done">
-                  <div>
-                    Your request has been submitted. <br />
-                    We will get back to you within 24-48 hours.
+                {formSubmit && (
+                  <div className="success-message w-form-done">
+                    <div>
+                      Your request has been submitted. <br />
+                      We will get back to you within 24-48 hours.
+                    </div>
                   </div>
-                </div>
+                )}
+
                 <div className="error-message w-form-fail">
                   <div>Oops! Something went wrong.</div>
                 </div>

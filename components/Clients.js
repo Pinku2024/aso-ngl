@@ -1,780 +1,123 @@
-import React from "react";
-
-const Clients = () => {
+import Image from "next/image";
+const data = [
+  { src: "/assets/imgs/clientlogo/HDFC.png", alt: "hdfc", width: 304 },
+  { src: "/assets/imgs/clientlogo/Groww.png", alt: "groww", width: 182 },
+  {
+    src: "/assets/imgs/clientlogo/BajajFinserve.png",
+    alt: "BajajFinserve",
+    width: 190,
+  },
+  { src: "/assets/imgs/clientlogo/B612.png", alt: "B612", width: 74 },
+  {
+    src: "/assets/imgs/clientlogo/Alibabagroup.png",
+    alt: "Alibabagroup",
+    width: 103,
+  },
+  { src: "/assets/imgs/clientlogo/Cred.png", alt: "Cred", width: 151 },
+  { src: "/assets/imgs/clientlogo/Tata1mg.png", alt: "Tata1mg", width: 226 },
+  {
+    src: "/assets/imgs/clientlogo/Urbancompany.png",
+    alt: "Urbancompany",
+    width: 169,
+  },
+  { src: "/assets/imgs/clientlogo/Kotak.png", alt: "Kotak", width: 165 },
+  { src: "/assets/imgs/clientlogo/Dunzo.png", alt: "Dunzo", width: 219 },
+  { src: "/assets/imgs/clientlogo/Dream11.png", alt: "Dream11", width: 182 },
+  { src: "/assets/imgs/clientlogo/Airtel.png", alt: "airtel", width: 49 },
+  { src: "/assets/imgs/clientlogo/ZEE.png", alt: "ZEE", width: 110 },
+  { src: "/assets/imgs/clientlogo/OYO.png", alt: "OYO", width: 142 },
+  { src: "/assets/imgs/clientlogo/Josh.png", alt: "Josh", width: 105 },
+  {
+    src: "/assets/imgs/clientlogo/ShareChat.png",
+    alt: "ShareChat",
+    width: 182,
+  },
+  {
+    src: "/assets/imgs/clientlogo/Make-My-Trip.png",
+    alt: "Make-My-trip",
+    width: 155,
+  },
+  { src: "/assets/imgs/clientlogo/Goibibo.png", alt: "Goibibo", width: 158 },
+  { src: "/assets/imgs/clientlogo/ixigo.png", alt: "ixigo", width: 108 },
+  { src: "/assets/imgs/clientlogo/Yatra.png", alt: "Yatra", width: 115 },
+  { src: "/assets/imgs/clientlogo/Nykaa.png", alt: "Nykaa", width: 146 },
+  { src: "/assets/imgs/clientlogo/Myntra.png", alt: "Myntra", width: 177 },
+  { src: "/assets/imgs/clientlogo/Snapdeal.png", alt: "Snapdeal", width: 241 },
+  { src: "/assets/imgs/clientlogo/Smood.png", alt: "Smood", width: 247 },
+  { src: "/assets/imgs/clientlogo/IDFC.png", alt: "IDFC", width: 120 },
+  { src: "/assets/imgs/clientlogo/YesBank.png", alt: "YesBank", width: 139 },
+  {
+    src: "/assets/imgs/clientlogo/Edelweiss.png",
+    alt: "Edelweiss",
+    width: 203,
+  },
+  { src: "/assets/imgs/clientlogo/ELSA.png", alt: "ELSA", width: 146 },
+  {
+    src: "/assets/imgs/clientlogo/CoinMArketcap.png",
+    alt: "CoinMArketcap",
+    width: 49,
+  },
+  {
+    src: "/assets/imgs/clientlogo/SimpleLearn.png",
+    alt: "SimpleLearn",
+    width: 195,
+  },
+  {
+    src: "/assets/imgs/clientlogo/BYJU'sExamPrep.png",
+    alt: "BYJU'sExamPrep",
+    width: 287,
+  },
+  { src: "/assets/imgs/clientlogo/mint.png", alt: "mint", width: 139 },
+  {
+    src: "/assets/imgs/clientlogo/Magicbricks.png",
+    alt: "Magicbricks",
+    width: 278,
+  },
+  { src: "/assets/imgs/clientlogo/Housing.png", alt: "Housing", width: 359 },
+  { src: "/assets/imgs/clientlogo/Nobroker.png", alt: "Nobroker", width: 260 },
+  {
+    src: "/assets/imgs/clientlogo/Ultrahuman.png",
+    alt: "Ultrahuman",
+    width: 153,
+  },
+  { src: "/assets/imgs/clientlogo/Fynd.png", alt: "fynd", width: 123 },
+  { src: "/assets/imgs/clientlogo/FanCODE.png", alt: "FanCODE", width: 247 },
+  { src: "/assets/imgs/clientlogo/fectar.png", alt: "fectar", width: 177 },
+  { src: "/assets/imgs/clientlogo/ZET.png", alt: "ZET", width: 92 },
+];
+const Trustby = ({ padding }) => {
   return (
-    <>
-      <div
-        data-w-id="13ce6919-8d5a-7d43-7f33-1e18cf5ac44c"
-        style={{ opacity: 1 }}
-        className="partner-container spacing-partner"
-      >
-        <div className="heading-wrapper">
-          <h2 className="sub-titile_new-2">Some of our clients</h2>
+    <section className="section-client " style={{ position: "relative" }}>
+      <h2 className="heading">Some of our clients</h2>
+
+      <div className="marqueeContainer">
+        <div className="marqueeSlide">
+          {data.map((item, index) => (
+            <Image
+              key={index}
+              src={item.src}
+              alt={item.alt}
+              height={50}
+              width={item.width}
+              loading="lazy"
+            />
+          ))}
+        </div>
+        <div className="marqueeSlide2">
+          {data.map((item, index) => (
+            <Image
+              key={index}
+              src={item.src}
+              alt={item.alt}
+              height={50}
+              width={item.width}
+              loading="lazy"
+            />
+          ))}
         </div>
       </div>
-      <div className="section-logo-marquee padding-horizontal-vertical">
-        <div className="marquee">
-          <div className="marquee-content scroll">
-            <img
-              src="/assets/imgs/HDFC.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Groww.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Bajaj-Finserve.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/B612.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Alibabagroup.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Cred.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Tata-1mg.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Urban-company.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-          </div>
-          <div className="marquee-content scroll">
-            <img
-              src="/assets/imgs/Kotak.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Dunzo.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Dream11.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Airtel.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/ZEE.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/OYO.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Josh.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Share-Chat.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-          </div>
-          <div className="marquee-content scroll">
-            <img
-              src="/assets/imgs/Make-My-Trip.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Goibibo.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/ixigo.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Yatra.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Nykaa.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Myntra.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Snapdeal.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6464b1e584df30bdd28524bc_Smood.ch%20PINK.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-          </div>
-          <div className="marquee-content scroll">
-            <img
-              src="/assets/imgs/IDFC.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Yes-Bank.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Edelweiss.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/ELSA.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/CoinMArketcap.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/SimpleLearn.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/BYJUs-Exam-Prep.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/mint.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-          </div>
-          <div className="marquee-content scroll">
-            <img
-              src="/assets/imgs/Magicbricks.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Housing.com.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Nobroker.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Ultrahuman.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Fynd.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Fancode.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/fectar.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/One-code_ZET.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-          </div>
-          <div className="marquee-content scroll">
-            <img
-              src="/assets/imgs/HDFC.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Groww.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Bajaj-Finserve.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/B612.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Alibabagroup.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Cred.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Tata-1mg.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-            <img
-              src="/assets/imgs/Urban-company.svg"
-              loading="eager"
-              width="120"
-              alt=""
-              className="marquee-image"
-            />
-          </div>
-        </div>
-      </div>
-      <div className="logo-carousel-container-2">
-        <div className="carousel-2">
-          <div
-            style={{
-              WebkitTransform:
-                "translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0%, 0, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            }}
-            className="logo-carousel-wrapper-2"
-          >
-            <div className="logo-loop-container-2">
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/HDFC.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Groww.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Bajaj-Finserve.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/B612.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Alibabagroup.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Cred.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Tata-1mg.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Urban-company.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Kotak.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Dunzo.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Dream11.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Airtel.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/ZEE.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/OYO.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Josh.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Share-Chat.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Make-My-Trip.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Goibibo.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/ixigo.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Yatra.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Nykaa.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Myntra.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Snapdeal.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Smood.ch-PINK.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/IDFC.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Yes-Bank.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Edelweiss.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/ELSA.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/CoinMArketcap.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/SimpleLearn.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/BYJUs-Exam-Prep.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/mint.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Magicbricks.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Nobroker.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Ultrahuman.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Fynd.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-              <div className="item-holder-2">
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/Fancode.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/fectar.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/One-code_ZET.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/netmeds.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-                <div className="logo-item-2">
-                  <img
-                    src="/assets/imgs/FreshMenu.svg"
-                    loading="lazy"
-                    width="100"
-                    alt=""
-                    className="image-logos"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </>
+    </section>
   );
 };
 
-export default Clients;
+export default Trustby;
