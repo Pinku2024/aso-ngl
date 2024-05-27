@@ -646,8 +646,8 @@ p {
 }
 
 .input:hover {
-  /* border-color: #1c7df8; */
-  border-color: var(--bgColor);
+  /* border-color: white; */
+  /* border-color: var(--bgColor); */
 }
 
 .input:focus {
@@ -1327,7 +1327,7 @@ p {
 
 .message:hover {
   /* border-color: #1c7df8; */
-  border-color: var(--bgColor)
+  /* border-color: var(--bgColor) */
 }
 
 .message:focus {

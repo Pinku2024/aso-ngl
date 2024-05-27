@@ -93,7 +93,10 @@ const ContactForm = () => {
                     className="image request-a-quote-contact"
                   />
                 </div>
-                <div>contact@nextgrowthlabs.com</div>
+                <div className="button-primary" style={{height:"14px", lineHeight:"0"}}>To increase tap potential</div>
+                {/* <div>
+                  <a className="button-primary w-button" style={{height: "18px", marginBottom: "18px"}} href="mailto:contact@nextgrowthlabs.com">To increase tap potential</a>
+                  </div> */}
               </Link>
               <Link
                 href="tel:(546)232-9872"
