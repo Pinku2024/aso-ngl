@@ -1327,7 +1327,7 @@ p {
 
 .message:hover {
   /* border-color: #1c7df8; */
-  /* border-color: var(--bgColor) */
+  /* border-color: var(--bgColor) */  
 }
 
 .message:focus {
@@ -5918,6 +5918,10 @@ p {
   .lottie-animation-2.height {
     width: 200px;
     height: 200px;
+  }
+
+  .mail-btn{
+    font-size: 14px !important;
   }
 }
 
