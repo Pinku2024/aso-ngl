@@ -9,7 +9,7 @@
 [class*=" w-icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
   font-family: "webflow-icons" !important;
-  speak: none;
+  /* speak: none; */
   font-style: normal;
   font-weight: normal;
   font-variant: normal;
@@ -50,9 +50,8 @@ body {
   margin: 0;
   min-height: 100%;
   background-color: #fff;
-  font-family: Arial, sans-serif;
   font-size: 14px;
-  line-height: 20px;
+  line-height: 20px;  
   color: #333;
 }
 img {
@@ -1825,4 +1824,3 @@ textarea.w-select {
   top: 0;
   left: 0;
 }
-

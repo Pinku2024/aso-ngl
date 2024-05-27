@@ -30,12 +30,15 @@ h2 {
   font-size: 32px;
   font-weight: 600;
   line-height: 36px;
+  color: var(--bgColor);
 }
 
 p {
   margin-bottom: 10px;
   font-family: Plus Jakarta Sans, sans-serif;
   font-weight: 400;
+  /* color: #333; */
+  color: #465a74;
 }
 
 ._2-buttons {
@@ -357,6 +360,7 @@ p {
   border-radius: 10px;
   padding: 22px 32px;
   font-weight: 500;
+  font-size: 18px;
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
   box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22);
@@ -370,7 +374,7 @@ p {
 
 .button-primary.empty-cart {
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .button-primary.button-header {
@@ -642,12 +646,14 @@ p {
 }
 
 .input:hover {
-  border-color: #1c7df8;
+  /* border-color: #1c7df8; */
+  border-color: var(--bgColor);
 }
 
 .input:focus {
   color: #193150;
-  border-color: #1c7df8;
+  /* border-color: #1c7df8; */
+  border-color: var(--bgColor)
 }
 
 .input::-ms-input-placeholder {
@@ -1320,12 +1326,13 @@ p {
 }
 
 .message:hover {
-  border-color: #1c7df8;
+  /* border-color: #1c7df8; */
+  border-color: var(--bgColor)
 }
 
 .message:focus {
   color: #193150;
-  border-color: #1c7df8;
+  border-color: var(--bgColor)
 }
 
 .message::-ms-input-placeholder {
@@ -1729,6 +1736,7 @@ p {
   margin: 10px 10px 10px 0;
   padding: 18px 40px;
   font-weight: 500;
+  font-size: 18px;
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
   display: flex;
@@ -1815,6 +1823,7 @@ p {
   border-radius: 10px;
   padding: 22px 32px;
   font-weight: 500;
+  font-size: 18px;
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
   box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22);
@@ -2109,7 +2118,8 @@ p {
 
 .tab-button-2.w--current {
   background-color: #fff;
-  border: 1px solid #1c7df8;
+  /* border: 1px solid #1c7df8; */
+  border: 1px solid var(--bgColor);
   border-radius: 16px;
   box-shadow: 1px 1px 10px rgba(105, 105, 105, 0.31);
 }
@@ -3428,11 +3438,11 @@ p {
 
 .lottie-animation,
 .lottie-animation-2 {
-  width: 300px;
+  width: 200px;
 }
 
 .lottie-animation-2.height {
-  height: 300px;
+  height: 200px;
 }
 
 @media screen and (min-width: 1440px) {

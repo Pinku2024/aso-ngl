@@ -42,7 +42,7 @@
 }
 .search-box-suggestion .search-input {
   width: calc(100% - 26px);
-  margin-left: 1px;
+  margin-left: 2px;
 }
 .search-input {
   border-radius: 10px 0 0 10px;

@@ -1,7 +1,14 @@
+import { useState } from "react";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+
 const Header = () => {
+  const [activeMenu, setActiveMenu] = useState("");
+
+  const handleClick = (id) => {
+    setActiveMenu(id);
+  };
   return (
     <div className="nav-bar-home">
       <div
@@ -26,25 +33,68 @@ const Header = () => {
             />
           </Link>
           <nav role="navigation" className="nav-menu-2 w-nav-menu">
-            <Link href="#app-audit" className="nav-link-2 hide">
-              Audit
+            <Link href="#app-audit" legacyBehavior>
+              <a
+                className={`nav-link-2 hide ${
+                  activeMenu === "#app-audit" ? "w--current" : ""
+                }`}
+                onClick={() => handleClick("#app-audit")}
+              >
+                Audit
+              </a>
             </Link>
-            <Link href="#services" className="nav-link-2 hide">
-              Services
+            <Link href="#services" legacyBehavior>
+              <a
+                className={`nav-link-2 hide ${
+                  activeMenu === "#services" ? "w--current" : ""
+                }`}
+                onClick={() => handleClick("#services")}
+              >
+                Services
+              </a>
             </Link>
-            <Link href="#testimonials" className="nav-link-2 hide">
-              Testimonials
+            <Link href="#testimonials" legacyBehavior>
+              <a
+                className={`nav-link-2 hide ${
+                  activeMenu === "#testimonials" ? "w--current" : ""
+                }`}
+                onClick={() => handleClick("#testimonials")}
+              >
+                Testimonials
+              </a>
             </Link>
-            <Link href="#our-pricing" className="nav-link-2 hide">
-              Our Pricing
+            <Link href="#our-pricing" legacyBehavior>
+              <a
+                className={`nav-link-2 hide ${
+                  activeMenu === "#our-pricing" ? "w--current" : ""
+                }`}
+                onClick={() => handleClick("#our-pricing")}
+              >
+                Our Pricing
+              </a>
             </Link>
-            <Link href="#aso-tools" className="nav-link-2 hide">
-              ASO Tools
+            <Link href="#aso-tools" legacyBehavior>
+              <a
+                className={`nav-link-2 hide ${
+                  activeMenu === "#aso-tools" ? "w--current" : ""
+                }`}
+                onClick={() => handleClick("#aso-tools")}
+              >
+                ASO Tools
+              </a>
             </Link>
-            <Link href="#aso-intelligence" className="nav-link-2 hide">
-              App Intelligence
+            <Link href="#aso-intelligence" legacyBehavior>
+              <a
+                className={`nav-link-2 hide ${
+                  activeMenu === "#aso-intelligence" ? "w--current" : ""
+                }`}
+                onClick={() => handleClick("#aso-intelligence")}
+              >
+                App Intelligence
+              </a>
             </Link>
           </nav>
+
           <div className="split-content header-right">
             <Link
               href="#request-a-quote"

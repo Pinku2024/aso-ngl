@@ -10,10 +10,11 @@ import AppIntelligence from "../components/AppIntelligence";
 import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
 import Clients from "../components/Clients";
-import { useRef } from "react";
 import Reveal from "../components/elements/Reveal";
+import { useRef } from "react";
 
 export default function Home() {
+  
   const auditRef = useRef(null);
   const servicesRef = useRef(null);
   const testimonialsRef = useRef(null);
