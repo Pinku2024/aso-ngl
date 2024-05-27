@@ -93,19 +93,9 @@ const ContactForm = () => {
                     className="image request-a-quote-contact"
                   />
                 </div>
-                <div
-                  className="button-primary"
-                  style={{
-                    height: "14px",
-                    lineHeight: "0",
-                    ...(typeof window !== "undefined" &&
-                      window.innerWidth <= 375 && {
-                        fontSize: "14px",
-                      }),
-                  }}
-                >
-                  To increase tap potential
-                </div>
+                <div className="button-primary" style={{height:"14px", lineHeight:"0", ...(typeof window !== "undefined" && window.innerWidth <= 375 && {
+    fontSize:"14px"})}}>To increase tap potential</div>
+                
               </Link>
               <Link
                 href="tel:(546)232-9872"
