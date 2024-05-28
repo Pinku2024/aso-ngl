@@ -2486,7 +2486,7 @@ p {
 .grid-8 {
   grid-template-rows: auto auto auto;
   grid-template-columns: 1fr;
-  height: 310px;
+  /* height: 310px; */
 }
 
 .personal-plan-heading {
@@ -2600,6 +2600,7 @@ p {
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
   box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22);
+  font-size: 18px;
 }
 
 .button-primary-4:hover {
@@ -2614,14 +2615,14 @@ p {
 }
 
 .button-primary-4.width-max.alternate {
-  color: #1c7df8;
+  color: var(--bgColor);
   background-color: #fff;
-  border: 1px solid #1c7df8;
+  border: 1px solid var(--bgColor)
 }
 
 .button-primary-4.width-max.alternate:hover {
   color: #fff;
-  background-color: #1c7df8;
+  background-color: var(--bgColor);
 }
 
 .ckeck-icon {

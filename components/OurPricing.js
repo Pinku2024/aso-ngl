@@ -2,10 +2,337 @@ import Image from "next/image";
 import Link from "next/link";
 import CountrySelect from "./elements/CountrySelect";
 import { useEffect, useState } from "react";
+import { useRefs } from "../context/RefsContext";
+
 const OurPricing = () => {
   const [activeTab, setActiveTab] = useState("tab2");
   const [appSelected, setAppSelected] = useState(false);
-  const [selectedCountryCode, setSelectedCountryCode] = useState("us");
+  const [selectedCountryCode, setSelectedCountryCode] = useState("in");
+  const { outerSectionRef } = useRefs(null);
+
+  const handleClickPrice = (event) => {
+    let { appPackageURL, applicationId, imageURL, device } =
+      selectAppHandler(event);
+    let mainBoxHolder = event.target.closest(".main-box-holder");
+    calculatePriceForSelectedApp(
+      appPackageURL,
+      applicationId,
+      imageURL,
+      device,
+      mainBoxHolder
+    );
+  };
+
+  function selectAppHandler(event) {
+    const selectedLi = event.target.closest("li.li-suggestion-item");
+    const mainBoxHolder = selectedLi.closest(".main-box-holder");
+    return getDetailsOfSelectedLi(selectedLi, mainBoxHolder);
+  }
+
+  function getDetailsOfSelectedLi(selectedItem, mainBoxHolder) {
+    const inputBox = mainBoxHolder.querySelector(".search-input");
+    const keyword = inputBox.value;
+    // const country = mainBoxHolder.querySelector('.country-select-button').getAttribute('country-code');
+    const country = selectedCountryCode;
+    const applicationId = selectedItem.getAttribute("application-id");
+    const imageURL = selectedItem.getAttribute("application-img-logo");
+    let appPackageURL = selectedItem.getAttribute("application-url");
+    const device = selectedItem.getAttribute("device");
+    const appName = selectedItem.querySelector(
+      ".li-suggestion-item-info"
+    ).innerHTML;
+    if (device !== "apple")
+      appPackageURL = appPackageURL.split("&gl=")[0] + "&gl=" + country;
+    inputBox.setAttribute("application-id", applicationId);
+    inputBox.setAttribute("application-img-logo", imageURL);
+    inputBox.setAttribute("application-url", appPackageURL);
+    inputBox.setAttribute("device", device);
+    const appData = {
+      packageName: appName,
+      icon_urls: imageURL,
+      "app-package-id": applicationId,
+      "data-package-url": appPackageURL,
+      device: device,
+    };
+    let oldAppData = localStorage.getItem("Recent Selected App");
+    if (oldAppData) {
+      let Array = JSON.parse(oldAppData);
+      Array.unshift(appData);
+      let uniqueArray = Array.filter(
+        (item, index) =>
+          Array.findIndex(
+            (obj) => JSON.stringify(obj) === JSON.stringify(item)
+          ) === index
+      );
+      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray));
+    } else {
+      localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
+    }
+
+    // if (device == "apple") {
+    //   dataLayer.push({ "event": "ios_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
+    // } else {
+    //   dataLayer.push({ "event": "play_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
+    // }
+    try {
+      mainBoxHolder
+        .querySelector(".suggestions")
+        .classList.remove("format-suggestions");
+    } catch {}
+    try {
+      mainBoxHolder
+        .querySelector(".close-search-form")
+        .classList.remove("hidden");
+    } catch {}
+    return { appPackageURL, applicationId, imageURL, device };
+  }
+
+  async function calculatePriceForSelectedApp(
+    appPackageURL,
+    applicationId,
+    imageURL,
+    device,
+    mainBoxHolder
+  ) {
+    const search_keyword = mainBoxHolder.querySelector(".search-input").value;
+    // const country = mainBoxHolder.querySelector('.country-select-button').getAttribute("country-code");
+    const country = selectedCountryCode;
+    let outerSection = document.querySelector("#app-pricing-box_Pr");
+    let image = outerSection.querySelector("#App-Icon");
+    console.log("Image", image);
+    image.src = imageURL;
+    image.setAttribute("image-data", appPackageURL);
+    outerSection.classList.remove("hidden");
+    let deviceIcon = outerSection.querySelector("#App-Platform");
+    const appName = outerSection.querySelector("#App-Name");
+    const appInfo = outerSection.querySelector("#App-Info");
+    try {
+      document.querySelector("#custom-contact-btn").classList.remove("hidden");
+    } catch {}
+    if (device.toLowerCase() == "apple") {
+      const row_data = await fetchAppleAppData(appPackageURL, country);
+      if (row_data) {
+        appName.innerHTML = row_data.trackCensoredName;
+        appInfo.innerHTML =
+          "&#11088; " +
+          row_data.averageUserRating.toFixed(2) +
+          ", " +
+          row_data.primaryGenreName;
+        try {
+          await handleAppleDeviceApp(
+            deviceIcon,
+            row_data,
+            search_keyword,
+            applicationId,
+            appPackageURL
+          );
+        } catch (error) {
+          window.alert("Error:", error);
+        }
+      } else {
+        window.alert("Warning! Please select the app from the dropdown menu.");
+      }
+    } else {
+      const responseData = await fetchPlayStoreAppData(applicationId, country);
+      if (responseData.url) {
+        appName.innerHTML = responseData.title;
+        appInfo.innerHTML =
+          "&#11088; " +
+          parseFloat(responseData.score).toFixed(2) +
+          ", " +
+          responseData.genre;
+        try {
+          await handlePlayStoreDeviceApp(
+            deviceIcon,
+            responseData,
+            search_keyword,
+            applicationId,
+            appPackageURL,
+            country
+          );
+        } catch (error) {
+          window.alert("Error:", error);
+        }
+      }
+    }
+  }
+
+  // *********** --------------------------------------
+  async function fetchAppleAppData(appPackageURL, t) {
+    const requestOptions = {
+      method: "GET",
+      redirect: "follow",
+    };
+    const regex = /\/id(\d+)/;
+    const id = appPackageURL.match(regex)[1];
+    const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`;
+    try {
+      const response = await fetch(requestURL, requestOptions);
+      const data = await response.json();
+      return data["results"][0];
+    } catch (error) {
+      throw new Error(`Error fetching Apple app data: ${error}`);
+    }
+  }
+
+  // --------------------------------------------------
+  async function handleAppleDeviceApp(
+    deviceIcon,
+    row_data,
+    search_keyword,
+    applicationId,
+    appPackageURL
+  ) {
+    const allParagraph = document.querySelectorAll(".feature-pointer");
+    try {
+      allParagraph[2].parentNode.classList.add("hidden");
+      allParagraph[5].parentNode.classList.add("hidden");
+    } catch {}
+    deviceIcon.src =
+      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+    const dataObject = getDataObjectForApple(row_data);
+    allParagraph[0].innerHTML =
+      "Improve visitors - using keyword ranks and ML based keyword field recommendations.";
+    allParagraph[3].innerHTML =
+      "Conversion improvement - by focusing on A/B testing with app Metadata. i.e. Title, Description, etc.";
+    const priceData = await fetchPriceData(
+      "https://nextgrowthlabs.com/wp-json/my-api/v1/apple-price-request",
+      dataObject
+    );
+    updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
+  }
+  async function handlePlayStoreDeviceApp(
+    deviceIcon,
+    responseData,
+    search_keyword,
+    applicationId,
+    appPackageURL,
+    country
+  ) {
+    deviceIcon.src =
+      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+    let dataObject = getDataObjectForPlay(responseData);
+    const MHRScore = await fetchMHRScore(applicationId, country);
+    dataObject.MHR = MHRScore;
+    const allParagraph = document.querySelectorAll(".feature-pointer");
+    allParagraph[0].innerHTML =
+      "Improve visitors - using keyword ranks and similar app section ML based rating improvement plan.";
+    allParagraph[3].innerHTML =
+      "Conversion improvement - by focusing on MHR score, A/B testing.";
+    const priceData = await fetchPriceData(
+      "https://nextgrowthlabs.com/wp-json/my-api/v1/play-price-request",
+      dataObject
+    );
+    updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
+  }
+  // --------------------------------------------------
+  async function fetchPlayStoreAppData(applicationId, t) {
+    console.log("TTT", t);
+    const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`;
+    try {
+      const response = await fetch(url);
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Error fetching Play Store app data: ${error}`);
+    }
+  }
+
+  // --------------------------------------------------
+  function getDataObjectForApple(row_data) {
+    let userRating = row_data.averageUserRating.toFixed(2);
+    let dataObject = {
+      TitleLength: row_data.trackCensoredName.length,
+      Size: row_data.fileSizeBytes,
+      ImageCount: row_data.screenshotUrls.length,
+      DescriptionLength: row_data.description.length,
+      Rating: userRating < 1.0 ? 1.2 : userRating,
+      RatingCount: row_data.userRatingCount,
+    };
+    return dataObject;
+  }
+  function getDataObjectForPlay(responseData) {
+    let dataObject = {
+      Score:
+        parseFloat(responseData.score).toFixed(1) < 1.0
+          ? 1.2
+          : responseData.score,
+      DownloadEstimate: responseData.maxInstalls,
+      ImageCount: responseData.screenshots.length,
+      VideoPresent: responseData.video ? true : false,
+      Size: responseData.size || 123456,
+      MHR: 20,
+    };
+    return dataObject;
+  }
+  async function fetchMHRScore(applicationId, country) {
+    const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const todayDate = new Date();
+      todayDate.setDate(todayDate.getDate() - 1);
+      const yesterdayDate = todayDate.toISOString().substr(0, 10);
+      const entry = data.find((entry) => entry.date === yesterdayDate);
+      return entry ? entry.score : 30;
+    } catch (error) {
+      throw new Error(`Error fetching MHR score: ${error}`);
+    }
+  }
+  // --------------------------------------------------
+  async function fetchPriceData(url, dataObject) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataObject),
+      });
+      return await response.json();
+    } catch (error) {
+      throw new Error(`Error fetching price data: ${error}`);
+    }
+  }
+  // async function updatePriceToPage(priceData) {
+  //   const priceAmount = document.querySelector("#Pricing-Amount");
+  //   priceAmount.innerHTML = `$${priceData}<span class="suffix">/month onwards</span>`;
+  //   rangeSlider.value = priceData;
+  //   rangeSlider.max = parseInt((parseInt(priceData) * 7) / 1000) * 1000;
+  //   rangeSlider.min = parseInt((parseInt(priceData) / 2) / 500) * 500;
+  // }
+
+  const [priceData, setPriceData] = useState(5000);
+  const [sliderValue, setSliderValue] = useState(5000);
+  const [minValue, setMinValue] = useState(1000);
+  const [maxValue, setMaxValue] = useState(30000);
+  const [loading, setLoading] = useState(true);
+
+  // Function to update the price and slider values
+  const updatePriceToPage = (newPriceData) => {
+    setLoading(true);
+    const max = parseInt((parseInt(newPriceData) * 7) / 1000) * 1000;
+    const min = parseInt(parseInt(newPriceData) / 2 / 500) * 500;
+    setPriceData(newPriceData);
+    setSliderValue(newPriceData);
+    setMinValue(min);
+    setMaxValue(max);
+    setLoading(false);
+  };
+
+  const handleSliderChange = (event) => {
+    const newValue = event.target.value;
+    setSliderValue(newValue);
+    setPriceData(newValue); // Optional: If you want to reflect slider changes in priceData
+  };
+
+  // --------------------------------------------------
+  // const rangeSlider = document.getElementById('rangeSlider');
+  //  const outputDiv = document.querySelector('.calculated-pricing');
+  // rangeSlider.addEventListener('input', function () {
+  // const sliderValue = rangeSlider.value;
+  //  outputDiv.innerHTML = "$" + sliderValue + "<span class='suffix'>/month onwards</span>";
+  // });
+  // --------------------------------------------------
 
   return (
     <>
@@ -594,6 +921,7 @@ const OurPricing = () => {
                                           <ul
                                             id="suggestions-box5"
                                             className="suggestions"
+                                            onClick={(e) => handleClickPrice(e)}
                                           ></ul>
                                         </div>
                                       </div>
@@ -612,6 +940,7 @@ const OurPricing = () => {
                               {appSelected && (
                                 <>
                                   <div
+                                    ref={outerSectionRef}
                                     id="app-pricing-box_Pr"
                                     className="card-2 contact google_play-store new hidden"
                                   >
@@ -790,7 +1119,7 @@ const OurPricing = () => {
                                           <div className="pricing-info-text">
                                             Recommended Budget
                                           </div>
-                                          <h4
+                                          {/* <h4
                                             id="Pricing-Amount"
                                             className="calculated-pricing"
                                           >
@@ -798,17 +1127,49 @@ const OurPricing = () => {
                                               Please wait.. We are getting you
                                               best price
                                             </span>
-                                          </h4>
+                                            ${sliderValue}<span className="suffix">/month onwards</span>
+                                          </h4> */}
+                                          {loading ? (
+                                            <h4
+                                              id="Pricing-Amount"
+                                              className="calculated-pricing"
+                                            >
+                                              <span className="suffix">
+                                                Please wait.. We are getting you
+                                                best price
+                                              </span>
+                                            </h4>
+                                          ) : (
+                                            <h4
+                                              id="Pricing-Amount"
+                                              className="calculated-pricing"
+                                            >
+                                              ${sliderValue}
+                                              <span className="suffix">
+                                                /month onwards
+                                              </span>
+                                            </h4>
+                                          )}
                                         </div>
                                         <div>
                                           <div className="html-embed-35 w-embed">
-                                            <input
+                                            {/* <input
                                               type="range"
                                               min="1000"
                                               max="30000"
                                               defaultValue="5000"
                                               className="slider"
                                               id="rangeSlider"
+                                            /> */}
+                                            <input
+                                              type="range"
+                                              min={minValue}
+                                              max={maxValue}
+                                              value={sliderValue}
+                                              onChange={handleSliderChange}
+                                              className="slider"
+                                              id="rangeSlider"
+
                                             />
                                           </div>
                                         </div>
@@ -817,7 +1178,7 @@ const OurPricing = () => {
                                           className="button-wrapper"
                                         >
                                           <Link
-                                            href="#"
+                                            href="#request-a-quote"
                                             className="button-primary-4 width-max w-button"
                                           >
                                             Contact Us
@@ -834,7 +1195,7 @@ const OurPricing = () => {
                                           </div>
                                           <div className="button-wrapper bottom">
                                             <Link
-                                              href="#"
+                                              href="#request-a-quote"
                                               className="button-primary-4 width-max alternate w-button"
                                             >
                                               Let’s discuss
@@ -965,11 +1326,16 @@ const OurPricing = () => {
                   alt="Check Icon - NextLabs.io"
                   className="ckeck-icon"
                 />
-                 Factors affecting cost:
-                <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● App ratings (yours and competitors')
-                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Most Helpful Review Section
-                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Number of bidding companies
-                <br />  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Engagement and retention rates
+                Factors affecting cost:
+                <br />
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● App ratings
+                (yours and competitors')
+                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Most
+                Helpful Review Section
+                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;● Number
+                of bidding companies
+                <br /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;●
+                Engagement and retention rates
                 <br />
                 <Image
                   width={23}
