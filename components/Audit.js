@@ -8,7 +8,7 @@ const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [isPopupVisible, setIsPopupVisible] = useState(false);
   const [selectedApp, setSelectedApp] = useState(null);
-  const appSearchRef = useRef(null);
+  
   // Function to close the popup
   const togglePopup = () => {
     setIsPopupVisible(!isPopupVisible);
@@ -308,28 +308,27 @@ const Audit = () => {
   };
 
   // **************
-// useEffect(() => {
-//   const handleClickOutside = (event) => {
-//     if (
-//       appSearchRef.current &&
-//       !appSearchRef.current.contains(event.target)
-//     ) {
-//       const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
-//       iOSOuterBoxes.forEach((box) => {
-//         const suggestion = box.querySelector(".suggestions");
-//         if (suggestion) {
-//           suggestion.classList.remove("format-suggestions");
-//         }
-//       });
-//     }
-//   };
+  const appSuggestionRef = useRef(null);
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      appSuggestionRef.current &&
+      !appSuggestionRef.current.contains(event.target)
+    ) {
+      const suggestion = appSuggestionRef.current.querySelector(".suggestions");
+      if (suggestion) {
+        suggestion.classList.remove("format-suggestions");
+      }
+    }
+  };
 
-//   document.addEventListener("mousedown", handleClickOutside);
+  document.addEventListener("mousedown", handleClickOutside);
 
-//   return () => {
-//     document.removeEventListener("mousedown", handleClickOutside);
-//   };
-// }, []);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
 
   return (
     <>
@@ -355,7 +354,7 @@ const Audit = () => {
               </p>
             </div>
 
-            <div ref={appSearchRef} className="app-search-box-holder">
+            <div ref={appSuggestionRef} className="app-search-box-holder">
               <div className="search-box_holder flex-custom width">
                 <div className="code-left">
                   <div className="html-embed-8 w-embed">

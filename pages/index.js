@@ -1,26 +1,25 @@
-import Head from "next/head";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import Audit from "../components/Audit";
-import Services from "../components/Services";
-import Testimonials from "../components/Testimonials";
-import OurPricing from "../components/OurPricing";
-import ASOTools from "../components/ASOTools";
-import AppIntelligence from "../components/AppIntelligence";
-import Other from "../components/Other";
-import ContactForm from "../components/ContactForm";
-import Clients from "../components/Clients";
-import Reveal from "../components/elements/Reveal";
-import { useRef } from "react";
+import Head from "next/head"
+import Header from "../components/Header"
+import Footer from "../components/Footer"
+import Audit from "../components/Audit"
+import Services from "../components/Services"
+import Testimonials from "../components/Testimonials"
+import OurPricing from "../components/OurPricing"
+import ASOTools from "../components/ASOTools"
+import AppIntelligence from "../components/AppIntelligence"
+import Other from "../components/Other"
+import ContactForm from "../components/ContactForm"
+import Clients from "../components/Clients"
+import Reveal from "../components/elements/Reveal"
+import { useRef } from "react"
 
 export default function Home() {
-  
-  const auditRef = useRef(null);
-  const servicesRef = useRef(null);
-  const testimonialsRef = useRef(null);
-  const pricingRef = useRef(null);
-  const asoToolsRef = useRef(null);
-  const appIntelligenctRef = useRef(null);
+  const auditRef = useRef(null)
+  const servicesRef = useRef(null)
+  const testimonialsRef = useRef(null)
+  const pricingRef = useRef(null)
+  const asoToolsRef = useRef(null)
+  const appIntelligenctRef = useRef(null)
 
   return (
     <>
@@ -32,8 +31,14 @@ export default function Home() {
           content="App Store Optimization (ASO) is a strategy for increasing an app's visibility in app stores. You can rank higher and drive more downloads by using optimal keywords, useful images, and localized descriptions."
           name="description"
         />
-        <link rel="icon" href="/favicon.ico" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          rel="icon"
+          href="/favicon.ico"
+        />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1"
+        />
       </Head>
       <main>
         <Header
@@ -76,5 +81,5 @@ export default function Home() {
         <Footer />
       </main>
     </>
-  );
+  )
 }

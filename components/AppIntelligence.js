@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Reveal from "../components/elements/Reveal";
 const AppIntelligence = () => {
+  
   return (
     <section id="aso-intelligence" className="section bg-neutral-200">
       <div className="container-default w-container">

@@ -87,7 +87,7 @@ const data = [
 ];
 const Trustby = ({ padding }) => {
   return (
-    <section className="section-client " style={{ position: "relative" }}>
+    <section className="section-client " >
       <h2 className="heading">Some of our clients</h2>
 
       <div className="marqueeContainer">

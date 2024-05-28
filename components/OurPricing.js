@@ -1,14 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import CountrySelect from "./elements/CountrySelect";
-import { useEffect, useState } from "react";
-import { useRefs } from "../context/RefsContext";
+import { useEffect, useState, useRef } from "react";
 
 const OurPricing = () => {
   const [activeTab, setActiveTab] = useState("tab2");
   const [appSelected, setAppSelected] = useState(false);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
-  const { outerSectionRef } = useRefs(null);
 
   const handleClickPrice = (event) => {
     let { appPackageURL, applicationId, imageURL, device } =
@@ -227,7 +225,6 @@ const OurPricing = () => {
   }
   // --------------------------------------------------
   async function fetchPlayStoreAppData(applicationId, t) {
-    console.log("TTT", t);
     const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`;
     try {
       const response = await fetch(url);
@@ -264,6 +261,8 @@ const OurPricing = () => {
     };
     return dataObject;
   }
+
+  // MHR request
   async function fetchMHRScore(applicationId, country) {
     const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
     try {
@@ -278,7 +277,7 @@ const OurPricing = () => {
       throw new Error(`Error fetching MHR score: ${error}`);
     }
   }
-  // --------------------------------------------------
+  // -------------- Price Data -----------------------------
   async function fetchPriceData(url, dataObject) {
     try {
       const response = await fetch(url, {
@@ -293,15 +292,9 @@ const OurPricing = () => {
       throw new Error(`Error fetching price data: ${error}`);
     }
   }
-  // async function updatePriceToPage(priceData) {
-  //   const priceAmount = document.querySelector("#Pricing-Amount");
-  //   priceAmount.innerHTML = `$${priceData}<span class="suffix">/month onwards</span>`;
-  //   rangeSlider.value = priceData;
-  //   rangeSlider.max = parseInt((parseInt(priceData) * 7) / 1000) * 1000;
-  //   rangeSlider.min = parseInt((parseInt(priceData) / 2) / 500) * 500;
-  // }
 
-  const [priceData, setPriceData] = useState(5000);
+  // Updating Price and Slider
+  const [priceData, setPriceData] = useState();
   const [sliderValue, setSliderValue] = useState(5000);
   const [minValue, setMinValue] = useState(1000);
   const [maxValue, setMaxValue] = useState(30000);
@@ -322,17 +315,31 @@ const OurPricing = () => {
   const handleSliderChange = (event) => {
     const newValue = event.target.value;
     setSliderValue(newValue);
-    setPriceData(newValue); // Optional: If you want to reflect slider changes in priceData
   };
 
-  // --------------------------------------------------
-  // const rangeSlider = document.getElementById('rangeSlider');
-  //  const outputDiv = document.querySelector('.calculated-pricing');
-  // rangeSlider.addEventListener('input', function () {
-  // const sliderValue = rangeSlider.value;
-  //  outputDiv.innerHTML = "$" + sliderValue + "<span class='suffix'>/month onwards</span>";
-  // });
-  // --------------------------------------------------
+// Handle click outside of the suggestions
+const appSuggestionRef = useRef(null);
+useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      appSuggestionRef.current &&
+      !appSuggestionRef.current.contains(event.target)
+    ) {
+      const suggestion = appSuggestionRef.current.querySelector(".suggestions");
+      if (suggestion) {
+        suggestion.classList.remove("format-suggestions");
+      }
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+}, []);
+
+
 
   return (
     <>
@@ -761,7 +768,7 @@ const OurPricing = () => {
                           className="w-layout-grid tabs-layout_component"
                         >
                           <div className="search-box-wrapper">
-                            <div className="app-search-box-holder">
+                            <div  className="app-search-box-holder">
                               <div className="search-box_holder flex-custom width">
                                 <div className="code-left">
                                   <div className="html-embed-14 w-embed">
@@ -769,7 +776,7 @@ const OurPricing = () => {
                                       id="search-box5"
                                       className="main-box-holder"
                                     >
-                                      <div className="search-box-suggestion">
+                                      <div ref={appSuggestionRef} className="search-box-suggestion">
                                         <div className="main-search-bar">
                                           <input
                                             type="text"
@@ -919,6 +926,7 @@ const OurPricing = () => {
                                             </ul>
                                           </div>
                                           <ul
+                                          
                                             id="suggestions-box5"
                                             className="suggestions"
                                             onClick={(e) => handleClickPrice(e)}
@@ -940,7 +948,6 @@ const OurPricing = () => {
                               {appSelected && (
                                 <>
                                   <div
-                                    ref={outerSectionRef}
                                     id="app-pricing-box_Pr"
                                     className="card-2 contact google_play-store new hidden"
                                   >
@@ -1119,16 +1126,6 @@ const OurPricing = () => {
                                           <div className="pricing-info-text">
                                             Recommended Budget
                                           </div>
-                                          {/* <h4
-                                            id="Pricing-Amount"
-                                            className="calculated-pricing"
-                                          >
-                                            <span className="suffix">
-                                              Please wait.. We are getting you
-                                              best price
-                                            </span>
-                                            ${sliderValue}<span className="suffix">/month onwards</span>
-                                          </h4> */}
                                           {loading ? (
                                             <h4
                                               id="Pricing-Amount"
@@ -1153,14 +1150,6 @@ const OurPricing = () => {
                                         </div>
                                         <div>
                                           <div className="html-embed-35 w-embed">
-                                            {/* <input
-                                              type="range"
-                                              min="1000"
-                                              max="30000"
-                                              defaultValue="5000"
-                                              className="slider"
-                                              id="rangeSlider"
-                                            /> */}
                                             <input
                                               type="range"
                                               min={minValue}
