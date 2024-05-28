@@ -308,28 +308,28 @@ const Audit = () => {
   };
 
   // **************
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      appSearchRef.current &&
-      !appSearchRef.current.contains(event.target)
-    ) {
-      const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
-      iOSOuterBoxes.forEach((box) => {
-        const suggestion = box.querySelector(".suggestions");
-        if (suggestion) {
-          suggestion.classList.remove("format-suggestions");
-        }
-      });
-    }
-  };
+// useEffect(() => {
+//   const handleClickOutside = (event) => {
+//     if (
+//       appSearchRef.current &&
+//       !appSearchRef.current.contains(event.target)
+//     ) {
+//       const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
+//       iOSOuterBoxes.forEach((box) => {
+//         const suggestion = box.querySelector(".suggestions");
+//         if (suggestion) {
+//           suggestion.classList.remove("format-suggestions");
+//         }
+//       });
+//     }
+//   };
 
-  document.addEventListener("mousedown", handleClickOutside);
+//   document.addEventListener("mousedown", handleClickOutside);
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
+//   return () => {
+//     document.removeEventListener("mousedown", handleClickOutside);
+//   };
+// }, []);
 
   return (
     <>
