@@ -12,8 +12,12 @@ import ContactForm from "../components/ContactForm"
 import Clients from "../components/Clients"
 import Reveal from "../components/elements/Reveal"
 import { useRef } from "react"
+import FormPopup from "../components/elements/FormPopup"
+import { useSelectedApp } from "../context/EventContext"
 
 export default function Home() {
+  const { isPopupVisible } = useSelectedApp()
+
   const auditRef = useRef(null)
   const servicesRef = useRef(null)
   const testimonialsRef = useRef(null)
@@ -54,9 +58,7 @@ export default function Home() {
         <Reveal>
           <Audit />
         </Reveal>
-
         <Clients />
-
         <Reveal>
           <Services />
         </Reveal>
@@ -79,6 +81,7 @@ export default function Home() {
           <ContactForm />
         </Reveal>
         <Footer />
+        {isPopupVisible && <FormPopup />}
       </main>
     </>
   )

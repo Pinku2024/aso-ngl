@@ -8,7 +8,7 @@ const OurPricing = () => {
   const [activeTab, setActiveTab] = useState("tab2")
   const [appSelected, setAppSelected] = useState(false)
   const [selectedCountryCode, setSelectedCountryCode] = useState("in")
-  const { appSelect, setAppSelect } = useSelectedApp()
+  const { appSelect } = useSelectedApp()
 
   useEffect(() => {
     if (appSelect !== null) {

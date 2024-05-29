@@ -9,8 +9,16 @@ export const useSelectedApp = () => {
 
 export const AppSelectProvider = ({ children }) => {
   const [appSelect, setAppSelect] = useState(null)
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
   return (
-    <AppSelectContext.Provider value={{ appSelect, setAppSelect }}>
+    <AppSelectContext.Provider
+      value={{
+        appSelect,
+        setAppSelect,
+        isPopupVisible,
+        setIsPopupVisible,
+      }}
+    >
       {children}
     </AppSelectContext.Provider>
   )

@@ -1,21 +1,17 @@
 import Link from "next/link"
 import { useEffect, useState, useRef } from "react"
 import CountrySelect from "./elements/CountrySelect"
-import FormPopup from "./elements/FormPopup"
 import { useSelectedApp } from "../context/EventContext"
 
 const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us")
-  const [isPopupVisible, setIsPopupVisible] = useState(false)
+  const { setIsPopupVisible } = useSelectedApp()
   const [selectedApp, setSelectedApp] = useState(null)
-  const { appSelect, setAppSelect } = useSelectedApp()
+  const { setAppSelect } = useSelectedApp()
 
   // Function to close the popup
   const togglePopup = () => {
-    setIsPopupVisible(!isPopupVisible)
-  }
-  const closePopup = () => {
-    setIsPopupVisible(false)
+    setIsPopupVisible(true)
   }
 
   // ************************************
@@ -304,7 +300,6 @@ const Audit = () => {
   // handle event *****************************************
 
   const handleClick = event => {
-    console.log("Clicked on app")
     setSelectedApp(event)
     setAppSelect(event)
     setIsPopupVisible(true)
@@ -743,7 +738,7 @@ const Audit = () => {
           />
         </div> */}
       {/* </div> */}
-      {isPopupVisible && <FormPopup onClose={closePopup} />}
+      {/* {isPopupVisible && <FormPopup onClose={closePopup} />} */}
     </>
   )
 }

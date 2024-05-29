@@ -1,31 +1,36 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef } from "react"
+import { useSelectedApp } from "../../context/EventContext"
+const FormPopup = () => {
+  const { setIsPopupVisible } = useSelectedApp()
 
-const FormPopup = ({onClose}) => {
+  const closePopup = () => {
+    setIsPopupVisible(false)
+  }
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
-  });
-  const formRef = useRef(null);
-  const successMessageRef = useRef(null);
-  const errorMessageRef = useRef(null);
+  })
+  const formRef = useRef(null)
+  const successMessageRef = useRef(null)
+  const errorMessageRef = useRef(null)
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
+  const handleChange = e => {
+    const { name, value } = e.target
+    setFormData(prevData => ({
       ...prevData,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = e => {
+    e.preventDefault()
 
-    const imageData = formRef.current.getAttribute("app-url");
-    const { name, email, phone, message } = formData;
-    const pageURL = window.location.href;
+    const imageData = formRef.current.getAttribute("app-url")
+    const { name, email, phone, message } = formData
+    const pageURL = window.location.href
 
     const domains = [
       "yahoo",
@@ -38,15 +43,15 @@ const FormPopup = ({onClose}) => {
       "zoho",
       "icloud",
       "gmx",
-    ];
-    const domain = email.slice(email.indexOf("@") + 1, email.lastIndexOf("."));
-    let con_value;
+    ]
+    const domain = email.slice(email.indexOf("@") + 1, email.lastIndexOf("."))
+    let con_value
     if (domains.includes(domain)) {
-      con_value = 331;
+      con_value = 331
     } else if (email === "") {
-      con_value = 331;
+      con_value = 331
     } else {
-      con_value = 1237;
+      con_value = 1237
     }
 
     // const eventNameW =
@@ -68,8 +73,8 @@ const FormPopup = ({onClose}) => {
     //   });
     // }
 
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+    const myHeaders = new Headers()
+    myHeaders.append("Content-Type", "application/json")
 
     const raw = JSON.stringify({
       fields: [
@@ -80,58 +85,58 @@ const FormPopup = ({onClose}) => {
         { name: "message", value: message },
       ],
       context: { pageUri: pageURL },
-    });
+    })
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow",
-    };
+    }
 
     fetch(
       "https://api.hsforms.com/submissions/v3/integration/submit/3885214/efaf7e24-de65-496d-9983-ffb476f65524",
-      requestOptions
+      requestOptions,
     )
-      .then((response) => {
+      .then(response => {
         if (response.ok) {
-           response.text()
-          .then((result) => {
-            showSuccessMessage();
-            hideForm();
-            console.log(result);
+          response.text().then(result => {
+            showSuccessMessage()
+            hideForm()
+            console.log(result)
           })
         } else {
-          showErrorMessage();
+          showErrorMessage()
         }
       })
-      .catch((error) => {
-        console.log("error", error);
-        showErrorMessage();
-      });
-  };
+      .catch(error => {
+        console.log("error", error)
+        showErrorMessage()
+      })
+  }
 
   const showSuccessMessage = () => {
     console.log("Success")
-    successMessageRef.current.style.display = "block";
-    errorMessageRef.current.style.display = "none";
-  };
+    successMessageRef.current.style.display = "block"
+    errorMessageRef.current.style.display = "none"
+  }
 
   const showErrorMessage = () => {
     console.log("Error")
-    successMessageRef.current.style.display = "none";
-    errorMessageRef.current.style.display = "block";
-  };
+    successMessageRef.current.style.display = "none"
+    errorMessageRef.current.style.display = "block"
+  }
 
   const hideForm = () => {
-    formRef.current.style.display = "none";
-  };
+    formRef.current.style.display = "none"
+  }
 
   return (
-    <section id="lead-form" className="form-section">
-      <div
-        className="form-holder" 
-      >
+    <section
+      id="lead-form"
+      className="form-section"
+    >
+      <div className="form-holder">
         <div className="loginpopupcontainer">
           <div className="popup-content contact lead-form spacing">
             <div className="close-button-holder">
@@ -140,12 +145,12 @@ const FormPopup = ({onClose}) => {
                 loading="lazy"
                 alt=""
                 className="image-17"
-                onClick={onClose}
+                onClick={closePopup}
               />
             </div>
             <div>
               <h2 className="heading-large-sf1 feature-heading form-heading">
-              Please help us know your app better
+                Please help us know your app better
               </h2>
             </div>
             <div className="hide w-embed"></div>
@@ -191,7 +196,10 @@ const FormPopup = ({onClose}) => {
                     />
                   </div>
                   <div className="input-wrapper-2">
-                    <label htmlFor="Phone-5" className="field-label">
+                    <label
+                      htmlFor="Phone-5"
+                      className="field-label"
+                    >
                       Phone
                     </label>
                     <input
@@ -232,11 +240,15 @@ const FormPopup = ({onClose}) => {
                 <div className="text-block-23">
                   {/* Your message has been submitted. <br />
                   We will get back to you within 24-48 hours. */}
-                  Request submitted! Our team will get in touch within 24-48 hours
+                  Request submitted! Our team will get in touch within 24-48
+                  hours
                 </div>
                 <div className="button-holder-error-message"></div>
               </div>
-              <div className="error-message w-form-fail" ref={errorMessageRef}>
+              <div
+                className="error-message w-form-fail"
+                ref={errorMessageRef}
+              >
                 <div>Oops! Something went wrong.</div>
               </div>
             </div>
@@ -248,7 +260,7 @@ const FormPopup = ({onClose}) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default FormPopup;
+export default FormPopup
