@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useRef } from "react"
-import { useRefs } from "../../context/RefsContext"
 import Image from "next/image"
 
 const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
-  const { outerSectionRef } = useRefs()
-
   const countries = [
     { name: "Afghanistan", code: "af", flag: "af.png" },
     { name: "Algeria", code: "dz", flag: "dz.png" },

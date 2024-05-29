@@ -1,185 +1,179 @@
-import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
-import CountrySelect from "./elements/CountrySelect";
-import FormPopup from "./elements/FormPopup";
-// import AppSearch from "./elements/AppSearch";
+import Link from "next/link"
+import { useEffect, useState, useRef } from "react"
+import CountrySelect from "./elements/CountrySelect"
+import FormPopup from "./elements/FormPopup"
+import { useSelectedApp } from "../context/EventContext"
 
 const Audit = () => {
-  const [selectedCountryCode, setSelectedCountryCode] = useState("us");
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
-  const [selectedApp, setSelectedApp] = useState(null);
-  
+  const [selectedCountryCode, setSelectedCountryCode] = useState("us")
+  const [isPopupVisible, setIsPopupVisible] = useState(false)
+  const [selectedApp, setSelectedApp] = useState(null)
+  const { appSelect, setAppSelect } = useSelectedApp()
+
   // Function to close the popup
   const togglePopup = () => {
-    setIsPopupVisible(!isPopupVisible);
-  };
+    setIsPopupVisible(!isPopupVisible)
+  }
   const closePopup = () => {
-    setIsPopupVisible(false);
-  };
+    setIsPopupVisible(false)
+  }
 
   // ************************************
 
   useEffect(() => {
     function setupautoComplete(iOSOuterBox) {
-      let iOSautoCompleteTimer;
-      const inputElement = iOSOuterBox.querySelector(".search-input");
-      const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form");
-      inputElement.addEventListener("input", (event) => {
+      let iOSautoCompleteTimer
+      const inputElement = iOSOuterBox.querySelector(".search-input")
+      const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form")
+      inputElement.addEventListener("input", event => {
         if (event.target.value.trim() === "" && event.target.value.length < 1) {
-          console.log("Keyword Not Found!");
-          return false;
+          console.log("Keyword Not Found!")
+          return false
         }
         iOSOuterBox
           .querySelector(".searching-shimmer")
-          .classList.remove("hidden");
+          .classList.remove("hidden")
         try {
           iOSOuterBox
             .querySelector(".suggestions")
-            .classList.remove("format-suggestions");
+            .classList.remove("format-suggestions")
         } catch {}
         try {
           //Hiding Contact form
-          document
-            .querySelector(".apple-ios-app_store")
-            .classList.add("hidden");
+          document.querySelector(".apple-ios-app_store").classList.add("hidden")
         } catch {}
         try {
-          appSearchCloseBtn.classList.add("hidden");
+          appSearchCloseBtn.classList.add("hidden")
         } catch {}
-        clearTimeout(iOSautoCompleteTimer);
+        clearTimeout(iOSautoCompleteTimer)
         iOSautoCompleteTimer = setTimeout(function () {
-          prepareDataForRequests(iOSOuterBox);
-        }, 500);
-      });
+          prepareDataForRequests(iOSOuterBox)
+        }, 500)
+      })
     }
 
     function encodingName(e) {
-      return encodeURIComponent(e);
+      return encodeURIComponent(e)
     }
     async function prepareDataForRequests(mainWorkingBox) {
-      const inputElement = mainWorkingBox.querySelector(".search-input");
+      const inputElement = mainWorkingBox.querySelector(".search-input")
       const appSearchCloseBtn =
-        mainWorkingBox.querySelector(".close-search-form");
+        mainWorkingBox.querySelector(".close-search-form")
       try {
-        appSearchCloseBtn.classList.remove("hidden");
+        appSearchCloseBtn.classList.remove("hidden")
       } catch {}
-      let currentNameIOS = inputElement.value;
-      let currentNamePlay = encodingName(inputElement.value);
-      let country = selectedCountryCode;
+      let currentNameIOS = inputElement.value
+      let currentNamePlay = encodingName(inputElement.value)
+      let country = selectedCountryCode
       // let country = mainWorkingBox
       //   .querySelector(".country-select-button")
       //   .getAttribute("country-code");
       if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-        return false;
+        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
+        return false
       }
-      const newKeyword = currentNameIOS.split(" ").join("+");
-      const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`;
+      const newKeyword = currentNameIOS.split(" ").join("+")
+      const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`
       if (
         requestIOS.trim() ===
         `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
       ) {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-        return false;
+        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
+        return false
       }
-      let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`;
+      let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`
       if (
         requestPlay.trim() ===
         `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
       ) {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-        return false;
+        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
+        return false
       }
-      let listData = await handleRequestsAndProcessData(
-        requestPlay,
-        requestIOS
-      );
+      let listData = await handleRequestsAndProcessData(requestPlay, requestIOS)
       if (listData.length > 0) {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
         mainWorkingBox
           .querySelector(".suggestions")
-          .classList.add("format-suggestions");
+          .classList.add("format-suggestions")
       }
-      mainWorkingBox
-        .querySelector(".searching-shimmer")
-        .classList.add("hidden");
+      mainWorkingBox.querySelector(".searching-shimmer").classList.add("hidden")
       mainWorkingBox
         .querySelector(".suggestions")
-        .insertAdjacentHTML("beforeend", listData.join(""));
+        .insertAdjacentHTML("beforeend", listData.join(""))
     }
 
     async function handleRequestsAndProcessData(requestPlay, requestIOS) {
       try {
-        const response1 = await fetch(requestIOS);
-        const response2 = await fetch(requestPlay);
-        const iOSResponse = await response1.json();
-        const playResponse = await response2.json();
+        const response1 = await fetch(requestIOS)
+        const response2 = await fetch(requestPlay)
+        const iOSResponse = await response1.json()
+        const playResponse = await response2.json()
 
         const mergedData = {
           iOSResponse: iOSResponse,
           playResponse: playResponse,
-        };
+        }
         // console.log("Merged Data", mergedData);
 
-        const fullAppData = mergedExtractedData(mergedData);
-        const suggestionList = createListWithDevice(fullAppData);
+        const fullAppData = mergedExtractedData(mergedData)
+        const suggestionList = createListWithDevice(fullAppData)
 
         if (suggestionList.length > 0) {
-          suggestionList.unshift('<p class="info-search">Search Results</p>');
+          suggestionList.unshift('<p class="info-search">Search Results</p>')
           suggestionList.push(
-            '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
-          );
+            '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>',
+          )
         }
 
-        return suggestionList;
+        return suggestionList
       } catch (error) {
-        console.error("Error:", error);
-        return false;
+        console.error("Error:", error)
+        return false
       }
     }
 
     function createListWithDevice(data) {
-      return data.map((item) => {
+      return data.map(item => {
         if (item.appName !== undefined) {
-          let deviceIcon;
+          let deviceIcon
           if (item.device == "apple")
             deviceIcon =
-              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg"
           else
             deviceIcon =
-              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
+              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg"
+          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`
         }
-      });
+      })
     }
 
     function clearSearchBar(mainBoxHolder) {
       // console.log(mainBoxHolder);
-      let inputBox = mainBoxHolder.querySelector(".search-input");
-      inputBox.value = "";
-      inputBox.removeAttribute("application-url");
-      inputBox.removeAttribute("application-id");
-      inputBox.removeAttribute("application-img-logo");
+      let inputBox = mainBoxHolder.querySelector(".search-input")
+      inputBox.value = ""
+      inputBox.removeAttribute("application-url")
+      inputBox.removeAttribute("application-id")
+      inputBox.removeAttribute("application-img-logo")
       try {
         mainBoxHolder
           .querySelector(".suggestions")
-          .classList.remove("format-suggestions");
+          .classList.remove("format-suggestions")
       } catch {}
-      mainBoxHolder.querySelector(".suggestions").innerHTML = "";
+      mainBoxHolder.querySelector(".suggestions").innerHTML = ""
     }
 
     function clearFormElement() {
-      document.querySelector(".apple-ios-app_store").classList.add("hidden");
-      const imageBox = document.querySelector("#iOS-form-logo");
-      imageBox.src = "";
-      imageBox.setAttribute("image-data", "");
+      document.querySelector(".apple-ios-app_store").classList.add("hidden")
+      const imageBox = document.querySelector("#iOS-form-logo")
+      imageBox.src = ""
+      imageBox.setAttribute("image-data", "")
     }
 
     function mergedExtractedData(rowData) {
-      let appDataMain = [];
-      let appDataA = [];
-      let appDataP = [];
-      rowData.iOSResponse.results.map((item) => {
+      let appDataMain = []
+      let appDataA = []
+      let appDataP = []
+      rowData.iOSResponse.results.map(item => {
         if (item.trackViewUrl) {
           let iosData = {
             dataPackageUrl: item.trackViewUrl,
@@ -189,11 +183,11 @@ const Audit = () => {
             developer: "By " + item.artistName,
             device: "apple",
             deviceIcon: "apple_icon.svg",
-          };
-          appDataA.push(iosData);
+          }
+          appDataA.push(iosData)
         }
-      });
-      rowData.playResponse.map((item) => {
+      })
+      rowData.playResponse.map(item => {
         let playData = {
           dataPackageUrl:
             "https://play.google.com/store/apps/details?id=" + item.package_id,
@@ -203,136 +197,148 @@ const Audit = () => {
           developer: "By " + item.developer_name,
           device: "android",
           deviceIcon: "android_icon.svg",
-        };
-        appDataP.push(playData);
-      });
-      appDataA.map((app, index) => {
-        appDataMain.push(appDataA[index]);
-        if (appDataP[index]) {
-          appDataMain.push(appDataP[index]);
         }
-      });
-      if (appDataA.length === 0) appDataMain = appDataP;
-      return appDataMain;
+        appDataP.push(playData)
+      })
+      appDataA.map((app, index) => {
+        appDataMain.push(appDataA[index])
+        if (appDataP[index]) {
+          appDataMain.push(appDataP[index])
+        }
+      })
+      if (appDataA.length === 0) appDataMain = appDataP
+      return appDataMain
     }
 
     setInterval(() => {
-      const inputBox = document.querySelectorAll(".search-input");
-      inputBox.forEach((input) => {
+      const inputBox = document.querySelectorAll(".search-input")
+      inputBox.forEach(input => {
         if (input.value === "") {
           input
             .closest(".main-box-holder")
             .querySelector(".searching-shimmer")
-            .classList.add("hidden");
+            .classList.add("hidden")
         }
-      });
-    }, 500);
+      })
+    }, 500)
     // document.getElementById("search-bar-input1").focus();
-    const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
-    const closeSearchBtn = document.querySelectorAll(".close-search-form");
-    closeSearchBtn.forEach((close) => {
-      close.addEventListener("click", (event) => {
-        event.target.classList.add("hidden");
-        clearSearchBar(event.target.closest(".main-box-holder"));
-        clearFormElement();
-      });
-    });
-    iOSOuterBoxes.forEach((iOSOuterBox) => {
-      setupautoComplete(iOSOuterBox);
-    });
-  });
+    const iOSOuterBoxes = document.querySelectorAll(".main-box-holder")
+    const closeSearchBtn = document.querySelectorAll(".close-search-form")
+    closeSearchBtn.forEach(close => {
+      close.addEventListener("click", event => {
+        event.target.classList.add("hidden")
+        clearSearchBar(event.target.closest(".main-box-holder"))
+        clearFormElement()
+      })
+    })
+    iOSOuterBoxes.forEach(iOSOuterBox => {
+      setupautoComplete(iOSOuterBox)
+    })
+  })
 
   // ********************* Recently seleced app **************************
-  const inputBoxesRef = useRef([]);
+  const inputBoxesRef = useRef([])
 
   useEffect(() => {
-    const inputBoxes = document.querySelectorAll('.main-box-holder .search-input');
-    inputBoxesRef.current = inputBoxes;
+    const inputBoxes = document.querySelectorAll(
+      ".main-box-holder .search-input",
+    )
+    inputBoxesRef.current = inputBoxes
 
-    inputBoxes.forEach((inputBox) => {
+    inputBoxes.forEach(inputBox => {
       if (window.screen.width < 550) {
-        inputBox.placeholder = "Search your app";
+        inputBox.placeholder = "Search your app"
       }
-      inputBox.addEventListener('click', handleRecentClick);
-    });
+      inputBox.addEventListener("click", handleRecentClick)
+    })
 
     return () => {
-      inputBoxes.forEach((inputBox) => {
-        inputBox.removeEventListener('click', handleRecentClick);
-      });
-    };
-  }, []);
+      inputBoxes.forEach(inputBox => {
+        inputBox.removeEventListener("click", handleRecentClick)
+      })
+    }
+  }, [])
 
-  const handleRecentClick = (event) => {
-    let mainBoxHolder = event.target.closest('.main-box-holder');
-    let fullListData = mainBoxHolder.querySelector('.suggestions');
-    let data = fullListData.querySelector('li.li-suggestion-item');
-    const allCountrySelectBtn = document.querySelectorAll('.country-select-button');
+  const handleRecentClick = event => {
+    let mainBoxHolder = event.target.closest(".main-box-holder")
+    let fullListData = mainBoxHolder.querySelector(".suggestions")
+    let data = fullListData.querySelector("li.li-suggestion-item")
+    const allCountrySelectBtn = document.querySelectorAll(
+      ".country-select-button",
+    )
 
-    allCountrySelectBtn.forEach((btn) => {
+    allCountrySelectBtn.forEach(btn => {
       if (btn.classList.contains("active")) {
-        btn.click();
+        btn.click()
       }
-    });
+    })
 
     if (data) {
-      fullListData.classList.add("format-suggestions");
+      fullListData.classList.add("format-suggestions")
     } else {
       try {
-        let recentSelectedApp = JSON.parse(localStorage.getItem('Recent Selected App'));
+        let recentSelectedApp = JSON.parse(
+          localStorage.getItem("Recent Selected App"),
+        )
         let recentSuggestion = recentSelectedApp.map(item => {
-          let deviceIcon;
+          let deviceIcon
           if (item.device === "apple")
-            deviceIcon = "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+            deviceIcon =
+              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg"
           else
-            deviceIcon = "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-          return `<li class="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info">${item.packageName}</div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"></div></li>`;
-        });
+            deviceIcon =
+              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg"
+          return `<li class="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info">${item.packageName}</div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"></div></li>`
+        })
         if (recentSuggestion.length > 0) {
-          fullListData.classList.add("format-suggestions");
-          recentSuggestion.unshift('<p class= "info-search">Recently selected apps:</p>');
+          fullListData.classList.add("format-suggestions")
+          recentSuggestion.unshift(
+            '<p class= "info-search">Recently selected apps:</p>',
+          )
         }
-        fullListData.insertAdjacentHTML("beforeend", recentSuggestion.join(""));
-      } catch { }
+        fullListData.insertAdjacentHTML("beforeend", recentSuggestion.join(""))
+      } catch {}
     }
-  };
-
-
+  }
 
   // handle event *****************************************
 
-  const handleClick = (event) => {
-    console.log("Clicked on app");
-    setSelectedApp(event);
-    setIsPopupVisible(true);
-  };
+  const handleClick = event => {
+    console.log("Clicked on app")
+    setSelectedApp(event)
+    setAppSelect(event)
+    setIsPopupVisible(true)
+  }
 
   // **************
-  const appSuggestionRef = useRef(null);
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      appSuggestionRef.current &&
-      !appSuggestionRef.current.contains(event.target)
-    ) {
-      const suggestion = appSuggestionRef.current.querySelector(".suggestions");
-      if (suggestion) {
-        suggestion.classList.remove("format-suggestions");
+  const appSuggestionRef = useRef(null)
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        appSuggestionRef.current &&
+        !appSuggestionRef.current.contains(event.target)
+      ) {
+        const suggestion =
+          appSuggestionRef.current.querySelector(".suggestions")
+        if (suggestion) {
+          suggestion.classList.remove("format-suggestions")
+        }
       }
     }
-  };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
-
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   return (
     <>
-      <section id="app-audit" className="section service over-flow-new">
+      <section
+        id="app-audit"
+        className="section service over-flow-new"
+      >
         <div className="container-hero-logos new-bg w-container">
           <article className="home-hero-wrapper flex-vertical new-spacing">
             <div className="split-content home-hero-left flex-centre margin-new">
@@ -345,22 +351,29 @@ useEffect(() => {
                 contacting and working with us. The next 5 minutes you spend
                 reading about us will give you a glimpse to our approach. Want a
                 customised presentation? Let us know. */}
-
-                Since 2016, we&#x27;ve been leading the way in App Marketing. Many of
-                the world&#x27;s top brands have read these lines before reaching out
-                to work with us. Spend the next five minutes learning about our
-                approach.<br/>
-                <strong style={{fontWeight: "bolder", color: "#5c5cbf"}}>Want a customised presentation? Let us know.</strong>
+                Since 2016, we&#x27;ve been leading the way in App Marketing.
+                Many of the world&#x27;s top brands have read these lines before
+                reaching out to work with us. Spend the next five minutes
+                learning about our approach.
+                <br />
+                <strong style={{ fontWeight: "bolder", color: "#5c5cbf" }}>
+                  Want a customised presentation? Let us know.
+                </strong>
               </p>
             </div>
 
-            <div ref={appSuggestionRef} className="app-search-box-holder">
+            <div
+              ref={appSuggestionRef}
+              className="app-search-box-holder"
+            >
               <div className="search-box_holder flex-custom width">
                 <div className="code-left">
                   <div className="html-embed-8 w-embed">
-                    <div id="search-box1" className="main-box-holder">
-
-                       <div className="search-box-suggestion">
+                    <div
+                      id="search-box1"
+                      className="main-box-holder"
+                    >
+                      <div className="search-box-suggestion">
                         <div className="main-search-bar">
                           <input
                             type="text"
@@ -533,11 +546,11 @@ useEffect(() => {
                           <ul
                             id="suggestions-box1"
                             className="suggestions"
-                            onClick={(e) => handleClick(e)}
+                            onClick={e => handleClick(e)}
                           ></ul>
                         </div>
                       </div>
-                      
+
                       <CountrySelect
                         setSelectedCountryCode={setSelectedCountryCode}
                         selectedApp={selectedApp}
@@ -624,7 +637,10 @@ useEffect(() => {
                           id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f69-f93c043d"
                           className="input-wrapper-2"
                         >
-                          <label htmlFor="Phone" className="field-label">
+                          <label
+                            htmlFor="Phone"
+                            className="field-label"
+                          >
                             Phone
                           </label>
                           <input
@@ -682,12 +698,11 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-
           </article>
         </div>
       </section>
       {/* <div className="container-large-1134px"> */}
-        {/* <div className="images-wrapper hero-service">
+      {/* <div className="images-wrapper hero-service">
           <img
             src="/assets/imgs/BG-Lines-Yellow.svg"
             loading="lazy"
@@ -707,7 +722,7 @@ useEffect(() => {
             className="bg service"
           />
         </div> */}
-        {/* <div className="images-wrapper-mob">
+      {/* <div className="images-wrapper-mob">
           <img
             src="/assets/imgs/BG-Lines-Yellow.svg"
             loading="lazy"
@@ -730,7 +745,7 @@ useEffect(() => {
       {/* </div> */}
       {isPopupVisible && <FormPopup onClose={closePopup} />}
     </>
-  );
-};
+  )
+}
 
-export default Audit;
+export default Audit

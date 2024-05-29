@@ -1,70 +1,78 @@
-import Image from "next/image";
-import Link from "next/link";
-import CountrySelect from "./elements/CountrySelect";
-import { useEffect, useState, useRef } from "react";
+import Image from "next/image"
+import Link from "next/link"
+import CountrySelect from "./elements/CountrySelect"
+import { useEffect, useState, useRef } from "react"
+import { useSelectedApp } from "../context/EventContext"
 
 const OurPricing = () => {
-  const [activeTab, setActiveTab] = useState("tab2");
-  const [appSelected, setAppSelected] = useState(false);
-  const [selectedCountryCode, setSelectedCountryCode] = useState("in");
+  const [activeTab, setActiveTab] = useState("tab2")
+  const [appSelected, setAppSelected] = useState(false)
+  const [selectedCountryCode, setSelectedCountryCode] = useState("in")
+  const { appSelect, setAppSelect } = useSelectedApp()
 
-  const handleClickPrice = (event) => {
+  useEffect(() => {
+    if (appSelect !== null) {
+      // handleClickPrice(appSelect)
+    }
+  }, [appSelect])
+
+  const handleClickPrice = event => {
     let { appPackageURL, applicationId, imageURL, device } =
-      selectAppHandler(event);
-    let mainBoxHolder = event.target.closest(".main-box-holder");
+      selectAppHandler(event)
+    let mainBoxHolder = event.target.closest(".main-box-holder")
     calculatePriceForSelectedApp(
       appPackageURL,
       applicationId,
       imageURL,
       device,
-      mainBoxHolder
-    );
-  };
+      mainBoxHolder,
+    )
+  }
 
   function selectAppHandler(event) {
-    const selectedLi = event.target.closest("li.li-suggestion-item");
-    const mainBoxHolder = selectedLi.closest(".main-box-holder");
-    return getDetailsOfSelectedLi(selectedLi, mainBoxHolder);
+    const selectedLi = event.target.closest("li.li-suggestion-item")
+    const mainBoxHolder = selectedLi.closest(".main-box-holder")
+    return getDetailsOfSelectedLi(selectedLi, mainBoxHolder)
   }
 
   function getDetailsOfSelectedLi(selectedItem, mainBoxHolder) {
-    const inputBox = mainBoxHolder.querySelector(".search-input");
-    const keyword = inputBox.value;
+    const inputBox = mainBoxHolder.querySelector(".search-input")
+    const keyword = inputBox.value
     // const country = mainBoxHolder.querySelector('.country-select-button').getAttribute('country-code');
-    const country = selectedCountryCode;
-    const applicationId = selectedItem.getAttribute("application-id");
-    const imageURL = selectedItem.getAttribute("application-img-logo");
-    let appPackageURL = selectedItem.getAttribute("application-url");
-    const device = selectedItem.getAttribute("device");
+    const country = selectedCountryCode
+    const applicationId = selectedItem.getAttribute("application-id")
+    const imageURL = selectedItem.getAttribute("application-img-logo")
+    let appPackageURL = selectedItem.getAttribute("application-url")
+    const device = selectedItem.getAttribute("device")
     const appName = selectedItem.querySelector(
-      ".li-suggestion-item-info"
-    ).innerHTML;
+      ".li-suggestion-item-info",
+    ).innerHTML
     if (device !== "apple")
-      appPackageURL = appPackageURL.split("&gl=")[0] + "&gl=" + country;
-    inputBox.setAttribute("application-id", applicationId);
-    inputBox.setAttribute("application-img-logo", imageURL);
-    inputBox.setAttribute("application-url", appPackageURL);
-    inputBox.setAttribute("device", device);
+      appPackageURL = appPackageURL.split("&gl=")[0] + "&gl=" + country
+    inputBox.setAttribute("application-id", applicationId)
+    inputBox.setAttribute("application-img-logo", imageURL)
+    inputBox.setAttribute("application-url", appPackageURL)
+    inputBox.setAttribute("device", device)
     const appData = {
       packageName: appName,
       icon_urls: imageURL,
       "app-package-id": applicationId,
       "data-package-url": appPackageURL,
       device: device,
-    };
-    let oldAppData = localStorage.getItem("Recent Selected App");
+    }
+    let oldAppData = localStorage.getItem("Recent Selected App")
     if (oldAppData) {
-      let Array = JSON.parse(oldAppData);
-      Array.unshift(appData);
+      let Array = JSON.parse(oldAppData)
+      Array.unshift(appData)
       let uniqueArray = Array.filter(
         (item, index) =>
           Array.findIndex(
-            (obj) => JSON.stringify(obj) === JSON.stringify(item)
-          ) === index
-      );
-      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray));
+            obj => JSON.stringify(obj) === JSON.stringify(item),
+          ) === index,
+      )
+      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray))
     } else {
-      localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
+      localStorage.setItem("Recent Selected App", JSON.stringify([appData]))
     }
 
     // if (device == "apple") {
@@ -75,14 +83,14 @@ const OurPricing = () => {
     try {
       mainBoxHolder
         .querySelector(".suggestions")
-        .classList.remove("format-suggestions");
+        .classList.remove("format-suggestions")
     } catch {}
     try {
       mainBoxHolder
         .querySelector(".close-search-form")
-        .classList.remove("hidden");
+        .classList.remove("hidden")
     } catch {}
-    return { appPackageURL, applicationId, imageURL, device };
+    return { appPackageURL, applicationId, imageURL, device }
   }
 
   async function calculatePriceForSelectedApp(
@@ -90,55 +98,55 @@ const OurPricing = () => {
     applicationId,
     imageURL,
     device,
-    mainBoxHolder
+    mainBoxHolder,
   ) {
-    const search_keyword = mainBoxHolder.querySelector(".search-input").value;
+    const search_keyword = mainBoxHolder.querySelector(".search-input").value
     // const country = mainBoxHolder.querySelector('.country-select-button').getAttribute("country-code");
-    const country = selectedCountryCode;
-    let outerSection = document.querySelector("#app-pricing-box_Pr");
-    let image = outerSection.querySelector("#App-Icon");
-    console.log("Image", image);
-    image.src = imageURL;
-    image.setAttribute("image-data", appPackageURL);
-    outerSection.classList.remove("hidden");
-    let deviceIcon = outerSection.querySelector("#App-Platform");
-    const appName = outerSection.querySelector("#App-Name");
-    const appInfo = outerSection.querySelector("#App-Info");
+    const country = selectedCountryCode
+    let outerSection = document.querySelector("#app-pricing-box_Pr")
+    let image = outerSection.querySelector("#App-Icon")
+    console.log("Image", image)
+    image.src = imageURL
+    image.setAttribute("image-data", appPackageURL)
+    outerSection.classList.remove("hidden")
+    let deviceIcon = outerSection.querySelector("#App-Platform")
+    const appName = outerSection.querySelector("#App-Name")
+    const appInfo = outerSection.querySelector("#App-Info")
     try {
-      document.querySelector("#custom-contact-btn").classList.remove("hidden");
+      document.querySelector("#custom-contact-btn").classList.remove("hidden")
     } catch {}
     if (device.toLowerCase() == "apple") {
-      const row_data = await fetchAppleAppData(appPackageURL, country);
+      const row_data = await fetchAppleAppData(appPackageURL, country)
       if (row_data) {
-        appName.innerHTML = row_data.trackCensoredName;
+        appName.innerHTML = row_data.trackCensoredName
         appInfo.innerHTML =
           "&#11088; " +
           row_data.averageUserRating.toFixed(2) +
           ", " +
-          row_data.primaryGenreName;
+          row_data.primaryGenreName
         try {
           await handleAppleDeviceApp(
             deviceIcon,
             row_data,
             search_keyword,
             applicationId,
-            appPackageURL
-          );
+            appPackageURL,
+          )
         } catch (error) {
-          window.alert("Error:", error);
+          window.alert("Error:", error)
         }
       } else {
-        window.alert("Warning! Please select the app from the dropdown menu.");
+        window.alert("Warning! Please select the app from the dropdown menu.")
       }
     } else {
-      const responseData = await fetchPlayStoreAppData(applicationId, country);
+      const responseData = await fetchPlayStoreAppData(applicationId, country)
       if (responseData.url) {
-        appName.innerHTML = responseData.title;
+        appName.innerHTML = responseData.title
         appInfo.innerHTML =
           "&#11088; " +
           parseFloat(responseData.score).toFixed(2) +
           ", " +
-          responseData.genre;
+          responseData.genre
         try {
           await handlePlayStoreDeviceApp(
             deviceIcon,
@@ -146,10 +154,10 @@ const OurPricing = () => {
             search_keyword,
             applicationId,
             appPackageURL,
-            country
-          );
+            country,
+          )
         } catch (error) {
-          window.alert("Error:", error);
+          window.alert("Error:", error)
         }
       }
     }
@@ -160,16 +168,16 @@ const OurPricing = () => {
     const requestOptions = {
       method: "GET",
       redirect: "follow",
-    };
-    const regex = /\/id(\d+)/;
-    const id = appPackageURL.match(regex)[1];
-    const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`;
+    }
+    const regex = /\/id(\d+)/
+    const id = appPackageURL.match(regex)[1]
+    const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`
     try {
-      const response = await fetch(requestURL, requestOptions);
-      const data = await response.json();
-      return data["results"][0];
+      const response = await fetch(requestURL, requestOptions)
+      const data = await response.json()
+      return data["results"][0]
     } catch (error) {
-      throw new Error(`Error fetching Apple app data: ${error}`);
+      throw new Error(`Error fetching Apple app data: ${error}`)
     }
   }
 
@@ -179,25 +187,25 @@ const OurPricing = () => {
     row_data,
     search_keyword,
     applicationId,
-    appPackageURL
+    appPackageURL,
   ) {
-    const allParagraph = document.querySelectorAll(".feature-pointer");
+    const allParagraph = document.querySelectorAll(".feature-pointer")
     try {
-      allParagraph[2].parentNode.classList.add("hidden");
-      allParagraph[5].parentNode.classList.add("hidden");
+      allParagraph[2].parentNode.classList.add("hidden")
+      allParagraph[5].parentNode.classList.add("hidden")
     } catch {}
     deviceIcon.src =
-      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
-    const dataObject = getDataObjectForApple(row_data);
+      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg"
+    const dataObject = getDataObjectForApple(row_data)
     allParagraph[0].innerHTML =
-      "Improve visitors - using keyword ranks and ML based keyword field recommendations.";
+      "Improve visitors - using keyword ranks and ML based keyword field recommendations."
     allParagraph[3].innerHTML =
-      "Conversion improvement - by focusing on A/B testing with app Metadata. i.e. Title, Description, etc.";
+      "Conversion improvement - by focusing on A/B testing with app Metadata. i.e. Title, Description, etc."
     const priceData = await fetchPriceData(
       "https://nextgrowthlabs.com/wp-json/my-api/v1/apple-price-request",
-      dataObject
-    );
-    updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
+      dataObject,
+    )
+    updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL)
   }
   async function handlePlayStoreDeviceApp(
     deviceIcon,
@@ -205,38 +213,38 @@ const OurPricing = () => {
     search_keyword,
     applicationId,
     appPackageURL,
-    country
+    country,
   ) {
     deviceIcon.src =
-      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-    let dataObject = getDataObjectForPlay(responseData);
-    const MHRScore = await fetchMHRScore(applicationId, country);
-    dataObject.MHR = MHRScore;
-    const allParagraph = document.querySelectorAll(".feature-pointer");
+      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg"
+    let dataObject = getDataObjectForPlay(responseData)
+    const MHRScore = await fetchMHRScore(applicationId, country)
+    dataObject.MHR = MHRScore
+    const allParagraph = document.querySelectorAll(".feature-pointer")
     allParagraph[0].innerHTML =
-      "Improve visitors - using keyword ranks and similar app section ML based rating improvement plan.";
+      "Improve visitors - using keyword ranks and similar app section ML based rating improvement plan."
     allParagraph[3].innerHTML =
-      "Conversion improvement - by focusing on MHR score, A/B testing.";
+      "Conversion improvement - by focusing on MHR score, A/B testing."
     const priceData = await fetchPriceData(
       "https://nextgrowthlabs.com/wp-json/my-api/v1/play-price-request",
-      dataObject
-    );
-    updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
+      dataObject,
+    )
+    updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL)
   }
   // --------------------------------------------------
   async function fetchPlayStoreAppData(applicationId, t) {
-    const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`;
+    const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`
     try {
-      const response = await fetch(url);
-      return await response.json();
+      const response = await fetch(url)
+      return await response.json()
     } catch (error) {
-      throw new Error(`Error fetching Play Store app data: ${error}`);
+      throw new Error(`Error fetching Play Store app data: ${error}`)
     }
   }
 
   // --------------------------------------------------
   function getDataObjectForApple(row_data) {
-    let userRating = row_data.averageUserRating.toFixed(2);
+    let userRating = row_data.averageUserRating.toFixed(2)
     let dataObject = {
       TitleLength: row_data.trackCensoredName.length,
       Size: row_data.fileSizeBytes,
@@ -244,8 +252,8 @@ const OurPricing = () => {
       DescriptionLength: row_data.description.length,
       Rating: userRating < 1.0 ? 1.2 : userRating,
       RatingCount: row_data.userRatingCount,
-    };
-    return dataObject;
+    }
+    return dataObject
   }
   function getDataObjectForPlay(responseData) {
     let dataObject = {
@@ -258,23 +266,23 @@ const OurPricing = () => {
       VideoPresent: responseData.video ? true : false,
       Size: responseData.size || 123456,
       MHR: 20,
-    };
-    return dataObject;
+    }
+    return dataObject
   }
 
   // MHR request
   async function fetchMHRScore(applicationId, country) {
-    const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+    const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`
     try {
-      const response = await fetch(url);
-      const data = await response.json();
-      const todayDate = new Date();
-      todayDate.setDate(todayDate.getDate() - 1);
-      const yesterdayDate = todayDate.toISOString().substr(0, 10);
-      const entry = data.find((entry) => entry.date === yesterdayDate);
-      return entry ? entry.score : 30;
+      const response = await fetch(url)
+      const data = await response.json()
+      const todayDate = new Date()
+      todayDate.setDate(todayDate.getDate() - 1)
+      const yesterdayDate = todayDate.toISOString().substr(0, 10)
+      const entry = data.find(entry => entry.date === yesterdayDate)
+      return entry ? entry.score : 30
     } catch (error) {
-      throw new Error(`Error fetching MHR score: ${error}`);
+      throw new Error(`Error fetching MHR score: ${error}`)
     }
   }
   // -------------- Price Data -----------------------------
@@ -286,64 +294,66 @@ const OurPricing = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(dataObject),
-      });
-      return await response.json();
+      })
+      return await response.json()
     } catch (error) {
-      throw new Error(`Error fetching price data: ${error}`);
+      throw new Error(`Error fetching price data: ${error}`)
     }
   }
 
   // Updating Price and Slider
-  const [priceData, setPriceData] = useState();
-  const [sliderValue, setSliderValue] = useState(5000);
-  const [minValue, setMinValue] = useState(1000);
-  const [maxValue, setMaxValue] = useState(30000);
-  const [loading, setLoading] = useState(true);
+  const [priceData, setPriceData] = useState()
+  const [sliderValue, setSliderValue] = useState(5000)
+  const [minValue, setMinValue] = useState(1000)
+  const [maxValue, setMaxValue] = useState(30000)
+  const [loading, setLoading] = useState(true)
 
   // Function to update the price and slider values
-  const updatePriceToPage = (newPriceData) => {
-    setLoading(true);
-    const max = parseInt((parseInt(newPriceData) * 7) / 1000) * 1000;
-    const min = parseInt(parseInt(newPriceData) / 2 / 500) * 500;
-    setPriceData(newPriceData);
-    setSliderValue(newPriceData);
-    setMinValue(min);
-    setMaxValue(max);
-    setLoading(false);
-  };
+  const updatePriceToPage = newPriceData => {
+    setLoading(true)
+    const max = parseInt((parseInt(newPriceData) * 7) / 1000) * 1000
+    const min = parseInt(parseInt(newPriceData) / 2 / 500) * 500
+    setPriceData(newPriceData)
+    setSliderValue(newPriceData)
+    setMinValue(min)
+    setMaxValue(max)
+    setLoading(false)
+  }
 
-  const handleSliderChange = (event) => {
-    const newValue = event.target.value;
-    setSliderValue(newValue);
-  };
+  const handleSliderChange = event => {
+    const newValue = event.target.value
+    setSliderValue(newValue)
+  }
 
-// Handle click outside of the suggestions
-const appSuggestionRef = useRef(null);
-useEffect(() => {
-  const handleClickOutside = (event) => {
-    if (
-      appSuggestionRef.current &&
-      !appSuggestionRef.current.contains(event.target)
-    ) {
-      const suggestion = appSuggestionRef.current.querySelector(".suggestions");
-      if (suggestion) {
-        suggestion.classList.remove("format-suggestions");
+  // Handle click outside of the suggestions
+  const appSuggestionRef = useRef(null)
+  useEffect(() => {
+    const handleClickOutside = event => {
+      if (
+        appSuggestionRef.current &&
+        !appSuggestionRef.current.contains(event.target)
+      ) {
+        const suggestion =
+          appSuggestionRef.current.querySelector(".suggestions")
+        if (suggestion) {
+          suggestion.classList.remove("format-suggestions")
+        }
       }
     }
-  };
 
-  document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
 
-  return () => {
-    document.removeEventListener("mousedown", handleClickOutside);
-  };
-}, []);
-
-
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [])
 
   return (
     <>
-      <div id="our-pricing" className="form-capture-section">
+      <div
+        id="our-pricing"
+        className="form-capture-section"
+      >
         <div className="form-tab-wrapper">
           <div className="tab-wrapper vertical-centre-aligned">
             <div className="max-width-large align-center">
@@ -768,7 +778,7 @@ useEffect(() => {
                           className="w-layout-grid tabs-layout_component"
                         >
                           <div className="search-box-wrapper">
-                            <div  className="app-search-box-holder">
+                            <div className="app-search-box-holder">
                               <div className="search-box_holder flex-custom width">
                                 <div className="code-left">
                                   <div className="html-embed-14 w-embed">
@@ -776,7 +786,10 @@ useEffect(() => {
                                       id="search-box5"
                                       className="main-box-holder"
                                     >
-                                      <div ref={appSuggestionRef} className="search-box-suggestion">
+                                      <div
+                                        ref={appSuggestionRef}
+                                        className="search-box-suggestion"
+                                      >
                                         <div className="main-search-bar">
                                           <input
                                             type="text"
@@ -926,10 +939,9 @@ useEffect(() => {
                                             </ul>
                                           </div>
                                           <ul
-                                          
                                             id="suggestions-box5"
                                             className="suggestions"
-                                            onClick={(e) => handleClickPrice(e)}
+                                            onClick={e => handleClickPrice(e)}
                                           ></ul>
                                         </div>
                                       </div>
@@ -1158,7 +1170,6 @@ useEffect(() => {
                                               onChange={handleSliderChange}
                                               className="slider"
                                               id="rangeSlider"
-
                                             />
                                           </div>
                                         </div>
@@ -1395,7 +1406,7 @@ useEffect(() => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default OurPricing;
+export default OurPricing

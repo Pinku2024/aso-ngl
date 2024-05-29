@@ -4,10 +4,12 @@ import Lottie from "lottie-react"
 import asoGreen from "../public/assets/documents/aso-green.json"
 import conversionMarketing from "../public/assets/documents/conversion-marketing.json"
 import starRating from "../public/assets/documents/Five-Star-Rating.json"
+import { useSelectedApp } from "../context/EventContext"
 
 const Services = () => {
   const [activeSol, setActiveSol] = useState("solution1")
   const [selectedCountryCode, setSelectedCountryCode] = useState("in")
+  const { appSelect, setAppSelect } = useSelectedApp()
 
   const countries = useMemo(
     () => [
@@ -136,6 +138,12 @@ const Services = () => {
     ],
     [],
   )
+
+  useEffect(() => {
+    if (appSelect !== null) {
+      handleClick(appSelect)
+    }
+  }, [appSelect])
 
   useEffect(() => {
     function setupautoComplete(iOSOuterBox) {
