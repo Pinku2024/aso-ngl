@@ -1,11 +1,14 @@
-import Link from "next/link";
-import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link"
+import Image from "next/image"
+import { useState } from "react"
 
 const ContactForm = () => {
-  const [formSubmit, setFormSubmit] = useState(false);
+  const [formSubmit, setFormSubmit] = useState(false)
   return (
-    <section id="request-a-quote" className="section request-a-quote">
+    <section
+      id="request-a-quote"
+      className="section request-a-quote"
+    >
       <div className="container-default w-container">
         <div className="request-a-quote-wrapper">
           <div className="split-content request-a-quote-left">
@@ -93,7 +96,12 @@ const ContactForm = () => {
                     className="image request-a-quote-contact"
                   />
                 </div>
-                <div className="button-primary mail-btn" style={{height:"14px", lineHeight:"0"}}>To increase tap potential</div>  
+                <div
+                  className="button-primary mail-btn"
+                  style={{ height: "14px", lineHeight: "0" }}
+                >
+                  contact@nextgrowthlabs.com
+                </div>
               </Link>
               <Link
                 href="tel:(546)232-9872"
@@ -262,7 +270,7 @@ const ContactForm = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default ContactForm;
+export default ContactForm
