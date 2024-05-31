@@ -1,11 +1,47 @@
-import Link from "next/link";
-import Image from "next/image";
-import { useState } from "react";
+import Link from "next/link"
+import Image from "next/image"
+import { useState } from "react"
 const Testimonials = () => {
-  const [activeTestimonial, setActiveTestimonial] = useState("tab1");
+  const data = [
+    {
+      name: "Tushar Pathak",
+      company: "Growth Lead at Bajaj Finserv",
+      image: "/assets/imgs/Bajaj_Finserv_Logo.svg",
+      title:
+        "“Customised ASO strategy by NextGrowth Labs has helped us in improving app's rankings and visibility”",
+      review: `NextGrowth Labs provided exceptional ASO services, demonstrating deep expertise and a tailored approach. Their tech-driven strategy significantly boosted our app's rankings and organic downloads. Thanks to the entire team for their outstanding work and dedication to our success!`,
+    },
+    {
+      name: "Abhinav Mathur",
+      company: "Insanely Good by Swiggy",
+      image: "/assets/imgs/Swiggy_logo.svg",
+      title: "",
+      review: `The team delivered on time and exceeded our expectations. Onboarding them improved our conversions. Their professionalism and delivery excellence are commendable. Highly recommended!`,
+    },
+    {
+      name: "Ashish Kumar Bhalla",
+      company: "Urban Company",
+      image: "/assets/imgs/Urban-Company-logosvg.svg",
+      title:
+        "“NextGrowth Labs has been able to deliver exceptional results. Their tools, insights, are top notch, and they have great deal ofattention to detail and technical expertise.”",
+      review: `"I worked with Nextlabs for both ASO and SEO for Urbanclap earlier, and now with Badger holdings. NextGrowth Labs has been able to deliver exceptional results. Their tools, insights, are top notch, and they have great deal of attention to detail and technical expertise. When we hired them, we wanted to tell them what to do - eventually, they aced to the point where they were able to tell us what we should be doing. Their grip on data and using first principles in marketing is outstanding. There has hardly been a problem that they haven't been able to solve."`,
+    },
+    {
+      name: "Abhilash Joseph",
+      company: "Senior Business Lead, Fisdom",
+      image: "/assets/imgs/Bajaj_Finserv_Logo.svg",
+      title:
+        "“I liked their innovative and data driven approach. Throughout our relationship, they maintained clear communication and transparency.”",
+      review: `We've been working with NextGrowthLabs for last 3 years. The team at NextGrowth Labs is very knowledgeable and data driven. They took the time to understand my business goals, industry dynamics, and target audience. I liked their innovative and data driven approach.
+      Throughout our relationship, they maintained clear communication and transparency. They'd proactively handle the project, kept me informed at every stage for any important update and came up with a solution. I highly recommend them.`,
+    },
+  ]
+
+  const [activeTestimonial, setActiveTestimonial] = useState("tab1")
   return (
     <>
-      <section
+
+       <section
         id="testimonials"
         className="section-2 bg-neutral-200 small-padding"
       >
@@ -62,7 +98,10 @@ const Testimonials = () => {
               }}
               className="split-content testimonials-right"
             >
-              <a href="#" className="button-primary hidden w-button">
+              <a
+                href="#"
+                className="button-primary hidden w-button"
+              >
                 Contact us
               </a>
             </div>
@@ -239,7 +278,10 @@ const Testimonials = () => {
                         </div>
                       </div>
                       <div className="about-testimonial-company-wrapper">
-                        <img alt="" src="/assets/imgs/Swiggy_logo.svg" />
+                        <img
+                          alt=""
+                          src="/assets/imgs/Swiggy_logo.svg"
+                        />
                       </div>
                     </div>
                   </div>
@@ -339,7 +381,10 @@ const Testimonials = () => {
                         </div>
                       </div>
                       <div className="about-testimonial-company-wrapper">
-                        <img alt="" src="/assets/imgs/fisdom-logo-svg.svg" />
+                        <img
+                          alt=""
+                          src="/assets/imgs/fisdom-logo-svg.svg"
+                        />
                       </div>
                     </div>
                   </div>
@@ -348,9 +393,9 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> 
     </>
-  );
-};
+  )
+}
 
-export default Testimonials;
+export default Testimonials

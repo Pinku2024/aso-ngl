@@ -1937,7 +1937,7 @@ p {
 }
 
 .app-search-box-holder.margin-top {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 }
 
 .app-search-box-holder.margin-top.new-height {
@@ -2685,8 +2685,10 @@ p {
 }
 
 .tabs1_link-service:hover {
-  color: #eaeaea;
-  background-color: #1e7df8;
+  /* color: #eaeaea; */
+  /* background-color: #1e7df8; */
+  background-color: #eaeaea;;
+  color: var(--bgColor);
 }
 
 .tabs1_link-service.w--current {
@@ -6576,6 +6578,8 @@ p {
   display: inline-block;
   width: 10040px;
   animation: 39s slide linear infinite;
+  position: relative;
+  z-index: -1;
 }
 .marqueeContainer .marqueeSlide img {
   margin: 0 40px;

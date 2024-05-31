@@ -3,94 +3,34 @@ import Link from "next/link"
 import CountrySelect from "./elements/CountrySelect"
 import { useEffect, useState, useRef } from "react"
 import { useSelectedApp } from "../context/EventContext"
+import { selectAppHandler } from "./utils"
 
 const OurPricing = () => {
   const [activeTab, setActiveTab] = useState("tab2")
   const [appSelected, setAppSelected] = useState(false)
   const [selectedCountryCode, setSelectedCountryCode] = useState("in")
   const { appSelect } = useSelectedApp()
-
   useEffect(() => {
     if (appSelect !== null) {
-      // handleClickPrice(appSelect)
+      setAppSelected(true)
+      setTimeout(()=>{
+        handleClickPrice(appSelect)
+      }, 500)
     }
   }, [appSelect])
 
-  const handleClickPrice = event => {
+  async function handleClickPrice(event){
     let { appPackageURL, applicationId, imageURL, device } =
       selectAppHandler(event)
     let mainBoxHolder = event.target.closest(".main-box-holder")
-    calculatePriceForSelectedApp(
+   await calculatePriceForSelectedApp(
       appPackageURL,
       applicationId,
       imageURL,
       device,
       mainBoxHolder,
+
     )
-  }
-
-  function selectAppHandler(event) {
-    const selectedLi = event.target.closest("li.li-suggestion-item")
-    const mainBoxHolder = selectedLi.closest(".main-box-holder")
-    return getDetailsOfSelectedLi(selectedLi, mainBoxHolder)
-  }
-
-  function getDetailsOfSelectedLi(selectedItem, mainBoxHolder) {
-    const inputBox = mainBoxHolder.querySelector(".search-input")
-    const keyword = inputBox.value
-    // const country = mainBoxHolder.querySelector('.country-select-button').getAttribute('country-code');
-    const country = selectedCountryCode
-    const applicationId = selectedItem.getAttribute("application-id")
-    const imageURL = selectedItem.getAttribute("application-img-logo")
-    let appPackageURL = selectedItem.getAttribute("application-url")
-    const device = selectedItem.getAttribute("device")
-    const appName = selectedItem.querySelector(
-      ".li-suggestion-item-info",
-    ).innerHTML
-    if (device !== "apple")
-      appPackageURL = appPackageURL.split("&gl=")[0] + "&gl=" + country
-    inputBox.setAttribute("application-id", applicationId)
-    inputBox.setAttribute("application-img-logo", imageURL)
-    inputBox.setAttribute("application-url", appPackageURL)
-    inputBox.setAttribute("device", device)
-    const appData = {
-      packageName: appName,
-      icon_urls: imageURL,
-      "app-package-id": applicationId,
-      "data-package-url": appPackageURL,
-      device: device,
-    }
-    let oldAppData = localStorage.getItem("Recent Selected App")
-    if (oldAppData) {
-      let Array = JSON.parse(oldAppData)
-      Array.unshift(appData)
-      let uniqueArray = Array.filter(
-        (item, index) =>
-          Array.findIndex(
-            obj => JSON.stringify(obj) === JSON.stringify(item),
-          ) === index,
-      )
-      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray))
-    } else {
-      localStorage.setItem("Recent Selected App", JSON.stringify([appData]))
-    }
-
-    // if (device == "apple") {
-    //   dataLayer.push({ "event": "ios_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
-    // } else {
-    //   dataLayer.push({ "event": "play_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
-    // }
-    try {
-      mainBoxHolder
-        .querySelector(".suggestions")
-        .classList.remove("format-suggestions")
-    } catch {}
-    try {
-      mainBoxHolder
-        .querySelector(".close-search-form")
-        .classList.remove("hidden")
-    } catch {}
-    return { appPackageURL, applicationId, imageURL, device }
   }
 
   async function calculatePriceForSelectedApp(
@@ -101,11 +41,9 @@ const OurPricing = () => {
     mainBoxHolder,
   ) {
     const search_keyword = mainBoxHolder.querySelector(".search-input").value
-    // const country = mainBoxHolder.querySelector('.country-select-button').getAttribute("country-code");
     const country = selectedCountryCode
     let outerSection = document.querySelector("#app-pricing-box_Pr")
     let image = outerSection.querySelector("#App-Icon")
-    console.log("Image", image)
     image.src = imageURL
     image.setAttribute("image-data", appPackageURL)
     outerSection.classList.remove("hidden")
