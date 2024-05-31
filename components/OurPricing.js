@@ -12,6 +12,8 @@ import {
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
+import { selectAppHandler } from "./utils";
+
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
@@ -21,10 +23,12 @@ const OurPricing = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
   const { appSelect } = useSelectedApp();
   const [showInputCloseBtn, setShowInputCloseBtn] = useAtom(showCloseBtn);
-
   useEffect(() => {
     if (appSelect !== null) {
-      // handleClickPrice(appSelect)
+      setAppSelected(true);
+      setTimeout(() => {
+        handleClickPrice(appSelect);
+      }, 500);
     }
   }, [appSelect]);
 

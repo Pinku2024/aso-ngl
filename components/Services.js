@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef, useMemo } from "react";
+import { useEffect, useState, useRef } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import Lottie from "lottie-react";
 import asoGreen from "../public/assets/documents/aso-green.json";
@@ -506,65 +506,65 @@ const Services = () => {
     preloadImages();
   }, [countries]);
 
-  // async function updateOtherSectionToSelectedApp(
-  //   appPackageURL,
-  //   applicationId,
-  //   imageURL,
-  //   device,
-  //   country
-  // ) {
-  //   const countryResult = countries.find(
-  //     (cn) => cn.code === country.toLowerCase()
-  //   );
-  //   const countryName = country ? countryResult.name : country;
-  //   const flag = countryFlagImages[country];
-  //   // console.log("Country select btn", countrySelectBtn)
-  //   const countrySelectBtn = document.querySelectorAll(
-  //     ".country-select-button"
-  //   );
-  //   countrySelectBtn.forEach((button) => {
-  //     const result = button.offsetWidth > 200 ? true : false;
-  //     let cName = result ? countryName : country.toUpperCase();
-  //     button.setAttribute("country-code", country);
-  //     button.setAttribute("country-name", cName);
-  //     const oldSpanElement = button.firstElementChild;
-  //     // Create a new span element
-  //     const newSpan = document.createElement("span");
-  //     // Create a text node for the country code
-  //     const countryCodeNode = document.createTextNode(cName);
-  //     // Append the img and text nodes to the new span element
-  //     const clonedFlag = flag.cloneNode(true);
-  //     newSpan.appendChild(clonedFlag);
-  //     newSpan.appendChild(countryCodeNode);
-  //     // Replace the existing span element with the new span element
-  //     button.replaceChild(newSpan, oldSpanElement);
-  //   });
+  async function updateOtherSectionToSelectedApp(
+    appPackageURL,
+    applicationId,
+    imageURL,
+    device,
+    country
+  ) {
+    const countryResult = countries.find(
+      (cn) => cn.code === country.toLowerCase()
+    );
+    const countryName = country ? countryResult.name : country;
+    const flag = countryFlagImages[country];
+    // console.log("Country select btn", countrySelectBtn)
+    const countrySelectBtn = document.querySelectorAll(
+      ".country-select-button"
+    );
+    countrySelectBtn.forEach((button) => {
+      const result = button.offsetWidth > 200 ? true : false;
+      let cName = result ? countryName : country.toUpperCase();
+      button.setAttribute("country-code", country);
+      button.setAttribute("country-name", cName);
+      const oldSpanElement = button.firstElementChild;
+      // Create a new span element
+      const newSpan = document.createElement("span");
+      // Create a text node for the country code
+      const countryCodeNode = document.createTextNode(cName);
+      // Append the img and text nodes to the new span element
+      const clonedFlag = flag.cloneNode(true);
+      newSpan.appendChild(clonedFlag);
+      newSpan.appendChild(countryCodeNode);
+      // Replace the existing span element with the new span element
+      button.replaceChild(newSpan, oldSpanElement);
+    });
 
-  //   calculatePriceForSelectedApp(
-  //     appPackageURL,
-  //     applicationId,
-  //     imageURL,
-  //     device,
-  //     document.querySelector("#search-box1")
-  //   );
-  //   // document.querySelector("#custom-contact-btn").classList.add("hidden")
-  //   // let pricingBtn = document.querySelector("#solutions")
-  //   // pricingBtn.click()
-  //   // pricingBtn.scrollIntoView({ behavior: "smooth" })
-  //   const response = await fetchAndStoreAppDataToBox(
-  //     appPackageURL,
-  //     applicationId,
-  //     device,
-  //     country
-  //   );
-  //   const allMiniContainer = document.querySelectorAll(".mini-main-container");
-  //   showResponseToAllSmallBox(response, device, allMiniContainer);
-  //   try {
-  //     closeSearchBtn.forEach((close) => {
-  //       close.classList.remove("hidden");
-  //     });
-  //   } catch {}
-  // }
+    calculatePriceForSelectedApp(
+      appPackageURL,
+      applicationId,
+      imageURL,
+      device,
+      document.querySelector("#search-box1")
+    );
+    // document.querySelector("#custom-contact-btn").classList.add("hidden")
+    // let pricingBtn = document.querySelector("#solutions")
+    // pricingBtn.click()
+    // pricingBtn.scrollIntoView({ behavior: "smooth" })
+    const response = await fetchAndStoreAppDataToBox(
+      appPackageURL,
+      applicationId,
+      device,
+      country
+    );
+    const allMiniContainer = document.querySelectorAll(".mini-main-container");
+    showResponseToAllSmallBox(response, device, allMiniContainer);
+    try {
+      closeSearchBtn.forEach((close) => {
+        close.classList.remove("hidden");
+      });
+    } catch {}
+  }
 
   // async function fetchAndStoreAppDataToBox(
   //   appPackageURL,
@@ -585,76 +585,76 @@ const Services = () => {
   //   }
   // }
 
-  // async function calculatePriceForSelectedApp(
-  //   appPackageURL,
-  //   applicationId,
-  //   imageURL,
-  //   device,
-  //   mainBoxHolder
-  // ) {
-  //   const search_keyword = mainBoxHolder.querySelector(".search-input").value;
-  //   const country = mainBoxHolder
-  //     .querySelector(".country-select-button")
-  //     .getAttribute("country-code");
-  //   // let outerSection = document.querySelector("#app-pricing-box_Pr")
-  //   // let image = outerSection.querySelector("#App-Icon")
-  //   // console.log("Image", image)
-  //   // image.src = imageURL
-  //   // image.setAttribute("image-data", appPackageURL)
-  //   // outerSection.classList.remove("hidden")
-  //   // let deviceIcon = outerSection.querySelector("#App-Platform")
-  //   // const appName = outerSection.querySelector("#App-Name")
-  //   // const appInfo = outerSection.querySelector("#App-Info")
-  //   try {
-  //     document.querySelector("#custom-contact-btn").classList.remove("hidden");
-  //   } catch {}
-  //   if (device.toLowerCase() == "apple") {
-  //     const row_data = await fetchAppleAppData(appPackageURL, country);
-  //     if (row_data) {
-  //       // appName.innerHTML = row_data.trackCensoredName
-  //       // appInfo.innerHTML =
-  //       //   "&#11088; " +
-  //       //   row_data.averageUserRating.toFixed(2) +
-  //       //   ", " +
-  //       //   row_data.primaryGenreName
-  //       try {
-  //         await handleAppleDeviceApp(
-  //           deviceIcon,
-  //           row_data,
-  //           search_keyword,
-  //           applicationId,
-  //           appPackageURL
-  //         );
-  //       } catch (error) {
-  //         // window.alert("Error:", error)
-  //       }
-  //     } else {
-  //       window.alert("Warning! Please select the app from the dropdown menu.");
-  //     }
-  //   } else {
-  //     const responseData = await fetchPlayStoreAppData(applicationId, country);
-  //     if (responseData.url) {
-  //       // appName.innerHTML = responseData.title
-  //       // appInfo.innerHTML =
-  //       // "&#11088; " +
-  //       // parseFloat(responseData.score).toFixed(2) +
-  //       // ", " +
-  //       // responseData.genre
-  //       try {
-  //         await handlePlayStoreDeviceApp(
-  //           deviceIcon,
-  //           responseData,
-  //           search_keyword,
-  //           applicationId,
-  //           appPackageURL,
-  //           country
-  //         );
-  //       } catch (error) {
-  //         // window.alert("Error:", error)
-  //       }
-  //     }
-  //   }
-  // }
+  async function calculatePriceForSelectedApp(
+    appPackageURL,
+    applicationId,
+    imageURL,
+    device,
+    mainBoxHolder
+  ) {
+    const search_keyword = mainBoxHolder.querySelector(".search-input").value;
+    const country = mainBoxHolder
+      .querySelector(".country-select-button")
+      .getAttribute("country-code");
+    // let outerSection = document.querySelector("#app-pricing-box_Pr")
+    // let image = outerSection.querySelector("#App-Icon")
+    // console.log("Image", image)
+    // image.src = imageURL
+    // image.setAttribute("image-data", appPackageURL)
+    // outerSection.classList.remove("hidden")
+    // let deviceIcon = outerSection.querySelector("#App-Platform")
+    // const appName = outerSection.querySelector("#App-Name")
+    // const appInfo = outerSection.querySelector("#App-Info")
+    try {
+      document.querySelector("#custom-contact-btn").classList.remove("hidden");
+    } catch {}
+    if (device.toLowerCase() == "apple") {
+      const row_data = await fetchAppleAppData(appPackageURL, country);
+      if (row_data) {
+        // appName.innerHTML = row_data.trackCensoredName
+        // appInfo.innerHTML =
+        //   "&#11088; " +
+        //   row_data.averageUserRating.toFixed(2) +
+        //   ", " +
+        //   row_data.primaryGenreName
+        try {
+          await handleAppleDeviceApp(
+            deviceIcon,
+            row_data,
+            search_keyword,
+            applicationId,
+            appPackageURL
+          );
+        } catch (error) {
+          // window.alert("Error:", error)
+        }
+      } else {
+        window.alert("Warning! Please select the app from the dropdown menu.");
+      }
+    } else {
+      const responseData = await fetchPlayStoreAppData(applicationId, country);
+      if (responseData.url) {
+        // appName.innerHTML = responseData.title
+        // appInfo.innerHTML =
+        // "&#11088; " +
+        // parseFloat(responseData.score).toFixed(2) +
+        // ", " +
+        // responseData.genre
+        try {
+          await handlePlayStoreDeviceApp(
+            deviceIcon,
+            responseData,
+            search_keyword,
+            applicationId,
+            appPackageURL,
+            country
+          );
+        } catch (error) {
+          // window.alert("Error:", error)
+        }
+      }
+    }
+  }
 
   // async function handlePlayStoreDeviceApp(
   //   deviceIcon,
@@ -1076,6 +1076,7 @@ const Services = () => {
             visibility
           </p>
         </div>
+
         <div
           data-current="Tab 2"
           data-easing="ease"
@@ -1335,7 +1336,7 @@ const Services = () => {
                               <Lottie
                                 animationData={asoGreen}
                                 loop={true}
-                                style={{ height: 300, width: 300 }}
+                                // style={{ height: 300, width: 300 }}
                               />
                             </div>
                           </div>
@@ -2059,12 +2060,13 @@ const Services = () => {
                               <Lottie
                                 animationData={conversionMarketing}
                                 loop={true}
-                                style={{ height: 300, width: 300 }}
+                                // style={{ height: 300, width: 300 }}
                               />
                             </div>
                           </div>
                         </div>
                       </div>
+
                       <div className="app-info-display mhr mobile hidden">
                         <div className="w-embed">
                           <div className="app-basic-info-box">
@@ -2341,12 +2343,13 @@ const Services = () => {
                           <Lottie
                             animationData={asoGreen}
                             loop={true}
-                            style={{ height: 300, width: 300 }}
+                            // style={{ height: 300, width: 300 }}
                           />
                         </div>
                       </div>
                     </div>
                   </div>
+
                   <div className="app-info-display installs hidden">
                     <div className="w-embed w-script">
                       <div className="app-basic-info-box">
@@ -2672,7 +2675,7 @@ const Services = () => {
                           <Lottie
                             animationData={starRating}
                             loop={true}
-                            style={{ height: 300, width: 300 }}
+                            // style={{ height: 300, width: 300 }}
                           />
                         </div>
                       </div>
@@ -2998,7 +3001,7 @@ const Services = () => {
                           <Lottie
                             animationData={conversionMarketing}
                             loop={true}
-                            style={{ height: 300, width: 300 }}
+                            // style={{ height: 300, width: 300 }}
                           />
                         </div>
                       </div>
