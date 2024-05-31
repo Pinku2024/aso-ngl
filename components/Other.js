@@ -171,7 +171,7 @@ const Other = () => {
                   }}
                   className="title-3 our-process cantre-align"
                 >
-                  We can do lot more than what other agencies do! 🙌{" "}
+                  We can do lot more than what other agencies do! 🙌
                 </h2>
               </div>
               <p

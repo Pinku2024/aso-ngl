@@ -1,16 +1,25 @@
-import { useEffect, useState, useRef, useMemo } from "react"
-import CountrySelect from "./elements/CountrySelect"
-import Lottie from "lottie-react"
-import asoGreen from "../public/assets/documents/aso-green.json"
-import conversionMarketing from "../public/assets/documents/conversion-marketing.json"
-import starRating from "../public/assets/documents/Five-Star-Rating.json"
-import { useSelectedApp } from "../context/EventContext"
-
+import { useEffect, useState, useRef, useMemo } from "react";
+import CountrySelect from "./elements/CountrySelect";
+import Lottie from "lottie-react";
+import asoGreen from "../public/assets/documents/aso-green.json";
+import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
+import starRating from "../public/assets/documents/Five-Star-Rating.json";
+import { useSelectedApp } from "../context/EventContext";
+import RecentApps from "./elements/RecentApps";
+import { useAtom } from "jotai";
+import {
+  searchKeyword,
+  showRecentApps,
+  showSearchApps,
+} from "../context/store";
+import SearchResults from "./elements/SearchResults";
 const Services = () => {
-  const [activeSol, setActiveSol] = useState("solution1")
-  const [selectedCountryCode, setSelectedCountryCode] = useState("in")
-  const { appSelect, setAppSelect } = useSelectedApp()
-
+  const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
+  const [activeSol, setActiveSol] = useState("solution1");
+  const [selectedCountryCode, setSelectedCountryCode] = useState("in");
+  const { appSelect, setAppSelect } = useSelectedApp();
+  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
+  const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const countries = useMemo(
     () => [
       { name: "Afghanistan", code: "af", flag: "af.png" },
@@ -136,913 +145,921 @@ const Services = () => {
       { name: "Zambia", code: "zm", flag: "zm.png" },
       { name: "Zimbabwe", code: "zw", flag: "zw.png" },
     ],
-    [],
-  )
+    []
+  );
 
   useEffect(() => {
     if (appSelect !== null) {
-      handleClick(appSelect)
+      handleClick(appSelect);
     }
-  }, [appSelect])
+  }, [appSelect]);
 
-  useEffect(() => {
-    function setupautoComplete(iOSOuterBox) {
-      let iOSautoCompleteTimer
-      const inputElement = iOSOuterBox.querySelector(".search-input")
-      const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form")
-      inputElement.addEventListener("input", event => {
-        if (event.target.value.trim() === "" && event.target.value.length < 1) {
-          console.log("Keyword Not Found!")
-          return false
-        }
-        iOSOuterBox
-          .querySelector(".searching-shimmer")
-          .classList.remove("hidden")
-        try {
-          iOSOuterBox
-            .querySelector(".suggestions")
-            .classList.remove("format-suggestions")
-        } catch {}
-        try {
-          //Hiding Contact form
-          document.querySelector(".apple-ios-app_store").classList.add("hidden")
-        } catch {}
-        try {
-          appSearchCloseBtn.classList.add("hidden")
-        } catch {}
-        clearTimeout(iOSautoCompleteTimer)
-        iOSautoCompleteTimer = setTimeout(function () {
-          prepareDataForRequests(iOSOuterBox)
-        }, 500)
-      })
-    }
+  // useEffect(() => {
+  //   function setupautoComplete(iOSOuterBox) {
+  //     let iOSautoCompleteTimer;
+  //     const inputElement = iOSOuterBox.querySelector(".search-input");
+  //     const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form");
+  //     inputElement.addEventListener("input", (event) => {
+  //       if (event.target.value.trim() === "" && event.target.value.length < 1) {
+  //         console.log("Keyword Not Found!");
+  //         return false;
+  //       }
+  //       iOSOuterBox
+  //         .querySelector(".searching-shimmer")
+  //         .classList.remove("hidden");
+  //       try {
+  //         iOSOuterBox
+  //           .querySelector(".suggestions")
+  //           .classList.remove("format-suggestions");
+  //       } catch {}
+  //       try {
+  //         //Hiding Contact form
+  //         document
+  //           .querySelector(".apple-ios-app_store")
+  //           .classList.add("hidden");
+  //       } catch {}
+  //       try {
+  //         appSearchCloseBtn.classList.add("hidden");
+  //       } catch {}
+  //       clearTimeout(iOSautoCompleteTimer);
+  //       iOSautoCompleteTimer = setTimeout(function () {
+  //         prepareDataForRequests(iOSOuterBox);
+  //       }, 500);
+  //     });
+  //   }
 
-    function encodingName(e) {
-      return encodeURIComponent(e)
-    }
-    async function prepareDataForRequests(mainWorkingBox) {
-      const inputElement = mainWorkingBox.querySelector(".search-input")
-      const appSearchCloseBtn =
-        mainWorkingBox.querySelector(".close-search-form")
-      try {
-        appSearchCloseBtn.classList.remove("hidden")
-      } catch {}
-      let currentNameIOS = inputElement.value
-      let currentNamePlay = encodingName(inputElement.value)
-      let country = selectedCountryCode
-      // let country = mainWorkingBox
-      //   .querySelector(".country-select-button")
-      //   .getAttribute("country-code");
-      if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
-        return false
-      }
-      const newKeyword = currentNameIOS.split(" ").join("+")
-      const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`
-      if (
-        requestIOS.trim() ===
-        `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
-      ) {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
-        return false
-      }
-      let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`
-      if (
-        requestPlay.trim() ===
-        `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
-      ) {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
-        return false
-      }
-      let listData = await handleRequestsAndProcessData(requestPlay, requestIOS)
-      if (listData.length > 0) {
-        mainWorkingBox.querySelector(".suggestions").innerHTML = ""
-        mainWorkingBox
-          .querySelector(".suggestions")
-          .classList.add("format-suggestions")
-      }
-      mainWorkingBox.querySelector(".searching-shimmer").classList.add("hidden")
-      mainWorkingBox
-        .querySelector(".suggestions")
-        .insertAdjacentHTML("beforeend", listData.join(""))
-    }
+  //   function encodingName(e) {
+  //     return encodeURIComponent(e);
+  //   }
+  //   async function prepareDataForRequests(mainWorkingBox) {
+  //     const inputElement = mainWorkingBox.querySelector(".search-input");
+  //     const appSearchCloseBtn =
+  //       mainWorkingBox.querySelector(".close-search-form");
+  //     try {
+  //       appSearchCloseBtn.classList.remove("hidden");
+  //     } catch {}
+  //     let currentNameIOS = inputElement.value;
+  //     let currentNamePlay = encodingName(inputElement.value);
+  //     let country = selectedCountryCode;
+  //     // let country = mainWorkingBox
+  //     //   .querySelector(".country-select-button")
+  //     //   .getAttribute("country-code");
+  //     if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
+  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+  //       return false;
+  //     }
+  //     const newKeyword = currentNameIOS.split(" ").join("+");
+  //     const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`;
+  //     if (
+  //       requestIOS.trim() ===
+  //       `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
+  //     ) {
+  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+  //       return false;
+  //     }
+  //     let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`;
+  //     if (
+  //       requestPlay.trim() ===
+  //       `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
+  //     ) {
+  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+  //       return false;
+  //     }
+  //     let listData = await handleRequestsAndProcessData(
+  //       requestPlay,
+  //       requestIOS
+  //     );
+  //     if (listData.length > 0) {
+  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
+  //       mainWorkingBox
+  //         .querySelector(".suggestions")
+  //         .classList.add("format-suggestions");
+  //     }
+  //     mainWorkingBox
+  //       .querySelector(".searching-shimmer")
+  //       .classList.add("hidden");
+  //     mainWorkingBox
+  //       .querySelector(".suggestions")
+  //       .insertAdjacentHTML("beforeend", listData.join(""));
+  //   }
 
-    function handleInstallRangeSliderFn(event) {
-      const sliderValue = parseInt(event.target.value)
-      event.target.nextSibling.innerHTML = sliderValue + " Days"
-      const contentBox = event.target.closest(".app-info-display")
-      const resultTextBox = contentBox.querySelector(".result-text-box")
-      const ourSuggestionList = contentBox.querySelectorAll(
-        ".review-suggestion-list li",
-      )
-      if (sliderValue <= 90) {
-        ourSuggestionList[0].classList.remove("hidden")
-        ourSuggestionList[1].classList.add("hidden")
-        ourSuggestionList[2].classList.add("hidden")
-      } else if (sliderValue <= 180) {
-        ourSuggestionList[0].classList.remove("hidden")
-        ourSuggestionList[1].classList.remove("hidden")
-        ourSuggestionList[2].classList.add("hidden")
-      } else {
-        for (let li of ourSuggestionList) {
-          li.classList.remove("hidden")
-        }
-      }
-      const fullAppData = JSON.parse(localStorage.getItem("selectedAppData"))
-      if (fullAppData.apple !== undefined) {
-      } else {
-        displayCalculatedInstallsToUser(
-          resultTextBox,
-          fullAppData.android,
-          sliderValue,
-        )
-      }
-    }
+  //   function handleInstallRangeSliderFn(event) {
+  //     const sliderValue = parseInt(event.target.value);
+  //     event.target.nextSibling.innerHTML = sliderValue + " Days";
+  //     const contentBox = event.target.closest(".app-info-display");
+  //     const resultTextBox = contentBox.querySelector(".result-text-box");
+  //     const ourSuggestionList = contentBox.querySelectorAll(
+  //       ".review-suggestion-list li"
+  //     );
+  //     if (sliderValue <= 90) {
+  //       ourSuggestionList[0].classList.remove("hidden");
+  //       ourSuggestionList[1].classList.add("hidden");
+  //       ourSuggestionList[2].classList.add("hidden");
+  //     } else if (sliderValue <= 180) {
+  //       ourSuggestionList[0].classList.remove("hidden");
+  //       ourSuggestionList[1].classList.remove("hidden");
+  //       ourSuggestionList[2].classList.add("hidden");
+  //     } else {
+  //       for (let li of ourSuggestionList) {
+  //         li.classList.remove("hidden");
+  //       }
+  //     }
+  //     const fullAppData = JSON.parse(localStorage.getItem("selectedAppData"));
+  //     if (fullAppData.apple !== undefined) {
+  //     } else {
+  //       displayCalculatedInstallsToUser(
+  //         resultTextBox,
+  //         fullAppData.android,
+  //         sliderValue
+  //       );
+  //     }
+  //   }
 
-    async function handleRequestsAndProcessData(requestPlay, requestIOS) {
-      try {
-        const response1 = await fetch(requestIOS)
-        const response2 = await fetch(requestPlay)
-        const iOSResponse = await response1.json()
-        const playResponse = await response2.json()
+  //   async function handleRequestsAndProcessData(requestPlay, requestIOS) {
+  //     try {
+  //       const response1 = await fetch(requestIOS);
+  //       const response2 = await fetch(requestPlay);
+  //       const iOSResponse = await response1.json();
+  //       const playResponse = await response2.json();
 
-        const mergedData = {
-          iOSResponse: iOSResponse,
-          playResponse: playResponse,
-        }
-        // console.log("Merged Data", mergedData);
+  //       const mergedData = {
+  //         iOSResponse: iOSResponse,
+  //         playResponse: playResponse,
+  //       };
+  //       // console.log("Merged Data", mergedData);
 
-        const fullAppData = mergedExtractedData(mergedData)
-        const suggestionList = createListWithDevice(fullAppData)
+  //       const fullAppData = mergedExtractedData(mergedData);
+  //       const suggestionList = createListWithDevice(fullAppData);
 
-        if (suggestionList.length > 0) {
-          suggestionList.unshift('<p class="info-search">Search Results</p>')
-          suggestionList.push(
-            '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>',
-          )
-        }
+  //       if (suggestionList.length > 0) {
+  //         suggestionList.unshift('<p class="info-search">Search Results</p>');
+  //         suggestionList.push(
+  //           '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
+  //         );
+  //       }
 
-        return suggestionList
-      } catch (error) {
-        // console.error("Error:", error)
-        return false
-      }
-    }
+  //       return suggestionList;
+  //     } catch (error) {
+  //       // console.error("Error:", error)
+  //       return false;
+  //     }
+  //   }
 
-    function createListWithDevice(data) {
-      return data.map(item => {
-        if (item.appName !== undefined) {
-          let deviceIcon
-          if (item.device == "apple")
-            deviceIcon =
-              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg"
-          else
-            deviceIcon =
-              "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg"
-          return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`
-        }
-      })
-    }
+  //   function createListWithDevice(data) {
+  //     return data.map((item) => {
+  //       if (item.appName !== undefined) {
+  //         let deviceIcon;
+  //         if (item.device == "apple")
+  //           deviceIcon =
+  //             "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+  //         else
+  //           deviceIcon =
+  //             "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+  //         return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
+  //       }
+  //     });
+  //   }
 
-    function clearSearchBar(mainBoxHolder) {
-      // console.log(mainBoxHolder);
-      let inputBox = mainBoxHolder.querySelector(".search-input")
-      inputBox.value = ""
-      inputBox.removeAttribute("application-url")
-      inputBox.removeAttribute("application-id")
-      inputBox.removeAttribute("application-img-logo")
-      try {
-        mainBoxHolder
-          .querySelector(".suggestions")
-          .classList.remove("format-suggestions")
-      } catch {}
-      mainBoxHolder.querySelector(".suggestions").innerHTML = ""
-    }
+  //   function clearSearchBar(mainBoxHolder) {
+  //     // console.log(mainBoxHolder);
+  //     let inputBox = mainBoxHolder.querySelector(".search-input");
+  //     inputBox.value = "";
+  //     inputBox.removeAttribute("application-url");
+  //     inputBox.removeAttribute("application-id");
+  //     inputBox.removeAttribute("application-img-logo");
+  //     try {
+  //       mainBoxHolder
+  //         .querySelector(".suggestions")
+  //         .classList.remove("format-suggestions");
+  //     } catch {}
+  //     mainBoxHolder.querySelector(".suggestions").innerHTML = "";
+  //   }
 
-    function clearFormElement() {
-      document.querySelector(".apple-ios-app_store").classList.add("hidden")
-      const imageBox = document.querySelector("#iOS-form-logo")
-      imageBox.src = ""
-      imageBox.setAttribute("image-data", "")
-    }
+  //   function clearFormElement() {
+  //     document.querySelector(".apple-ios-app_store").classList.add("hidden");
+  //     const imageBox = document.querySelector("#iOS-form-logo");
+  //     imageBox.src = "";
+  //     imageBox.setAttribute("image-data", "");
+  //   }
 
-    function mergedExtractedData(rowData) {
-      let appDataMain = []
-      let appDataA = []
-      let appDataP = []
-      rowData.iOSResponse.results.map(item => {
-        if (item.trackViewUrl) {
-          let iosData = {
-            dataPackageUrl: item.trackViewUrl,
-            appPackageId: item.trackViewUrl.split("/")[5],
-            app_icon: item.artworkUrl100,
-            appName: item.trackName,
-            developer: "By " + item.artistName,
-            device: "apple",
-            deviceIcon: "apple_icon.svg",
-          }
-          appDataA.push(iosData)
-        }
-      })
-      rowData.playResponse.map(item => {
-        let playData = {
-          dataPackageUrl:
-            "https://play.google.com/store/apps/details?id=" + item.package_id,
-          appPackageId: item.package_id,
-          app_icon: item.app_icon,
-          appName: item.title,
-          developer: "By " + item.developer_name,
-          device: "android",
-          deviceIcon: "android_icon.svg",
-        }
-        appDataP.push(playData)
-      })
-      appDataA.map((app, index) => {
-        appDataMain.push(appDataA[index])
-        if (appDataP[index]) {
-          appDataMain.push(appDataP[index])
-        }
-      })
-      if (appDataA.length === 0) appDataMain = appDataP
-      return appDataMain
-    }
+  //   function mergedExtractedData(rowData) {
+  //     let appDataMain = [];
+  //     let appDataA = [];
+  //     let appDataP = [];
+  //     rowData.iOSResponse.results.map((item) => {
+  //       if (item.trackViewUrl) {
+  //         let iosData = {
+  //           dataPackageUrl: item.trackViewUrl,
+  //           appPackageId: item.trackViewUrl.split("/")[5],
+  //           app_icon: item.artworkUrl100,
+  //           appName: item.trackName,
+  //           developer: "By " + item.artistName,
+  //           device: "apple",
+  //           deviceIcon: "apple_icon.svg",
+  //         };
+  //         appDataA.push(iosData);
+  //       }
+  //     });
+  //     rowData.playResponse.map((item) => {
+  //       let playData = {
+  //         dataPackageUrl:
+  //           "https://play.google.com/store/apps/details?id=" + item.package_id,
+  //         appPackageId: item.package_id,
+  //         app_icon: item.app_icon,
+  //         appName: item.title,
+  //         developer: "By " + item.developer_name,
+  //         device: "android",
+  //         deviceIcon: "android_icon.svg",
+  //       };
+  //       appDataP.push(playData);
+  //     });
+  //     appDataA.map((app, index) => {
+  //       appDataMain.push(appDataA[index]);
+  //       if (appDataP[index]) {
+  //         appDataMain.push(appDataP[index]);
+  //       }
+  //     });
+  //     if (appDataA.length === 0) appDataMain = appDataP;
+  //     return appDataMain;
+  //   }
 
-    setInterval(() => {
-      const inputBox = document.querySelectorAll(".search-input")
-      inputBox.forEach(input => {
-        if (input.value === "") {
-          input
-            .closest(".main-box-holder")
-            .querySelector(".searching-shimmer")
-            .classList.add("hidden")
-        }
-      })
-    }, 500)
-    // document.getElementById("search-bar-input1").focus();
-    const iOSOuterBoxes = document.querySelectorAll(".main-box-holder")
-    const closeSearchBtn = document.querySelectorAll(".close-search-form")
-    closeSearchBtn.forEach(close => {
-      close.addEventListener("click", event => {
-        event.target.classList.add("hidden")
-        clearSearchBar(event.target.closest(".main-box-holder"))
-        clearFormElement()
-      })
-    })
-    iOSOuterBoxes.forEach(iOSOuterBox => {
-      setupautoComplete(iOSOuterBox)
-    })
-  })
+  //   setInterval(() => {
+  //     const inputBox = document.querySelectorAll(".search-input");
+  //     inputBox.forEach((input) => {
+  //       if (input.value === "") {
+  //         input
+  //           .closest(".main-box-holder")
+  //           .querySelector(".searching-shimmer")
+  //           .classList.add("hidden");
+  //       }
+  //     });
+  //   }, 500);
+  //   // document.getElementById("search-bar-input1").focus();
+  //   const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
+  //   const closeSearchBtn = document.querySelectorAll(".close-search-form");
+  //   closeSearchBtn.forEach((close) => {
+  //     close.addEventListener("click", (event) => {
+  //       event.target.classList.add("hidden");
+  //       clearSearchBar(event.target.closest(".main-box-holder"));
+  //       clearFormElement();
+  //     });
+  //   });
+  //   iOSOuterBoxes.forEach((iOSOuterBox) => {
+  //     setupautoComplete(iOSOuterBox);
+  //   });
+  // });
 
   // handle app selection
-  const handleClick = event => {
+  const handleClick = (event) => {
     let { appPackageURL, applicationId, imageURL, device } =
-      selectAppHandler(event)
-    const country = selectedCountryCode
+      selectAppHandler(event);
+    const country = selectedCountryCode;
 
     updateOtherSectionToSelectedApp(
       appPackageURL,
       applicationId,
       imageURL,
       device,
-      country,
-    )
-  }
+      country
+    );
+  };
 
-  function selectAppHandler(event) {
-    const selectedLi = event.target.closest("li.li-suggestion-item")
-    const mainBoxHolder = selectedLi.closest(".main-box-holder")
-    return getDetailsOfSelectedLi(selectedLi, mainBoxHolder)
-  }
+  // function selectAppHandler(event) {
+  //   const selectedLi = event.target.closest("li.li-suggestion-item");
+  //   const mainBoxHolder = selectedLi.closest(".main-box-holder");
+  //   return getDetailsOfSelectedLi(selectedLi, mainBoxHolder);
+  // }
 
-  function getDetailsOfSelectedLi(selectedItem, mainBoxHolder) {
-    const inputBox = mainBoxHolder.querySelector(".search-input")
-    const keyword = inputBox.value
-    const country = mainBoxHolder
-      .querySelector(".country-select-button")
-      .getAttribute("country-code")
-    const applicationId = selectedItem.getAttribute("application-id")
-    const imageURL = selectedItem.getAttribute("application-img-logo")
-    let appPackageURL = selectedItem.getAttribute("application-url")
-    const device = selectedItem.getAttribute("device")
-    const appName = selectedItem.querySelector(
-      ".li-suggestion-item-info",
-    ).innerHTML
-    if (device !== "apple")
-      appPackageURL = appPackageURL.split("&gl=")[0] + "&gl=" + country
-    inputBox.setAttribute("application-id", applicationId)
-    inputBox.setAttribute("application-img-logo", imageURL)
-    inputBox.setAttribute("application-url", appPackageURL)
-    inputBox.setAttribute("device", device)
-    const appData = {
-      packageName: appName,
-      icon_urls: imageURL,
-      "app-package-id": applicationId,
-      "data-package-url": appPackageURL,
-      device: device,
-    }
-    let oldAppData = localStorage.getItem("Recent Selected App")
-    if (oldAppData) {
-      let Array = JSON.parse(oldAppData)
-      Array.unshift(appData)
-      let uniqueArray = Array.filter(
-        (item, index) =>
-          Array.findIndex(
-            obj => JSON.stringify(obj) === JSON.stringify(item),
-          ) === index,
-      )
-      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray))
-    } else {
-      localStorage.setItem("Recent Selected App", JSON.stringify([appData]))
-    }
+  // function getDetailsOfSelectedLi(selectedItem, mainBoxHolder) {
+  //   const inputBox = mainBoxHolder.querySelector(".search-input");
+  //   const keyword = inputBox.value;
+  //   const country = mainBoxHolder
+  //     .querySelector(".country-select-button")
+  //     .getAttribute("country-code");
+  //   const applicationId = selectedItem.getAttribute("application-id");
+  //   const imageURL = selectedItem.getAttribute("application-img-logo");
+  //   let appPackageURL = selectedItem.getAttribute("application-url");
+  //   const device = selectedItem.getAttribute("device");
+  //   const appName = selectedItem.querySelector(
+  //     ".li-suggestion-item-info"
+  //   ).innerHTML;
+  //   if (device !== "apple")
+  //     appPackageURL = appPackageURL.split("&gl=")[0] + "&gl=" + country;
+  //   inputBox.setAttribute("application-id", applicationId);
+  //   inputBox.setAttribute("application-img-logo", imageURL);
+  //   inputBox.setAttribute("application-url", appPackageURL);
+  //   inputBox.setAttribute("device", device);
+  //   const appData = {
+  //     packageName: appName,
+  //     icon_urls: imageURL,
+  //     "app-package-id": applicationId,
+  //     "data-package-url": appPackageURL,
+  //     device: device,
+  //   };
+  //   let oldAppData = localStorage.getItem("Recent Selected App");
+  //   if (oldAppData) {
+  //     let Array = JSON.parse(oldAppData);
+  //     Array.unshift(appData);
+  //     let uniqueArray = Array.filter(
+  //       (item, index) =>
+  //         Array.findIndex(
+  //           (obj) => JSON.stringify(obj) === JSON.stringify(item)
+  //         ) === index
+  //     );
+  //     localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray));
+  //   } else {
+  //     localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
+  //   }
 
-    // if (device == "apple") {
-    //   dataLayer.push({ "event": "ios_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
-    // } else {
-    //   dataLayer.push({ "event": "play_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
-    // }
-    try {
-      mainBoxHolder
-        .querySelector(".suggestions")
-        .classList.remove("format-suggestions")
-    } catch {}
-    try {
-      mainBoxHolder
-        .querySelector(".close-search-form")
-        .classList.remove("hidden")
-    } catch {}
-    return { appPackageURL, applicationId, imageURL, device }
-  }
+  // if (device == "apple") {
+  //   dataLayer.push({ "event": "ios_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
+  // } else {
+  //   dataLayer.push({ "event": "play_app_select", "keyword": keyword, "gtm.elementId": applicationId, "gtm.elementUrl": appPackageURL, "gtm.uniqueAnalyticsReports": "AnalyticsLiveWeb_nl" });
+  // }
+  //   try {
+  //     mainBoxHolder
+  //       .querySelector(".suggestions")
+  //       .classList.remove("format-suggestions");
+  //   } catch {}
+  //   try {
+  //     mainBoxHolder
+  //       .querySelector(".close-search-form")
+  //       .classList.remove("hidden");
+  //   } catch {}
+  //   return { appPackageURL, applicationId, imageURL, device };
+  // }
 
-  const [countryFlagImages, setCountryFlagImages] = useState({})
+  const [countryFlagImages, setCountryFlagImages] = useState({});
   useEffect(() => {
     const preloadImages = () => {
-      const flagImages = {}
-      countries.forEach(country => {
-        const img = new Image()
-        img.src = `https://flagcdn.com/40x30/${country.flag}`
-        img.alt = country.name
-        img.classList.add("country-flags")
-        flagImages[country.code] = img
-      })
-      setCountryFlagImages(flagImages)
-    }
+      const flagImages = {};
+      countries.forEach((country) => {
+        const img = new Image();
+        img.src = `https://flagcdn.com/40x30/${country.flag}`;
+        img.alt = country.name;
+        img.classList.add("country-flags");
+        flagImages[country.code] = img;
+      });
+      setCountryFlagImages(flagImages);
+    };
 
-    preloadImages()
-  }, [countries])
+    preloadImages();
+  }, [countries]);
 
-  async function updateOtherSectionToSelectedApp(
-    appPackageURL,
-    applicationId,
-    imageURL,
-    device,
-    country,
-  ) {
-    const countryResult = countries.find(
-      cn => cn.code === country.toLowerCase(),
-    )
-    const countryName = country ? countryResult.name : country
-    const flag = countryFlagImages[country]
-    // console.log("Country select btn", countrySelectBtn)
-    const countrySelectBtn = document.querySelectorAll(".country-select-button")
-    countrySelectBtn.forEach(button => {
-      const result = button.offsetWidth > 200 ? true : false
-      let cName = result ? countryName : country.toUpperCase()
-      button.setAttribute("country-code", country)
-      button.setAttribute("country-name", cName)
-      const oldSpanElement = button.firstElementChild
-      // Create a new span element
-      const newSpan = document.createElement("span")
-      // Create a text node for the country code
-      const countryCodeNode = document.createTextNode(cName)
-      // Append the img and text nodes to the new span element
-      const clonedFlag = flag.cloneNode(true)
-      newSpan.appendChild(clonedFlag)
-      newSpan.appendChild(countryCodeNode)
-      // Replace the existing span element with the new span element
-      button.replaceChild(newSpan, oldSpanElement)
-    })
+  // async function updateOtherSectionToSelectedApp(
+  //   appPackageURL,
+  //   applicationId,
+  //   imageURL,
+  //   device,
+  //   country
+  // ) {
+  //   const countryResult = countries.find(
+  //     (cn) => cn.code === country.toLowerCase()
+  //   );
+  //   const countryName = country ? countryResult.name : country;
+  //   const flag = countryFlagImages[country];
+  //   // console.log("Country select btn", countrySelectBtn)
+  //   const countrySelectBtn = document.querySelectorAll(
+  //     ".country-select-button"
+  //   );
+  //   countrySelectBtn.forEach((button) => {
+  //     const result = button.offsetWidth > 200 ? true : false;
+  //     let cName = result ? countryName : country.toUpperCase();
+  //     button.setAttribute("country-code", country);
+  //     button.setAttribute("country-name", cName);
+  //     const oldSpanElement = button.firstElementChild;
+  //     // Create a new span element
+  //     const newSpan = document.createElement("span");
+  //     // Create a text node for the country code
+  //     const countryCodeNode = document.createTextNode(cName);
+  //     // Append the img and text nodes to the new span element
+  //     const clonedFlag = flag.cloneNode(true);
+  //     newSpan.appendChild(clonedFlag);
+  //     newSpan.appendChild(countryCodeNode);
+  //     // Replace the existing span element with the new span element
+  //     button.replaceChild(newSpan, oldSpanElement);
+  //   });
 
-    calculatePriceForSelectedApp(
-      appPackageURL,
-      applicationId,
-      imageURL,
-      device,
-      document.querySelector("#search-box1"),
-    )
-    // document.querySelector("#custom-contact-btn").classList.add("hidden")
-    // let pricingBtn = document.querySelector("#solutions")
-    // pricingBtn.click()
-    // pricingBtn.scrollIntoView({ behavior: "smooth" })
-    const response = await fetchAndStoreAppDataToBox(
-      appPackageURL,
-      applicationId,
-      device,
-      country,
-    )
-    const allMiniContainer = document.querySelectorAll(".mini-main-container")
-    showResponseToAllSmallBox(response, device, allMiniContainer)
-    try {
-      closeSearchBtn.forEach(close => {
-        close.classList.remove("hidden")
-      })
-    } catch {}
-  }
+  //   calculatePriceForSelectedApp(
+  //     appPackageURL,
+  //     applicationId,
+  //     imageURL,
+  //     device,
+  //     document.querySelector("#search-box1")
+  //   );
+  //   // document.querySelector("#custom-contact-btn").classList.add("hidden")
+  //   // let pricingBtn = document.querySelector("#solutions")
+  //   // pricingBtn.click()
+  //   // pricingBtn.scrollIntoView({ behavior: "smooth" })
+  //   const response = await fetchAndStoreAppDataToBox(
+  //     appPackageURL,
+  //     applicationId,
+  //     device,
+  //     country
+  //   );
+  //   const allMiniContainer = document.querySelectorAll(".mini-main-container");
+  //   showResponseToAllSmallBox(response, device, allMiniContainer);
+  //   try {
+  //     closeSearchBtn.forEach((close) => {
+  //       close.classList.remove("hidden");
+  //     });
+  //   } catch {}
+  // }
 
-  async function fetchAndStoreAppDataToBox(
-    appPackageURL,
-    applicationId,
-    device,
-    country,
-  ) {
-    if (device == "apple") {
-      let result = await fetchAppleAppData(appPackageURL, country)
-      const appData = JSON.stringify({ apple: result })
-      localStorage.setItem("selectedAppData", appData)
-      return result
-    } else {
-      let result = await fetchPlayStoreAppData(applicationId, country)
-      const appData = JSON.stringify({ android: result })
-      localStorage.setItem("selectedAppData", appData)
-      return result
-    }
-  }
+  // async function fetchAndStoreAppDataToBox(
+  //   appPackageURL,
+  //   applicationId,
+  //   device,
+  //   country
+  // ) {
+  //   if (device == "apple") {
+  //     let result = await fetchAppleAppData(appPackageURL, country);
+  //     const appData = JSON.stringify({ apple: result });
+  //     localStorage.setItem("selectedAppData", appData);
+  //     return result;
+  //   } else {
+  //     let result = await fetchPlayStoreAppData(applicationId, country);
+  //     const appData = JSON.stringify({ android: result });
+  //     localStorage.setItem("selectedAppData", appData);
+  //     return result;
+  //   }
+  // }
 
-  async function calculatePriceForSelectedApp(
-    appPackageURL,
-    applicationId,
-    imageURL,
-    device,
-    mainBoxHolder,
-  ) {
-    const search_keyword = mainBoxHolder.querySelector(".search-input").value
-    const country = mainBoxHolder
-      .querySelector(".country-select-button")
-      .getAttribute("country-code")
-    // let outerSection = document.querySelector("#app-pricing-box_Pr")
-    // let image = outerSection.querySelector("#App-Icon")
-    // console.log("Image", image)
-    // image.src = imageURL
-    // image.setAttribute("image-data", appPackageURL)
-    // outerSection.classList.remove("hidden")
-    // let deviceIcon = outerSection.querySelector("#App-Platform")
-    // const appName = outerSection.querySelector("#App-Name")
-    // const appInfo = outerSection.querySelector("#App-Info")
-    try {
-      document.querySelector("#custom-contact-btn").classList.remove("hidden")
-    } catch {}
-    if (device.toLowerCase() == "apple") {
-      const row_data = await fetchAppleAppData(appPackageURL, country)
-      if (row_data) {
-        // appName.innerHTML = row_data.trackCensoredName
-        // appInfo.innerHTML =
-        //   "&#11088; " +
-        //   row_data.averageUserRating.toFixed(2) +
-        //   ", " +
-        //   row_data.primaryGenreName
-        try {
-          await handleAppleDeviceApp(
-            deviceIcon,
-            row_data,
-            search_keyword,
-            applicationId,
-            appPackageURL,
-          )
-        } catch (error) {
-          // window.alert("Error:", error)
-        }
-      } else {
-        window.alert("Warning! Please select the app from the dropdown menu.")
-      }
-    } else {
-      const responseData = await fetchPlayStoreAppData(applicationId, country)
-      if (responseData.url) {
-        // appName.innerHTML = responseData.title
-        // appInfo.innerHTML =
-        // "&#11088; " +
-        // parseFloat(responseData.score).toFixed(2) +
-        // ", " +
-        // responseData.genre
-        try {
-          await handlePlayStoreDeviceApp(
-            deviceIcon,
-            responseData,
-            search_keyword,
-            applicationId,
-            appPackageURL,
-            country,
-          )
-        } catch (error) {
-          // window.alert("Error:", error)
-        }
-      }
-    }
-  }
+  // async function calculatePriceForSelectedApp(
+  //   appPackageURL,
+  //   applicationId,
+  //   imageURL,
+  //   device,
+  //   mainBoxHolder
+  // ) {
+  //   const search_keyword = mainBoxHolder.querySelector(".search-input").value;
+  //   const country = mainBoxHolder
+  //     .querySelector(".country-select-button")
+  //     .getAttribute("country-code");
+  //   // let outerSection = document.querySelector("#app-pricing-box_Pr")
+  //   // let image = outerSection.querySelector("#App-Icon")
+  //   // console.log("Image", image)
+  //   // image.src = imageURL
+  //   // image.setAttribute("image-data", appPackageURL)
+  //   // outerSection.classList.remove("hidden")
+  //   // let deviceIcon = outerSection.querySelector("#App-Platform")
+  //   // const appName = outerSection.querySelector("#App-Name")
+  //   // const appInfo = outerSection.querySelector("#App-Info")
+  //   try {
+  //     document.querySelector("#custom-contact-btn").classList.remove("hidden");
+  //   } catch {}
+  //   if (device.toLowerCase() == "apple") {
+  //     const row_data = await fetchAppleAppData(appPackageURL, country);
+  //     if (row_data) {
+  //       // appName.innerHTML = row_data.trackCensoredName
+  //       // appInfo.innerHTML =
+  //       //   "&#11088; " +
+  //       //   row_data.averageUserRating.toFixed(2) +
+  //       //   ", " +
+  //       //   row_data.primaryGenreName
+  //       try {
+  //         await handleAppleDeviceApp(
+  //           deviceIcon,
+  //           row_data,
+  //           search_keyword,
+  //           applicationId,
+  //           appPackageURL
+  //         );
+  //       } catch (error) {
+  //         // window.alert("Error:", error)
+  //       }
+  //     } else {
+  //       window.alert("Warning! Please select the app from the dropdown menu.");
+  //     }
+  //   } else {
+  //     const responseData = await fetchPlayStoreAppData(applicationId, country);
+  //     if (responseData.url) {
+  //       // appName.innerHTML = responseData.title
+  //       // appInfo.innerHTML =
+  //       // "&#11088; " +
+  //       // parseFloat(responseData.score).toFixed(2) +
+  //       // ", " +
+  //       // responseData.genre
+  //       try {
+  //         await handlePlayStoreDeviceApp(
+  //           deviceIcon,
+  //           responseData,
+  //           search_keyword,
+  //           applicationId,
+  //           appPackageURL,
+  //           country
+  //         );
+  //       } catch (error) {
+  //         // window.alert("Error:", error)
+  //       }
+  //     }
+  //   }
+  // }
 
-  async function handlePlayStoreDeviceApp(
-    deviceIcon,
-    responseData,
-    search_keyword,
-    applicationId,
-    appPackageURL,
-    country,
-  ) {
-    deviceIcon.src =
-      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg"
-    let dataObject = getDataObjectForPlay(responseData)
-    const MHRScore = await fetchMHRScore(applicationId, country)
-    dataObject.MHR = MHRScore
-    const allParagraph = document.querySelectorAll(".feature-pointer")
-    allParagraph[0].innerHTML =
-      "Improve visitors - using keyword ranks and similar app section ML based rating improvement plan."
-    allParagraph[3].innerHTML =
-      "Conversion improvement - by focusing on MHR score, A/B testing."
-    // const priceData = await fetchPriceData("https://nextgrowthlabs.com/wp-json/my-api/v1/play-price-request", dataObject);
-    // updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
-  }
-  async function fetchPlayStoreAppData(applicationId, t) {
-    const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`
-    try {
-      const response = await fetch(url)
-      return await response.json()
-    } catch (error) {
-      throw new Error(`Error fetching Play Store app data: ${error}`)
-    }
-  }
+  // async function handlePlayStoreDeviceApp(
+  //   deviceIcon,
+  //   responseData,
+  //   search_keyword,
+  //   applicationId,
+  //   appPackageURL,
+  //   country
+  // ) {
+  //   deviceIcon.src =
+  //     "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
+  //   let dataObject = getDataObjectForPlay(responseData);
+  //   const MHRScore = await fetchMHRScore(applicationId, country);
+  //   dataObject.MHR = MHRScore;
+  //   const allParagraph = document.querySelectorAll(".feature-pointer");
+  //   allParagraph[0].innerHTML =
+  //     "Improve visitors - using keyword ranks and similar app section ML based rating improvement plan.";
+  //   allParagraph[3].innerHTML =
+  //     "Conversion improvement - by focusing on MHR score, A/B testing.";
+  //   // const priceData = await fetchPriceData("https://nextgrowthlabs.com/wp-json/my-api/v1/play-price-request", dataObject);
+  //   // updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
+  // }
+  // async function fetchPlayStoreAppData(applicationId, t) {
+  //   const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`;
+  //   try {
+  //     const response = await fetch(url);
+  //     return await response.json();
+  //   } catch (error) {
+  //     throw new Error(`Error fetching Play Store app data: ${error}`);
+  //   }
+  // }
 
-  function getDataObjectForPlay(responseData) {
-    let dataObject = {
-      Score:
-        parseFloat(responseData.score).toFixed(1) < 1.0
-          ? 1.2
-          : responseData.score,
-      DownloadEstimate: responseData.maxInstalls,
-      ImageCount: responseData.screenshots.length,
-      VideoPresent: responseData.video ? true : false,
-      Size: responseData.size || 123456,
-      MHR: 20,
-    }
-    return dataObject
-  }
-  async function fetchMHRScore(applicationId, country) {
-    const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`
-    try {
-      const response = await fetch(url)
-      const data = await response.json()
-      const todayDate = new Date()
-      todayDate.setDate(todayDate.getDate() - 1)
-      const yesterdayDate = todayDate.toISOString().substr(0, 10)
-      const entry = data.find(entry => entry.date === yesterdayDate)
-      return entry ? entry.score : 30
-    } catch (error) {
-      throw new Error(`Error fetching MHR score: ${error}`)
-    }
-  }
+  // function getDataObjectForPlay(responseData) {
+  //   let dataObject = {
+  //     Score:
+  //       parseFloat(responseData.score).toFixed(1) < 1.0
+  //         ? 1.2
+  //         : responseData.score,
+  //     DownloadEstimate: responseData.maxInstalls,
+  //     ImageCount: responseData.screenshots.length,
+  //     VideoPresent: responseData.video ? true : false,
+  //     Size: responseData.size || 123456,
+  //     MHR: 20,
+  //   };
+  //   return dataObject;
+  // }
+  // async function fetchMHRScore(applicationId, country) {
+  //   const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+  //   try {
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     const todayDate = new Date();
+  //     todayDate.setDate(todayDate.getDate() - 1);
+  //     const yesterdayDate = todayDate.toISOString().substr(0, 10);
+  //     const entry = data.find((entry) => entry.date === yesterdayDate);
+  //     return entry ? entry.score : 30;
+  //   } catch (error) {
+  //     throw new Error(`Error fetching MHR score: ${error}`);
+  //   }
+  // }
 
-  function showResponseToAllSmallBox(response, device, AllMainBoxHolder) {
-    for (let mainBoxHolder of AllMainBoxHolder) {
-      const searchBoxHolder = mainBoxHolder.closest(".search-box_holder")
-      const contentBox = mainBoxHolder
-        .closest(".app-search-box-holder")
-        .querySelector(".app-info-display")
-      if (contentBox.classList.contains("mhr")) {
-        handleDataForConversion(response, device, contentBox)
-      } else if (contentBox.classList.contains("ctr")) {
-        handleDataForCTR(response, device, contentBox)
-      } else {
-        handleDataForInstalls(response, device, contentBox)
-      }
-      searchBoxHolder.style.display = "none"
-      contentBox.classList.remove("hidden")
-    }
-  }
-  function handleDataForConversion(result, device, contentBox) {
-    if (device == "apple") {
-      displayAppleDataToRelatedBox(result, contentBox)
-      calculateTheSentenceResponseForApple(result, contentBox)
-    } else {
-      displayPlayDataToRelatedBox(result, contentBox)
-      calculateTheSentenceResponseForPlay(result, contentBox)
-    }
-  }
-  function handleDataForCTR(result, device, contentBox) {
-    if (device == "apple") {
-      displayAppleDataToRelatedBox(result, contentBox)
-      displayReviewsAndRatingToBox(result.averageUserRating, contentBox)
-    } else {
-      displayPlayDataToRelatedBox(result, contentBox)
-      displayReviewsAndRatingToBox(result.score, contentBox)
-    }
-  }
-  function handleDataForInstalls(result, device, contentBox) {
-    if (device == "apple") {
-      displayAppleDataToRelatedBox(result, contentBox)
-      displayMilestoneDataApple(result, contentBox)
-    } else {
-      displayPlayDataToRelatedBox(result, contentBox)
-      displayMilestoneDataPlay(result, contentBox)
-    }
-  }
-  async function fetchAndStoreAppDataToBox(
-    appPackageURL,
-    applicationId,
-    device,
-    country,
-  ) {
-    if (device == "apple") {
-      let result = await fetchAppleAppData(appPackageURL, country)
-      const appData = JSON.stringify({ apple: result })
-      localStorage.setItem("selectedAppData", appData)
-      return result
-    } else {
-      let result = await fetchPlayStoreAppData(applicationId, country)
-      const appData = JSON.stringify({ android: result })
-      localStorage.setItem("selectedAppData", appData)
-      return result
-    }
-  }
+  // function showResponseToAllSmallBox(response, device, AllMainBoxHolder) {
+  //   for (let mainBoxHolder of AllMainBoxHolder) {
+  //     const searchBoxHolder = mainBoxHolder.closest(".search-box_holder");
+  //     const contentBox = mainBoxHolder
+  //       .closest(".app-search-box-holder")
+  //       .querySelector(".app-info-display");
+  //     if (contentBox.classList.contains("mhr")) {
+  //       handleDataForConversion(response, device, contentBox);
+  //     } else if (contentBox.classList.contains("ctr")) {
+  //       handleDataForCTR(response, device, contentBox);
+  //     } else {
+  //       handleDataForInstalls(response, device, contentBox);
+  //     }
+  //     searchBoxHolder.style.display = "none";
+  //     contentBox.classList.remove("hidden");
+  //   }
+  // }
+  // function handleDataForConversion(result, device, contentBox) {
+  //   if (device == "apple") {
+  //     displayAppleDataToRelatedBox(result, contentBox);
+  //     calculateTheSentenceResponseForApple(result, contentBox);
+  //   } else {
+  //     displayPlayDataToRelatedBox(result, contentBox);
+  //     calculateTheSentenceResponseForPlay(result, contentBox);
+  //   }
+  // }
+  // function handleDataForCTR(result, device, contentBox) {
+  //   if (device == "apple") {
+  //     displayAppleDataToRelatedBox(result, contentBox);
+  //     displayReviewsAndRatingToBox(result.averageUserRating, contentBox);
+  //   } else {
+  //     displayPlayDataToRelatedBox(result, contentBox);
+  //     displayReviewsAndRatingToBox(result.score, contentBox);
+  //   }
+  // }
+  // function handleDataForInstalls(result, device, contentBox) {
+  //   if (device == "apple") {
+  //     displayAppleDataToRelatedBox(result, contentBox);
+  //     displayMilestoneDataApple(result, contentBox);
+  //   } else {
+  //     displayPlayDataToRelatedBox(result, contentBox);
+  //     displayMilestoneDataPlay(result, contentBox);
+  //   }
+  // }
+  // async function fetchAndStoreAppDataToBox(
+  //   appPackageURL,
+  //   applicationId,
+  //   device,
+  //   country
+  // ) {
+  //   if (device == "apple") {
+  //     let result = await fetchAppleAppData(appPackageURL, country);
+  //     const appData = JSON.stringify({ apple: result });
+  //     localStorage.setItem("selectedAppData", appData);
+  //     return result;
+  //   } else {
+  //     let result = await fetchPlayStoreAppData(applicationId, country);
+  //     const appData = JSON.stringify({ android: result });
+  //     localStorage.setItem("selectedAppData", appData);
+  //     return result;
+  //   }
+  // }
 
-  function displayMilestoneDataPlay(result, contentBox) {
-    const minInstalls = result.minInstalls
-    const maxInstalls = calculateNextMilestone(minInstalls)
-    const mileStoneBox = contentBox.querySelector(".milestones-images")
-    mileStoneBox.parentNode.classList.remove("hidden")
-    const mileStoneInstallCurrent = contentBox.querySelector(
-      ".current-milestone span",
-    )
-    mileStoneInstallCurrent.innerHTML = formatReadableNumber(minInstalls)
-    const mileStoneInstallNext = contentBox.querySelector(
-      ".next-milestone span",
-    )
-    mileStoneInstallNext.innerText = formatReadableNumber(maxInstalls)
-    const sliderBox = contentBox.querySelector(".range-slider-box")
-    sliderBox.parentNode.classList.remove("hidden")
-    const slider = sliderBox.querySelector("input")
-    slider.value = 180
-    slider.nextSibling.innerHTML = "180"
-    const resultBox = contentBox.querySelector(".result-text-box")
-    displayCalculatedInstallsToUser(resultBox, result, 180)
-    const listLi = contentBox.querySelectorAll(".review-suggestion-list li")
-    listLi[0].classList.remove("hidden")
-    listLi[1].classList.remove("hidden")
-    listLi[2].classList.add("hidden")
-  }
+  // function displayMilestoneDataPlay(result, contentBox) {
+  //   const minInstalls = result.minInstalls;
+  //   const maxInstalls = calculateNextMilestone(minInstalls);
+  //   const mileStoneBox = contentBox.querySelector(".milestones-images");
+  //   mileStoneBox.parentNode.classList.remove("hidden");
+  //   const mileStoneInstallCurrent = contentBox.querySelector(
+  //     ".current-milestone span"
+  //   );
+  //   mileStoneInstallCurrent.innerHTML = formatReadableNumber(minInstalls);
+  //   const mileStoneInstallNext = contentBox.querySelector(
+  //     ".next-milestone span"
+  //   );
+  //   mileStoneInstallNext.innerText = formatReadableNumber(maxInstalls);
+  //   const sliderBox = contentBox.querySelector(".range-slider-box");
+  //   sliderBox.parentNode.classList.remove("hidden");
+  //   const slider = sliderBox.querySelector("input");
+  //   slider.value = 180;
+  //   slider.nextSibling.innerHTML = "180";
+  //   const resultBox = contentBox.querySelector(".result-text-box");
+  //   displayCalculatedInstallsToUser(resultBox, result, 180);
+  //   const listLi = contentBox.querySelectorAll(".review-suggestion-list li");
+  //   listLi[0].classList.remove("hidden");
+  //   listLi[1].classList.remove("hidden");
+  //   listLi[2].classList.add("hidden");
+  // }
 
-  function displayCalculatedInstallsToUser(box, appData, sliderValue) {
-    const maxInstalls = calculateNextMilestone(appData.minInstalls)
-    const exactInstalls = appData.maxInstalls
-    const result = (maxInstalls - exactInstalls) / sliderValue
-    const formattedResult = result.toFixed(0)
-    box.querySelector("h5").innerHTML =
-      "To achieve the target, you need to attain " +
-      Number(formattedResult).toLocaleString() +
-      " installs daily for the next " +
-      sliderValue +
-      " days."
-    box.classList.remove("hidden")
-  }
+  // function displayCalculatedInstallsToUser(box, appData, sliderValue) {
+  //   const maxInstalls = calculateNextMilestone(appData.minInstalls);
+  //   const exactInstalls = appData.maxInstalls;
+  //   const result = (maxInstalls - exactInstalls) / sliderValue;
+  //   const formattedResult = result.toFixed(0);
+  //   box.querySelector("h5").innerHTML =
+  //     "To achieve the target, you need to attain " +
+  //     Number(formattedResult).toLocaleString() +
+  //     " installs daily for the next " +
+  //     sliderValue +
+  //     " days.";
+  //   box.classList.remove("hidden");
+  // }
 
-  function displayMilestoneDataApple(result, contentBox) {
-    const mileStone = contentBox.querySelector(".milestones-images")
-    mileStone.parentNode.classList.add("hidden")
-    const sliderBox = contentBox.querySelector(".range-slider-box")
-    sliderBox.parentNode.classList.add("hidden")
-    const resultBox = contentBox.querySelector(".result-text-box")
-    resultBox.classList.add("hidden")
-    const listLi = contentBox.querySelectorAll(".review-suggestion-list li")
-    for (let li of listLi) {
-      li.classList.remove("hidden")
-    }
-  }
-  function calculateNextMilestone(number) {
-    const thresholds = [
-      100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000,
-      10000000, 50000000, 100000000, 500000000, 1000000000, 5000000000,
-      10000000000, 50000000000,
-    ]
-    for (let threshold of thresholds) {
-      if (number < threshold) {
-        return threshold
-      }
-    }
-    return number * 5
-  }
-  function formatReadableNumber(number) {
-    if (number < 1e3) {
-      return number
-    } else if (number < 1e6) {
-      return (number / 1e3).toFixed(1) + "K"
-    } else if (number < 1e9) {
-      return (number / 1e6).toFixed(1) + "M"
-    } else if (number < 1e12) {
-      return (number / 1e9).toFixed(1) + "B"
-    } else if (number < 1e15) {
-      return (number / 1e15).toFixed(1) + "T"
-    } else {
-      return number
-    }
-  }
-  async function calculateTheSentenceResponseForPlay(result, contentBox) {
-    const images = result.screenshots.length
-    const video = result.video == undefined ? 1 : 2
-    const urlParams = new URLSearchParams(result.url)
-    const appId = result.url.split("id=")[1].split("&")[0]
-    const country = urlParams.get("gl")
-    const mhrScore = await fetchMHRScore(appId, country)
-    displayImproveConversionSentence(images, video, mhrScore, contentBox)
-  }
-  async function calculateTheSentenceResponseForApple(result, contentBox) {
-    const images = result.screenshotUrls.length
-    const jpgCount = result.screenshotUrls.filter(
-      url =>
-        url.toLowerCase().endsWith(".jpg") ||
-        url.toLowerCase().endsWith(".webp"),
-    ).length
-    const video = images === jpgCount ? 1 : 2
-    const mhrScore = await fetchMHRScoreApple(
-      result.trackId,
-      result.trackViewUrl.split("/")[3],
-    )
-    displayImproveConversionSentence(images, video, mhrScore, contentBox)
-  }
-  function displayImproveConversionSentence(
-    images,
-    video,
-    mhrScore,
-    contentBox,
-  ) {
-    const image = images <= 4 ? 0 : images < 8 ? 1 : 2
-    const mhr = mhrScore <= 40 ? 0 : mhrScore < 80 ? 1 : 2
-    const imagesSArray = [
-      "Nice that you have added " +
-        images +
-        " Screenshots. Please ensure that your screenshots capture the core features and experience of your app or game. It is recommended that you add upto 8 screenshots per device type",
-      "Great work adding " +
-        images +
-        " screenshots. but Including all eight screenshots per device type can provide a comprehensive view of the app's functionality, features, and user interface.",
-      "That's Awesome, you have used " +
-        images +
-        " screenshots.This would also increases the chances of effectively communicating the app's value proposition by showcasing various aspects and functionalities.",
-    ]
-    const videoSArray = [
-      "",
-      "Utilizing a video to showcase an app's value proposition offers users a preview of what to expect. A Video should highlights distinctive features, achievements, and provides insight into the user interface.",
-      "Great! Work Adding Video to your Store listing. But Make Sure your video highlights distinctive features and provides insight into the user interface.",
-    ]
-    const mhrSArray = [
-      "MHR Score is " +
-        mhrScore +
-        ", This is not good for your ASO strategy. You are losing Installs on your app.",
-      "MHR Score is " +
-        mhrScore +
-        ", Which is causing impact on your conversion Matrices. Having 80+ MHR Can Increase you conversion by 3%-5% from baseline",
-      "That's Nice your MHR Score is " +
-        mhrScore +
-        ", Having good MHR Score is reflected upon your overall conversion metrics.",
-    ]
-    const listLi = contentBox.querySelectorAll(".conversion-suggestion-list li")
-    listLi[0].innerHTML = imagesSArray[image]
-    listLi[1].innerHTML = videoSArray[video]
-    listLi[2].innerHTML = mhrSArray[mhr]
-    const cList = ["bad", "mid", "none"]
-    for (let li of listLi) {
-      li.classList.remove(cList[0])
-      li.classList.remove(cList[1])
-      li.classList.remove(cList[2])
-    }
-    listLi[0].classList.add(cList[image])
-    listLi[1].classList.add(cList[video])
-    listLi[2].classList.add(cList[mhr])
-  }
-  function displayReviewsAndRatingToBox(rating, contentBox) {
-    const slider = contentBox.querySelector(".range-slider-box input")
-    slider.value = rating.toFixed(1)
-    slider.setAttribute("min-value", rating.toFixed(1))
-    const sliderText = contentBox.querySelector(".range-slider-box strong")
-    sliderText.innerHTML = rating.toFixed(1)
-    const mileStoreRating = contentBox.querySelector(".current-milestone span")
-    mileStoreRating.innerHTML = rating.toFixed(1)
-    contentBox.querySelector(".result-text-box").classList.add("hidden")
-    const listLi = contentBox.querySelectorAll(".review-suggestion-list li")
-    for (let li of listLi) {
-      li.classList.add("hidden")
-    }
-  }
-  function displayAppleDataToRelatedBox(data, contentBox) {
-    const image = contentBox.querySelector(".app-img-box img")
-    image.src = data.artworkUrl100
-    image.alt = data.trackName
-    const appName = contentBox.querySelector(".app-information h4")
-    appName.innerHTML = `<a href="${data.trackViewUrl}" target="_blank">${data.trackName}</a>`
-    const rating = contentBox.querySelector(".app-information div strong")
-    rating.innerHTML = data.averageUserRating.toFixed(2)
-    const genre = contentBox.querySelector(".app-information div em")
-    genre.innerHTML = " " + data.primaryGenreName
-    const dName = contentBox.querySelector(".app-developer-name")
-    dName.innerHTML = "By " + data.artistName
-  }
-  function displayPlayDataToRelatedBox(data, contentBox) {
-    const image = contentBox.querySelector(".app-img-box img")
-    image.src = data.icon
-    image.alt = data.title
-    const appName = contentBox.querySelector(".app-information h4")
-    appName.innerHTML = `<a href="${data.url}"  target="_blank"> ${data.title}</a >`
-    const rating = contentBox.querySelector(".app-information div strong")
-    rating.innerHTML = (() => {
-      try {
-        return data.score.toFixed(2)
-      } catch (error) {
-        data.score = 0.0
-        return 0.0
-      }
-    })()
-    const genre = contentBox.querySelector(".app-information div em")
-    genre.innerHTML = " " + data.genre
-    const dName = contentBox.querySelector(".app-developer-name")
-    dName.innerHTML = "By " + data.developer
-  }
-  async function fetchMHRScoreApple(appId, country) {
-    const url =
-      "https://nextgrowthlabs.com/wp-json/my-api/v1/mhr-ios/?appId=" +
-      appId +
-      "&country=" +
-      country
-    let response = await fetch(url)
-    const result = await response.json()
-    if (result.score) {
-      return result.score
-    } else {
-      return 30
-    }
-  }
-  // fetch apple data
-  async function fetchAppleAppData(appPackageURL, t) {
-    const requestOptions = {
-      method: "GET",
-      redirect: "follow",
-    }
-    const regex = /\/id(\d+)/
-    const id = appPackageURL.match(regex)[1]
-    const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`
-    try {
-      const response = await fetch(requestURL, requestOptions)
-      const data = await response.json()
-      return data["results"][0]
-    } catch (error) {
-      throw new Error(`Error fetching Apple app data: ${error}`)
-    }
-  }
+  // function displayMilestoneDataApple(result, contentBox) {
+  //   const mileStone = contentBox.querySelector(".milestones-images");
+  //   mileStone.parentNode.classList.add("hidden");
+  //   const sliderBox = contentBox.querySelector(".range-slider-box");
+  //   sliderBox.parentNode.classList.add("hidden");
+  //   const resultBox = contentBox.querySelector(".result-text-box");
+  //   resultBox.classList.add("hidden");
+  //   const listLi = contentBox.querySelectorAll(".review-suggestion-list li");
+  //   for (let li of listLi) {
+  //     li.classList.remove("hidden");
+  //   }
+  // }
+  // function calculateNextMilestone(number) {
+  //   const thresholds = [
+  //     100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000, 5000000,
+  //     10000000, 50000000, 100000000, 500000000, 1000000000, 5000000000,
+  //     10000000000, 50000000000,
+  //   ];
+  //   for (let threshold of thresholds) {
+  //     if (number < threshold) {
+  //       return threshold;
+  //     }
+  //   }
+  //   return number * 5;
+  // }
+  // function formatReadableNumber(number) {
+  //   if (number < 1e3) {
+  //     return number;
+  //   } else if (number < 1e6) {
+  //     return (number / 1e3).toFixed(1) + "K";
+  //   } else if (number < 1e9) {
+  //     return (number / 1e6).toFixed(1) + "M";
+  //   } else if (number < 1e12) {
+  //     return (number / 1e9).toFixed(1) + "B";
+  //   } else if (number < 1e15) {
+  //     return (number / 1e15).toFixed(1) + "T";
+  //   } else {
+  //     return number;
+  //   }
+  // }
+  // async function calculateTheSentenceResponseForPlay(result, contentBox) {
+  //   const images = result.screenshots.length;
+  //   const video = result.video == undefined ? 1 : 2;
+  //   const urlParams = new URLSearchParams(result.url);
+  //   const appId = result.url.split("id=")[1].split("&")[0];
+  //   const country = urlParams.get("gl");
+  //   const mhrScore = await fetchMHRScore(appId, country);
+  //   displayImproveConversionSentence(images, video, mhrScore, contentBox);
+  // }
+  // async function calculateTheSentenceResponseForApple(result, contentBox) {
+  //   const images = result.screenshotUrls.length;
+  //   const jpgCount = result.screenshotUrls.filter(
+  //     (url) =>
+  //       url.toLowerCase().endsWith(".jpg") ||
+  //       url.toLowerCase().endsWith(".webp")
+  //   ).length;
+  //   const video = images === jpgCount ? 1 : 2;
+  //   const mhrScore = await fetchMHRScoreApple(
+  //     result.trackId,
+  //     result.trackViewUrl.split("/")[3]
+  //   );
+  //   displayImproveConversionSentence(images, video, mhrScore, contentBox);
+  // }
+  // function displayImproveConversionSentence(
+  //   images,
+  //   video,
+  //   mhrScore,
+  //   contentBox
+  // ) {
+  //   const image = images <= 4 ? 0 : images < 8 ? 1 : 2;
+  //   const mhr = mhrScore <= 40 ? 0 : mhrScore < 80 ? 1 : 2;
+  //   const imagesSArray = [
+  //     "Nice that you have added " +
+  //       images +
+  //       " Screenshots. Please ensure that your screenshots capture the core features and experience of your app or game. It is recommended that you add upto 8 screenshots per device type",
+  //     "Great work adding " +
+  //       images +
+  //       " screenshots. but Including all eight screenshots per device type can provide a comprehensive view of the app's functionality, features, and user interface.",
+  //     "That's Awesome, you have used " +
+  //       images +
+  //       " screenshots.This would also increases the chances of effectively communicating the app's value proposition by showcasing various aspects and functionalities.",
+  //   ];
+  //   const videoSArray = [
+  //     "",
+  //     "Utilizing a video to showcase an app's value proposition offers users a preview of what to expect. A Video should highlights distinctive features, achievements, and provides insight into the user interface.",
+  //     "Great! Work Adding Video to your Store listing. But Make Sure your video highlights distinctive features and provides insight into the user interface.",
+  //   ];
+  //   const mhrSArray = [
+  //     "MHR Score is " +
+  //       mhrScore +
+  //       ", This is not good for your ASO strategy. You are losing Installs on your app.",
+  //     "MHR Score is " +
+  //       mhrScore +
+  //       ", Which is causing impact on your conversion Matrices. Having 80+ MHR Can Increase you conversion by 3%-5% from baseline",
+  //     "That's Nice your MHR Score is " +
+  //       mhrScore +
+  //       ", Having good MHR Score is reflected upon your overall conversion metrics.",
+  //   ];
+  //   const listLi = contentBox.querySelectorAll(
+  //     ".conversion-suggestion-list li"
+  //   );
+  //   listLi[0].innerHTML = imagesSArray[image];
+  //   listLi[1].innerHTML = videoSArray[video];
+  //   listLi[2].innerHTML = mhrSArray[mhr];
+  //   const cList = ["bad", "mid", "none"];
+  //   for (let li of listLi) {
+  //     li.classList.remove(cList[0]);
+  //     li.classList.remove(cList[1]);
+  //     li.classList.remove(cList[2]);
+  //   }
+  //   listLi[0].classList.add(cList[image]);
+  //   listLi[1].classList.add(cList[video]);
+  //   listLi[2].classList.add(cList[mhr]);
+  // }
+  // function displayReviewsAndRatingToBox(rating, contentBox) {
+  //   const slider = contentBox.querySelector(".range-slider-box input");
+  //   slider.value = rating.toFixed(1);
+  //   slider.setAttribute("min-value", rating.toFixed(1));
+  //   const sliderText = contentBox.querySelector(".range-slider-box strong");
+  //   sliderText.innerHTML = rating.toFixed(1);
+  //   const mileStoreRating = contentBox.querySelector(".current-milestone span");
+  //   mileStoreRating.innerHTML = rating.toFixed(1);
+  //   contentBox.querySelector(".result-text-box").classList.add("hidden");
+  //   const listLi = contentBox.querySelectorAll(".review-suggestion-list li");
+  //   for (let li of listLi) {
+  //     li.classList.add("hidden");
+  //   }
+  // }
+  // function displayAppleDataToRelatedBox(data, contentBox) {
+  //   const image = contentBox.querySelector(".app-img-box img");
+  //   image.src = data.artworkUrl100;
+  //   image.alt = data.trackName;
+  //   const appName = contentBox.querySelector(".app-information h4");
+  //   appName.innerHTML = `<a href="${data.trackViewUrl}" target="_blank">${data.trackName}</a>`;
+  //   const rating = contentBox.querySelector(".app-information div strong");
+  //   rating.innerHTML = data.averageUserRating.toFixed(2);
+  //   const genre = contentBox.querySelector(".app-information div em");
+  //   genre.innerHTML = " " + data.primaryGenreName;
+  //   const dName = contentBox.querySelector(".app-developer-name");
+  //   dName.innerHTML = "By " + data.artistName;
+  // }
+  // function displayPlayDataToRelatedBox(data, contentBox) {
+  //   const image = contentBox.querySelector(".app-img-box img");
+  //   image.src = data.icon;
+  //   image.alt = data.title;
+  //   const appName = contentBox.querySelector(".app-information h4");
+  //   appName.innerHTML = `<a href="${data.url}"  target="_blank"> ${data.title}</a >`;
+  //   const rating = contentBox.querySelector(".app-information div strong");
+  //   rating.innerHTML = (() => {
+  //     try {
+  //       return data.score.toFixed(2);
+  //     } catch (error) {
+  //       data.score = 0.0;
+  //       return 0.0;
+  //     }
+  //   })();
+  //   const genre = contentBox.querySelector(".app-information div em");
+  //   genre.innerHTML = " " + data.genre;
+  //   const dName = contentBox.querySelector(".app-developer-name");
+  //   dName.innerHTML = "By " + data.developer;
+  // }
+  // async function fetchMHRScoreApple(appId, country) {
+  //   const url =
+  //     "https://nextgrowthlabs.com/wp-json/my-api/v1/mhr-ios/?appId=" +
+  //     appId +
+  //     "&country=" +
+  //     country;
+  //   let response = await fetch(url);
+  //   const result = await response.json();
+  //   if (result.score) {
+  //     return result.score;
+  //   } else {
+  //     return 30;
+  //   }
+  // }
+  // // fetch apple data
+  // async function fetchAppleAppData(appPackageURL, t) {
+  //   const requestOptions = {
+  //     method: "GET",
+  //     redirect: "follow",
+  //   };
+  //   const regex = /\/id(\d+)/;
+  //   const id = appPackageURL.match(regex)[1];
+  //   const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`;
+  //   try {
+  //     const response = await fetch(requestURL, requestOptions);
+  //     const data = await response.json();
+  //     return data["results"][0];
+  //   } catch (error) {
+  //     throw new Error(`Error fetching Apple app data: ${error}`);
+  //   }
+  // }
 
-  async function handleAppleDeviceApp(
-    deviceIcon,
-    row_data,
-    search_keyword,
-    applicationId,
-    appPackageURL,
-  ) {
-    const allParagraph = document.querySelectorAll(".feature-pointer")
-    try {
-      allParagraph[2].parentNode.classList.add("hidden")
-      allParagraph[5].parentNode.classList.add("hidden")
-    } catch {}
-    deviceIcon.src =
-      "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg"
-    const dataObject = getDataObjectForApple(row_data)
-    allParagraph[0].innerHTML =
-      "Improve visitors - using keyword ranks and ML based keyword field recommendations."
-    allParagraph[3].innerHTML =
-      "Conversion improvement - by focusing on A/B testing with app Metadata. i.e. Title, Description, etc."
-    // const priceData = await fetchPriceData("https://nextgrowthlabs.com/wp-json/my-api/v1/apple-price-request", dataObject);
-    // updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
-  }
-  // handle click outside
-  const appSuggestionRef = useRef(null)
+  // async function handleAppleDeviceApp(
+  //   deviceIcon,
+  //   row_data,
+  //   search_keyword,
+  //   applicationId,
+  //   appPackageURL
+  // ) {
+  //   const allParagraph = document.querySelectorAll(".feature-pointer");
+  //   try {
+  //     allParagraph[2].parentNode.classList.add("hidden");
+  //     allParagraph[5].parentNode.classList.add("hidden");
+  //   } catch {}
+  //   deviceIcon.src =
+  //     "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
+  //   const dataObject = getDataObjectForApple(row_data);
+  //   allParagraph[0].innerHTML =
+  //     "Improve visitors - using keyword ranks and ML based keyword field recommendations.";
+  //   allParagraph[3].innerHTML =
+  //     "Conversion improvement - by focusing on A/B testing with app Metadata. i.e. Title, Description, etc.";
+  //   // const priceData = await fetchPriceData("https://nextgrowthlabs.com/wp-json/my-api/v1/apple-price-request", dataObject);
+  //   // updatePriceToPage(priceData, search_keyword, applicationId, appPackageURL);
+  // }
+  // // handle click outside
+  // const appSuggestionRef = useRef(null);
 
-  useEffect(() => {
-    const handleClickOutside = event => {
-      if (
-        appSuggestionRef.current &&
-        !appSuggestionRef.current.contains(event.target)
-      ) {
-        const suggestion =
-          appSuggestionRef.current.querySelector(".suggestions")
-        if (suggestion) {
-          suggestion.classList.remove("format-suggestions")
-        }
-      }
-    }
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (
+  //       appSuggestionRef.current &&
+  //       !appSuggestionRef.current.contains(event.target)
+  //     ) {
+  //       const suggestion =
+  //         appSuggestionRef.current.querySelector(".suggestions");
+  //       if (suggestion) {
+  //         suggestion.classList.remove("format-suggestions");
+  //       }
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside)
+  //   document.addEventListener("mousedown", handleClickOutside);
 
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
-    <section
-      id="services"
-      className="tabsection"
-    >
+    <section id="services" className="tabsection">
       <div className="container-11">
         <div className="title-wrap-2 horizontal lesspadding">
           <h2
@@ -1068,10 +1085,10 @@ const Services = () => {
         >
           <div className="tabs-menu w-tab-menu">
             <div
-              onClick={e => {
+              onClick={(e) => {
                 // e.preventDefault()
-                e.stopPropagation()
-                setActiveSol("solution1")
+                e.stopPropagation();
+                setActiveSol("solution1");
               }}
               data-w-tab="Tab 2"
               className={`tab-button-2 w-inline-block w-tab-link ${
@@ -1108,7 +1125,7 @@ const Services = () => {
                     </div> */}
 
                     <div
-                      ref={appSuggestionRef}
+                      // ref={appSuggestionRef}
                       className="app-search-box-holder margin-top new-height mobile"
                     >
                       <div className="search-box_holder flex-custom">
@@ -1126,6 +1143,33 @@ const Services = () => {
                                     id="search-bar-input6"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
+                                    value={searchAppKeyword}
+                                    onFocus={() => {
+                                      setRecentAppsVisible((prev) => {
+                                        return {
+                                          ...prev,
+                                          ["suggestions-box6"]: true,
+                                        };
+                                      });
+                                    }}
+                                    onChange={(e) => {
+                                      if (e.target.value.trim().length === 0) {
+                                        setRecentAppsVisible({});
+                                        setSearchAppVisible({});
+                                      }
+                                      setRecentAppsVisible({});
+                                      setSearchAppKeyword(e.target.value);
+                                      setSearchAppVisible((prev) => {
+                                        return {
+                                          ...prev,
+                                          ["search-box6"]: true,
+                                        };
+                                      });
+                                    }}
+                                    // remove this once we move to the app select functionality
+                                    onBlur={() => {
+                                      setSearchAppVisible({});
+                                    }}
                                   />
                                   <button
                                     id="close-search-form6"
@@ -1155,7 +1199,7 @@ const Services = () => {
                                 </div>
 
                                 <div className="app-output-box">
-                                  <div
+                                  {/* <div
                                     id="searching-shimmer6"
                                     className="hidden searching-shimmer"
                                   >
@@ -1266,12 +1310,18 @@ const Services = () => {
                                         </div>
                                       </li>
                                     </ul>
-                                  </div>
-                                  <ul
+                                  </div> */}
+                                  {/* <ul
                                     id="suggestions-box6"
                                     className="suggestions"
                                     // onClick={e => handleClick(e)}
-                                  ></ul>
+                                  ></ul> */}
+                                  {recentAppsVisible["suggestions-box6"] && (
+                                    <RecentApps />
+                                  )}{" "}
+                                  {searchAppVisible["search-box6"] && (
+                                    <SearchResults />
+                                  )}
                                 </div>
                               </div>
                               <CountrySelect
@@ -1306,10 +1356,7 @@ const Services = () => {
                                 <h4></h4>
                               </div>
                               <div>
-                                <img
-                                  src="/assets/imgs/target.svg"
-                                  alt="R: "
-                                />
+                                <img src="/assets/imgs/target.svg" alt="R: " />
                                 <strong></strong>
                                 <em> </em>
                               </div>
@@ -1358,7 +1405,7 @@ const Services = () => {
                                 max="360"
                                 step="10"
                                 onChange={() => {
-                                  console.log("input value change")
+                                  console.log("input value change");
                                 }}
                                 defaultValue="180"
                               />
@@ -1385,10 +1432,7 @@ const Services = () => {
                             </li>
                           </ul>
                           <div className="main-button-box">
-                            <button
-                              type="submit"
-                              className="back-button"
-                            >
+                            <button type="submit" className="back-button">
                               Back
                             </button>
                             <button className="contact-button-display-form">
@@ -1403,10 +1447,10 @@ const Services = () => {
               </div>
             </div>
             <div
-              onClick={e => {
+              onClick={(e) => {
                 // e.preventDefault()
-                e.stopPropagation()
-                setActiveSol("solution2")
+                e.stopPropagation();
+                setActiveSol("solution2");
               }}
               data-w-tab="Tab 3"
               className={`tab-button-2 w-inline-block w-tab-link ${
@@ -1442,7 +1486,7 @@ const Services = () => {
                     </div> */}
 
                     <div
-                      ref={appSuggestionRef}
+                      // ref={appSuggestionRef}
                       className="app-search-box-holder margin-top new-height mobile"
                     >
                       <div className="search-box_holder flex-custom width">
@@ -1460,6 +1504,33 @@ const Services = () => {
                                     id="search-bar-input7"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
+                                    value={searchAppKeyword}
+                                    onFocus={() => {
+                                      setRecentAppsVisible((prev) => {
+                                        return {
+                                          ...prev,
+                                          ["suggestions-box7"]: true,
+                                        };
+                                      });
+                                    }}
+                                    onChange={(e) => {
+                                      if (e.target.value.trim().length === 0) {
+                                        setRecentAppsVisible({});
+                                        setSearchAppVisible({});
+                                      }
+                                      setRecentAppsVisible({});
+                                      setSearchAppKeyword(e.target.value);
+                                      setSearchAppVisible((prev) => {
+                                        return {
+                                          ...prev,
+                                          ["search-box7"]: true,
+                                        };
+                                      });
+                                    }}
+                                    // remove this once we move to the app select functionality
+                                    onBlur={() => {
+                                      setSearchAppVisible({});
+                                    }}
                                   />
                                   <button
                                     id="close-search-form7"
@@ -1488,7 +1559,7 @@ const Services = () => {
                                   </button>
                                 </div>
                                 <div className="app-output-box">
-                                  <div
+                                  {/* <div
                                     id="searching-shimmer7"
                                     className="hidden searching-shimmer"
                                   >
@@ -1599,12 +1670,18 @@ const Services = () => {
                                         </div>
                                       </li>
                                     </ul>
-                                  </div>
-                                  <ul
+                                  </div> */}
+                                  {/* <ul
                                     id="suggestions-box7"
                                     className="suggestions"
                                     // onClick={e => handleClick(e)}
-                                  ></ul>
+                                  ></ul> */}
+                                  {recentAppsVisible["suggestions-box7"] && (
+                                    <RecentApps />
+                                  )}{" "}
+                                  {searchAppVisible["search-box7"] && (
+                                    <SearchResults />
+                                  )}
                                 </div>
                               </div>
                               <CountrySelect
@@ -1642,10 +1719,7 @@ const Services = () => {
                                 <h4></h4>
                               </div>
                               <div>
-                                <img
-                                  src="/assets/imgs/target.svg"
-                                  alt="R: "
-                                />
+                                <img src="/assets/imgs/target.svg" alt="R: " />
                                 <strong></strong>
                                 <em> </em>
                               </div>
@@ -1692,7 +1766,7 @@ const Services = () => {
                                 max="5"
                                 step="0.05"
                                 onChange={() => {
-                                  console.log("input value change")
+                                  console.log("input value change");
                                 }}
                                 defaultValue="2.9"
                               />
@@ -1719,10 +1793,7 @@ const Services = () => {
                             </li>
                           </ul>
                           <div className="main-button-box">
-                            <button
-                              type="submit"
-                              className="back-button"
-                            >
+                            <button type="submit" className="back-button">
                               Back
                             </button>
                             <button className="contact-button-display-form">
@@ -1737,10 +1808,10 @@ const Services = () => {
               </div>
             </div>
             <div
-              onClick={e => {
+              onClick={(e) => {
                 // e.preventDefault()
-                e.stopPropagation()
-                setActiveSol("solution3")
+                e.stopPropagation();
+                setActiveSol("solution3");
               }}
               data-w-tab="Tab 4"
               className={`tab-button-2 w-inline-block w-tab-link ${
@@ -1777,7 +1848,7 @@ const Services = () => {
                       and font Color?
                     </div> */}
                     <div
-                      ref={appSuggestionRef}
+                      // ref={appSuggestionRef}
                       className="app-search-box-holder margin-top new-height mobile"
                     >
                       <div className="search-box_holder flex-custom width">
@@ -1795,6 +1866,33 @@ const Services = () => {
                                     id="search-bar-input8"
                                     className="search-input"
                                     placeholder="Search your iOS or android app"
+                                    value={searchAppKeyword}
+                                    onFocus={() => {
+                                      setRecentAppsVisible((prev) => {
+                                        return {
+                                          ...prev,
+                                          ["suggestions-box8"]: true,
+                                        };
+                                      });
+                                    }}
+                                    onChange={(e) => {
+                                      if (e.target.value.trim().length === 0) {
+                                        setRecentAppsVisible({});
+                                        setSearchAppVisible({});
+                                      }
+                                      setRecentAppsVisible({});
+                                      setSearchAppKeyword(e.target.value);
+                                      setSearchAppVisible((prev) => {
+                                        return {
+                                          ...prev,
+                                          ["search-box8"]: true,
+                                        };
+                                      });
+                                    }}
+                                    // remove this once we move to the app select functionality
+                                    onBlur={() => {
+                                      setSearchAppVisible({});
+                                    }}
                                   />
                                   <button
                                     id="close-search-form8"
@@ -1824,7 +1922,7 @@ const Services = () => {
                                 </div>
 
                                 <div className="app-output-box">
-                                  <div
+                                  {/* <div
                                     id="searching-shimmer8"
                                     className="hidden searching-shimmer"
                                   >
@@ -1935,12 +2033,18 @@ const Services = () => {
                                         </div>
                                       </li>
                                     </ul>
-                                  </div>
-                                  <ul
+                                  </div> */}
+                                  {/* <ul
                                     id="suggestions-box8"
                                     className="suggestions"
                                     // onClick={e => handleClick(e)}
-                                  ></ul>
+                                  ></ul> */}
+                                  {recentAppsVisible["suggestions-box8"] && (
+                                    <RecentApps />
+                                  )}
+                                  {searchAppVisible["search-box8"] && (
+                                    <SearchResults />
+                                  )}
                                 </div>
                               </div>
 
@@ -1976,10 +2080,7 @@ const Services = () => {
                                 <h4></h4>
                               </div>
                               <div>
-                                <img
-                                  src="/assets/imgs/target.svg"
-                                  alt="R: "
-                                />
+                                <img src="/assets/imgs/target.svg" alt="R: " />
                                 <strong></strong>
                                 <em> </em>
                               </div>
@@ -2000,10 +2101,7 @@ const Services = () => {
                             </li>
                           </ul>
                           <div className="main-button-box">
-                            <button
-                              type="submit"
-                              className="back-button"
-                            >
+                            <button type="submit" className="back-button">
                               Back
                             </button>
                             <button className="contact-button-display-form">
@@ -2032,7 +2130,7 @@ const Services = () => {
                   </h3>
                 </div>
                 <div
-                  ref={appSuggestionRef}
+                  // ref={appSuggestionRef}
                   className="app-search-box-holder margin-top new-height"
                 >
                   <div className="search-box_holder flex-custom width">
@@ -2050,6 +2148,34 @@ const Services = () => {
                                 id="search-bar-input2"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
+                                value={searchAppKeyword}
+                                onFocus={() => {
+                                  setRecentAppsVisible((prev) => {
+                                    return {
+                                      ...prev,
+                                      ["suggestions-box2"]: true,
+                                    };
+                                  });
+                                }}
+                                onChange={(e) => {
+                                  console.log("search input triggered");
+                                  if (e.target.value.trim().length === 0) {
+                                    setRecentAppsVisible({});
+                                    setSearchAppVisible({});
+                                  }
+                                  setRecentAppsVisible({});
+                                  setSearchAppKeyword(e.target.value);
+                                  setSearchAppVisible((prev) => {
+                                    return {
+                                      ...prev,
+                                      ["search-box2"]: true,
+                                    };
+                                  });
+                                }}
+                                // remove this once we move to the app select functionality
+                                onBlur={() => {
+                                  setSearchAppVisible({});
+                                }}
                               />
                               <button
                                 id="close-search-form2"
@@ -2078,7 +2204,7 @@ const Services = () => {
                               </button>
                             </div>
                             <div className="app-output-box">
-                              <div
+                              {/* <div
                                 id="searching-shimmer2"
                                 className="hidden searching-shimmer"
                               >
@@ -2189,12 +2315,18 @@ const Services = () => {
                                     </div>
                                   </li>
                                 </ul>
-                              </div>
-                              <ul
+                              </div> */}
+                              {/* <ul
                                 id="suggestions-box2"
                                 className="suggestions"
-                                onClick={e => handleClick(e)}
-                              ></ul>
+                                onClick={(e) => handleClick(e)}
+                              ></ul> */}
+                              {recentAppsVisible["suggestions-box2"] && (
+                                <RecentApps />
+                              )}
+                              {searchAppVisible["search-box2"] && (
+                                <SearchResults />
+                              )}
                             </div>
                           </div>
 
@@ -2230,10 +2362,7 @@ const Services = () => {
                             <h4></h4>
                           </div>
                           <div>
-                            <img
-                              src="/assets/imgs/target.svg"
-                              alt="R: "
-                            />
+                            <img src="/assets/imgs/target.svg" alt="R: " />
                             <strong></strong>
                             <em> </em>
                           </div>
@@ -2283,7 +2412,7 @@ const Services = () => {
                             step="10"
                             defaultValue="180"
                             onChange={() => {
-                              console.log("input value change")
+                              console.log("input value change");
                             }}
                           />
                           <strong>180 Days</strong>
@@ -2309,10 +2438,7 @@ const Services = () => {
                         </li>
                       </ul>
                       <div className="main-button-box">
-                        <button
-                          type="submit"
-                          className="back-button"
-                        >
+                        <button type="submit" className="back-button">
                           Back
                         </button>
                         <button className="contact-button-display-form">
@@ -2337,7 +2463,7 @@ const Services = () => {
                   </h3>
                 </div>
                 <div
-                  ref={appSuggestionRef}
+                  // ref={appSuggestionRef}
                   className="app-search-box-holder margin-top new-height"
                 >
                   <div className="search-box_holder flex-custom width">
@@ -2355,6 +2481,33 @@ const Services = () => {
                                 id="search-bar-input3"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
+                                value={searchAppKeyword}
+                                onFocus={() => {
+                                  setRecentAppsVisible((prev) => {
+                                    return {
+                                      ...prev,
+                                      ["suggestions-box3"]: true,
+                                    };
+                                  });
+                                }}
+                                onChange={(e) => {
+                                  if (e.target.value.trim().length === 0) {
+                                    setRecentAppsVisible({});
+                                    setSearchAppVisible({});
+                                  }
+                                  setRecentAppsVisible({});
+                                  setSearchAppKeyword(e.target.value);
+                                  setSearchAppVisible((prev) => {
+                                    return {
+                                      ...prev,
+                                      ["search-box3"]: true,
+                                    };
+                                  });
+                                }}
+                                // remove this once we move to the app select functionality
+                                onBlur={() => {
+                                  setSearchAppVisible({});
+                                }}
                               />
                               <button
                                 id="close-search-form3"
@@ -2383,7 +2536,7 @@ const Services = () => {
                               </button>
                             </div>
                             <div className="app-output-box">
-                              <div
+                              {/* <div
                                 id="searching-shimmer3"
                                 className="hidden searching-shimmer"
                               >
@@ -2494,12 +2647,18 @@ const Services = () => {
                                     </div>
                                   </li>
                                 </ul>
-                              </div>
-                              <ul
+                              </div> */}
+                              {/* <ul
                                 id="suggestions-box3"
                                 className="suggestions"
-                                onClick={e => handleClick(e)}
-                              ></ul>
+                                onClick={(e) => handleClick(e)}
+                              ></ul> */}
+                              {recentAppsVisible["suggestions-box3"] && (
+                                <RecentApps />
+                              )}{" "}
+                              {searchAppVisible["search-box3"] && (
+                                <SearchResults />
+                              )}
                             </div>
                           </div>
                           <CountrySelect
@@ -2534,10 +2693,7 @@ const Services = () => {
                             <h4></h4>
                           </div>
                           <div>
-                            <img
-                              src="/assets/imgs/target.svg"
-                              alt="R: "
-                            />
+                            <img src="/assets/imgs/target.svg" alt="R: " />
                             <strong></strong>
                             <em> </em>
                           </div>
@@ -2559,10 +2715,7 @@ const Services = () => {
                             alt="Arrow"
                           />
                           <div className="next-milestone">
-                            <img
-                              src="/assets/imgs/target.svg"
-                              alt="nextIMG"
-                            />
+                            <img src="/assets/imgs/target.svg" alt="nextIMG" />
                             <span>4.9</span>
                           </div>
                         </div>
@@ -2585,7 +2738,7 @@ const Services = () => {
                             step="0.05"
                             defaultValue="2.9"
                             onChange={() => {
-                              console.log("input value change")
+                              console.log("input value change");
                             }}
                           />
                           <strong>2.9</strong>
@@ -2611,10 +2764,7 @@ const Services = () => {
                         </li>
                       </ul>
                       <div className="main-button-box">
-                        <button
-                          type="submit"
-                          className="back-button"
-                        >
+                        <button type="submit" className="back-button">
                           Back
                         </button>
                         <button className="contact-button-display-form">
@@ -2639,7 +2789,7 @@ const Services = () => {
                   </h3>
                 </div>
                 <div
-                  ref={appSuggestionRef}
+                  // ref={appSuggestionRef}
                   className="app-search-box-holder margin-top new-height"
                 >
                   <div className="search-box_holder flex-custom width">
@@ -2657,6 +2807,33 @@ const Services = () => {
                                 id="search-bar-input4"
                                 className="search-input"
                                 placeholder="Search your iOS or android app"
+                                value={searchAppKeyword}
+                                onFocus={() => {
+                                  setRecentAppsVisible((prev) => {
+                                    return {
+                                      ...prev,
+                                      ["suggestions-box4"]: true,
+                                    };
+                                  });
+                                }}
+                                onChange={(e) => {
+                                  if (e.target.value.trim().length === 0) {
+                                    setRecentAppsVisible({});
+                                    setSearchAppVisible({});
+                                  }
+                                  setRecentAppsVisible({});
+                                  setSearchAppKeyword(e.target.value);
+                                  setSearchAppVisible((prev) => {
+                                    return {
+                                      ...prev,
+                                      ["search-box4"]: true,
+                                    };
+                                  });
+                                }}
+                                // remove this once we move to the app select functionality
+                                onBlur={() => {
+                                  setSearchAppVisible({});
+                                }}
                               />
                               <button
                                 id="close-search-form4"
@@ -2685,7 +2862,7 @@ const Services = () => {
                               </button>
                             </div>
                             <div className="app-output-box">
-                              <div
+                              {/* <div
                                 id="searching-shimmer4"
                                 className="hidden searching-shimmer"
                               >
@@ -2796,12 +2973,18 @@ const Services = () => {
                                     </div>
                                   </li>
                                 </ul>
-                              </div>
-                              <ul
+                              </div> */}
+                              {/* <ul
                                 id="suggestions-box4"
                                 className="suggestions"
-                                onClick={e => handleClick(e)}
-                              ></ul>
+                                onClick={(e) => handleClick(e)}
+                              ></ul> */}
+                              {recentAppsVisible["suggestions-box4"] && (
+                                <RecentApps />
+                              )}
+                              {searchAppVisible["search-box4"] && (
+                                <SearchResults />
+                              )}
                             </div>
                           </div>
                           <CountrySelect
@@ -2837,10 +3020,7 @@ const Services = () => {
                             <h4></h4>
                           </div>
                           <div>
-                            <img
-                              src="/assets/imgs/target.svg"
-                              alt="R: "
-                            />
+                            <img src="/assets/imgs/target.svg" alt="R: " />
                             <strong></strong>
                             <em> </em>
                           </div>
@@ -2861,10 +3041,7 @@ const Services = () => {
                         </li>
                       </ul>
                       <div className="main-button-box">
-                        <button
-                          type="submit"
-                          className="back-button"
-                        >
+                        <button type="submit" className="back-button">
                           Back
                         </button>
                         <button className="contact-button-display-form">
@@ -2880,7 +3057,7 @@ const Services = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Services
+export default Services;

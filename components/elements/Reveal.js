@@ -3,7 +3,7 @@ import { motion, useAnimation, useInView } from "framer-motion";
 const Reveal = ({ children }) => {
   const ref = useRef();
   const mainControl = useAnimation();
-  const isInView = useInView(ref, { once: true });
+  const isInView = useInView(ref, { once: false });
   useEffect(() => {
     if (isInView) {
       mainControl.start("visible");

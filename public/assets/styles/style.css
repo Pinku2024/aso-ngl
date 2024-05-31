@@ -653,7 +653,7 @@ p {
 .input:focus {
   color: #193150;
   /* border-color: #1c7df8; */
-  border-color: var(--bgColor)
+  border-color: var(--bgColor);
 }
 
 .input::-ms-input-placeholder {
@@ -1327,12 +1327,12 @@ p {
 
 .message:hover {
   /* border-color: #1c7df8; */
-  /* border-color: var(--bgColor) */  
+  /* border-color: var(--bgColor) */
 }
 
 .message:focus {
   color: #193150;
-  border-color: var(--bgColor)
+  border-color: var(--bgColor);
 }
 
 .message::-ms-input-placeholder {
@@ -2617,7 +2617,7 @@ p {
 .button-primary-4.width-max.alternate {
   color: var(--bgColor);
   background-color: #fff;
-  border: 1px solid var(--bgColor)
+  border: 1px solid var(--bgColor);
 }
 
 .button-primary-4.width-max.alternate:hover {
@@ -3165,7 +3165,7 @@ p {
 
 .testimonial-tab-link.w--current {
   background-color: rgba(0, 0, 0, 0);
-   /* border-top-color: #1c7df8; */
+  /* border-top-color: #1c7df8; */
   border-top-color: var(--bgColor);
 }
 
@@ -5924,7 +5924,7 @@ p {
     height: 200px;
   }
 
-  .mail-btn{
+  .mail-btn {
     font-size: 14px !important;
   }
 }

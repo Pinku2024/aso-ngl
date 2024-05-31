@@ -1,5 +1,7 @@
-import React, { useEffect, useState, useRef } from "react"
-import Image from "next/image"
+import React, { useEffect, useState, useRef } from "react";
+import Image from "next/image";
+import { useAtom } from "jotai";
+import { selectedAppCountry } from "../../context/store";
 
 const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
   const countries = [
@@ -125,70 +127,68 @@ const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
     { name: "Yemen", code: "ye", flag: "ye.png" },
     { name: "Zambia", code: "zm", flag: "zm.png" },
     { name: "Zimbabwe", code: "zw", flag: "zw.png" },
-  ]
-
+  ];
+  const [_, setSelectedAppCountryCode] = useAtom(selectedAppCountry);
   const [selectedCountry, setSelectedCountry] = useState({
     code: "in",
     name: "India",
     flag: "in.png",
-  })
-  const [filteredCountries, setFilteredCountries] = useState(countries)
-  const [isDropdownActive, setIsDropdownActive] = useState(false)
-  const [searchTerm, setSearchTerm] = useState("")
+  });
+  const [filteredCountries, setFilteredCountries] = useState(countries);
+  const [isDropdownActive, setIsDropdownActive] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    const lowercasedFilter = searchTerm.toLowerCase()
+    const lowercasedFilter = searchTerm.toLowerCase();
     const filteredData = countries.filter(
-      country =>
+      (country) =>
         country.name.toLowerCase().includes(lowercasedFilter) ||
-        country.code.toLowerCase().includes(lowercasedFilter),
-    )
-    setFilteredCountries(filteredData)
-  }, [searchTerm])
+        country.code.toLowerCase().includes(lowercasedFilter)
+    );
+    setFilteredCountries(filteredData);
+  }, [searchTerm]);
 
-  const handleSelectCountry = country => {
-    setSelectedCountry(country)
-    setSelectedCountryCode(country.code)
-    setIsDropdownActive(false)
-  }
+  const handleSelectCountry = (country) => {
+    setSelectedCountry(country);
+    setSelectedCountryCode(country.code);
+    setSelectedAppCountryCode(country.code);
+    setIsDropdownActive(false);
+  };
 
   // close the dropdown when clicking outside
-  const countrySelectionBoxRef = useRef(null)
+  const countrySelectionBoxRef = useRef(null);
   useEffect(() => {
-    const handleClickOutside = event => {
+    const handleClickOutside = (event) => {
       if (
         countrySelectionBoxRef.current &&
         !countrySelectionBoxRef.current.contains(event.target)
       ) {
-        setIsDropdownActive(false)
+        setIsDropdownActive(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside)
-    }
-  }, [])
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   // ******************************
   useEffect(() => {
     if (selectedApp) {
-      handleEvent(selectedApp)
+      handleEvent(selectedApp);
     }
-  }, [selectedApp])
+  }, [selectedApp]);
 
-  const handleEvent = event => {
+  const handleEvent = (event) => {
     // console.log("Select APP", event)
-  }
+  };
 
   // *********************************
 
   return (
-    <div
-      ref={countrySelectionBoxRef}
-      className="country-selection-box"
-    >
+    <div ref={countrySelectionBoxRef} className="country-selection-box">
       <div
         className={`country-select-button ${isDropdownActive ? "active" : ""}`}
         onClick={() => setIsDropdownActive(!isDropdownActive)}
@@ -229,12 +229,12 @@ const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
                 type="text"
                 placeholder="Search"
                 value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
             <ul className="options">
               {filteredCountries.length > 0 ? (
-                filteredCountries.map(country => (
+                filteredCountries.map((country) => (
                   <li
                     key={country.code}
                     className={
@@ -260,7 +260,7 @@ const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default CountrySelect
+export default CountrySelect;

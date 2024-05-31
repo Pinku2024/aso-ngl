@@ -56,7 +56,7 @@
 }
 .suggestions,
 .searching-shimmer {
-  max-height: 400px;
+  max-height: 250px;
   list-style: none;
   margin-top: 30px;
   padding-bottom: 0px;
