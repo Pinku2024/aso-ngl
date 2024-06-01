@@ -15,7 +15,7 @@ import { useRef } from "react";
 import FormPopup from "../components/elements/FormPopup";
 import { useSelectedApp } from "../context/EventContext";
 
-export default function Home() {
+const Home = ()=> {
   const { isPopupVisible } = useSelectedApp();
 
   const auditRef = useRef(null);
@@ -80,3 +80,4 @@ export default function Home() {
     </>
   );
 }
+export default Home
