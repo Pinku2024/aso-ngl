@@ -33,7 +33,7 @@ function uniqueArray(arr, key) {
 
 // to fetch the clicked app and store that in the local storage
 
-async function fetchAndStoreAppDataToBox(
+export async function fetchAndStoreAppDataToBox(
   appPackageURL,
   applicationId,
   device,
@@ -188,4 +188,34 @@ function createListWithDevice(data) {
   });
   // console.log(formattedData);
   return formattedData;
+}
+
+async function fetchPlayStoreAppData(applicationId, t) {
+  const url = `https://store.maakeetoo.com/apps/details/?id=${applicationId}&gl=${t}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    throw new Error(`Error fetching Play Store app data: ${error}`);
+  }
+}
+
+async function fetchAppleAppData(appPackageURL, t) {
+  const requestOptions = {
+    method: "GET",
+    redirect: "follow",
+  };
+  const regex = /\/id(\d+)/;
+  const id = appPackageURL.match(regex)[1];
+  const requestURL = `https://itunes.apple.com/lookup?id=${id}&country=${t}`;
+  try {
+    const response = await fetch(requestURL, requestOptions);
+    const data = await response.json();
+    console.log(data);
+    return data["results"][0];
+  } catch (error) {
+    throw new Error(`Error fetching Apple app data: ${error}`);
+  }
 }

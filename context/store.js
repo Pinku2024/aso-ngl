@@ -8,3 +8,5 @@ export const showSearchApps = atom({});
 export const searchedApps = atom([]);
 export const selectedAppCountry = atom("in");
 export const showCloseBtn = atom(false);
+export const showAppSelected = atom(false);
+export const userSelectedApp = atom({});

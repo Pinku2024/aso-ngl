@@ -407,10 +407,6 @@ const Audit = () => {
                                 };
                               });
                             }}
-                            // remove this once we move to the app select functionality
-                            onBlur={() => {
-                              setSearchAppVisible({});
-                            }}
                           />
                           <button
                             id="close-search-form1"

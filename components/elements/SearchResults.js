@@ -3,6 +3,9 @@ import {
   searchedApps,
   searchKeyword,
   selectedAppCountry,
+  showAppSelected,
+  showSearchApps,
+  userSelectedApp,
 } from "../../context/store";
 import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
@@ -11,6 +14,9 @@ const SearchResults = () => {
   const [countryCode, _1] = useAtom(selectedAppCountry);
   const [searchResults, setSearchResult] = useAtom(searchedApps);
   const [searchAppKeyword, _2] = useAtom(searchKeyword);
+  const [_3, setSearchAppVisible] = useAtom(showSearchApps);
+  const [_4, setAppSelect] = useAtom(showAppSelected);
+  const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -56,7 +62,7 @@ const SearchResults = () => {
           <li className="li-suggestion-item">Could not find your app</li>
         </ul>
       )}
-      {!isPending && searchResults.length > 0 && (
+      {!isPending && isFetched && searchResults.length > 0 && (
         <ul className="suggestions format-suggestions">
           <p className="info-search">Search Results:</p>
           {searchResults.map((item) => (
@@ -67,6 +73,13 @@ const SearchResults = () => {
               application-img-logo={item.app_icon}
               device={item.device}
               key={item.app_icon}
+              onClick={(e) => {
+                e.stopPropagation();
+                console.log(item);
+                setUserSelectedApp(item);
+                setAppSelect(true);
+                setSearchAppVisible({});
+              }}
             >
               <div className="show-device-icon">
                 <div className="li-suggestion-item-logo">

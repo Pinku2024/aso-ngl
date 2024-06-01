@@ -1,9 +1,19 @@
-import { useEffect, useState } from "react";
-import { getRecentAppData } from "../util";
+import { useEffect } from "react";
+import { fetchAndStoreAppDataToBox, getRecentAppData } from "../util";
 import { useAtom } from "jotai";
-import { recentApps } from "../../context/store";
+import {
+  recentApps,
+  selectedAppCountry,
+  showAppSelected,
+  showRecentApps,
+  userSelectedApp,
+} from "../../context/store";
 const RecentApps = () => {
   const [recentlySelectedApps, setRecentlySelectedApps] = useAtom(recentApps);
+  const [_, setShowRecentApps] = useAtom(showRecentApps);
+  const [_1, setAppSelect] = useAtom(showAppSelected);
+  const [_2, setUserSelectApp] = useAtom(userSelectedApp);
+  const [country, setCountry] = useAtom(selectedAppCountry);
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -19,8 +29,31 @@ const RecentApps = () => {
             application-id={`${item["app-package-id"]}`}
             application-img-logo={`${item.icon_urls}`}
             device={`${item.device}`}
-            onClick={() => {
-              console.log(item.packageName, "clicked");
+            onClick={(e) => {
+              e.stopPropagation();
+
+              if (item.device === "android") {
+                setUserSelectApp(
+                  fetchAndStoreAppDataToBox(
+                    item["data-package-url"],
+                    item["app-package-id"],
+                    "android",
+                    country
+                  )
+                );
+              }
+              if (item.device === "apple") {
+                setUserSelectApp(
+                  fetchAndStoreAppDataToBox(
+                    item["data-package-url"],
+                    item["app-package-id"],
+                    "apple",
+                    country
+                  )
+                );
+              }
+              setShowRecentApps({});
+              setAppSelect(true);
             }}
           >
             <div className="show-device-icon">

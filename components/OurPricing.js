@@ -6,6 +6,7 @@ import { useSelectedApp } from "../context/EventContext";
 import { useAtom } from "jotai";
 import {
   searchKeyword,
+  showAppSelected,
   showCloseBtn,
   showRecentApps,
   showSearchApps,
@@ -18,14 +19,13 @@ const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
   const [activeTab, setActiveTab] = useState("tab2");
-  const [appSelected, setAppSelected] = useState(false);
+  const [appSelected, setAppSelected] = useAtom(showAppSelected);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
   const { appSelect } = useSelectedApp();
   const [showInputCloseBtn, setShowInputCloseBtn] = useAtom(showCloseBtn);
   useEffect(() => {
     if (appSelect !== null) {
-      setAppSelected(true);
       setTimeout(() => {
         handleClickPrice(appSelect);
       }, 500);
@@ -792,235 +792,120 @@ const OurPricing = () => {
                         >
                           <div className="search-box-wrapper">
                             <div className="app-search-box-holder">
-                              <div className="search-box_holder flex-custom width">
-                                <div className="code-left">
-                                  <div className="html-embed-14 w-embed">
-                                    <div
-                                      id="search-box5"
-                                      className="main-box-holder"
-                                    >
+                              {!appSelected && (
+                                <div className="search-box_holder flex-custom width">
+                                  <div className="code-left">
+                                    <div className="html-embed-14 w-embed">
                                       <div
-                                        ref={appSuggestionRef}
-                                        className="search-box-suggestion"
+                                        id="search-box5"
+                                        className="main-box-holder"
                                       >
-                                        <div className="main-search-bar">
-                                          <input
-                                            type="text"
-                                            autoComplete="off"
-                                            id="search-bar-input5"
-                                            className="search-input"
-                                            placeholder="Search your iOS or android app"
-                                            value={searchAppKeyword}
-                                            onFocus={() => {
-                                              setShowInputCloseBtn(true);
-                                              setAppSelected(true);
-                                              setRecentAppsVisible((prev) => {
-                                                return {
-                                                  ...prev,
-                                                  ["suggestions-box5"]: true,
-                                                };
-                                              });
-                                            }}
-                                            onChange={(e) => {
-                                              if (
-                                                e.target.value.trim().length ===
-                                                0
-                                              ) {
-                                                setRecentAppsVisible({});
-                                                setSearchAppVisible({});
-                                              }
-                                              setRecentAppsVisible({});
-                                              setSearchAppKeyword(
-                                                e.target.value
-                                              );
-                                              setSearchAppVisible((prev) => {
-                                                return {
-                                                  ...prev,
-                                                  ["search-box5"]: true,
-                                                };
-                                              });
-                                            }}
-                                            // remove this once we move to the app select functionality
-                                            onBlur={() => {
-                                              setSearchAppVisible({});
-                                              setShowInputCloseBtn(false);
-                                            }}
-                                          />
-                                          {showInputCloseBtn && (
-                                            <button
-                                              id="close-search-form5"
-                                              className="close-search-form"
-                                              onClick={() => {
-                                                setRecentAppsVisible({});
-                                                setSearchAppVisible({});
+                                        <div
+                                          ref={appSuggestionRef}
+                                          className="search-box-suggestion"
+                                        >
+                                          <div className="main-search-bar">
+                                            <input
+                                              type="text"
+                                              autoComplete="off"
+                                              id="search-bar-input5"
+                                              className="search-input"
+                                              placeholder="Search your iOS or android app"
+                                              value={searchAppKeyword}
+                                              onFocus={() => {
+                                                setShowInputCloseBtn(true);
+                                                setRecentAppsVisible((prev) => {
+                                                  return {
+                                                    ...prev,
+                                                    ["suggestions-box5"]: true,
+                                                  };
+                                                });
                                               }}
-                                            >
-                                              <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                xmlnsXlink="http://www.w3.org/1999/xlink"
-                                                width="16px"
-                                                height="16px"
-                                                viewBox="0 0 16 16"
-                                                version="1.1"
+                                              onChange={(e) => {
+                                                if (
+                                                  e.target.value.trim()
+                                                    .length === 0
+                                                ) {
+                                                  setRecentAppsVisible({});
+                                                  setSearchAppVisible({});
+                                                }
+                                                setRecentAppsVisible({});
+                                                setSearchAppKeyword(
+                                                  e.target.value
+                                                );
+                                                setSearchAppVisible((prev) => {
+                                                  return {
+                                                    ...prev,
+                                                    ["search-box5"]: true,
+                                                  };
+                                                });
+                                              }}
+                                              // remove this once we move to the app select functionality
+                                            />
+                                            {showInputCloseBtn && (
+                                              <button
+                                                id="close-search-form5"
+                                                className="close-search-form"
+                                                onClick={() => {
+                                                  setRecentAppsVisible({});
+                                                  setSearchAppVisible({});
+                                                }}
                                               >
-                                                <g id="surface5">
-                                                  <path
-                                                    style={{
-                                                      stroke: "none",
-                                                      fillRule: "nonzero",
-                                                      fill: "#5a5a5c",
-                                                      fillOpacity: 1,
-                                                    }}
-                                                    d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                                  ></path>
-                                                </g>
-                                              </svg>
-                                            </button>
-                                          )}
-                                        </div>
-                                        <div className="app-output-box">
-                                          {/* <div
-                                            id="searching-shimmer5"
-                                            className="hidden searching-shimmer"
-                                          >
-                                            <ul className="o-vertical-spacing o-vertical-spacing--l">
-                                              <li className="blog-post o-media">
-                                                <div className="o-media__figure">
-                                                  <span className="skeleton-box"></span>
-                                                </div>
-                                                <div className="o-media__body">
-                                                  <div className="o-vertical-spacing">
-                                                    <h3 className="blog-post__headline">
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "55%" }}
-                                                      ></span>
-                                                    </h3>
-                                                    <p>
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "80%" }}
-                                                      ></span>
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                              </li>
-                                              <li className="blog-post o-media">
-                                                <div className="o-media__figure">
-                                                  <span className="skeleton-box"></span>
-                                                </div>
-                                                <div className="o-media__body">
-                                                  <div className="o-vertical-spacing">
-                                                    <h3 className="blog-post__headline">
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "55%" }}
-                                                      ></span>
-                                                    </h3>
-                                                    <p>
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "80%" }}
-                                                      ></span>
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                              </li>
-                                              <li className="blog-post o-media">
-                                                <div className="o-media__figure">
-                                                  <span className="skeleton-box"></span>
-                                                </div>
-                                                <div className="o-media__body">
-                                                  <div className="o-vertical-spacing">
-                                                    <h3 className="blog-post__headline">
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "55%" }}
-                                                      ></span>
-                                                    </h3>
-                                                    <p>
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "80%" }}
-                                                      ></span>
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                              </li>
-                                              <li className="blog-post o-media">
-                                                <div className="o-media__figure">
-                                                  <span className="skeleton-box"></span>
-                                                </div>
-                                                <div className="o-media__body">
-                                                  <div className="o-vertical-spacing">
-                                                    <h3 className="blog-post__headline">
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "55%" }}
-                                                      ></span>
-                                                    </h3>
-                                                    <p>
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "80%" }}
-                                                      ></span>
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                              </li>
-                                              <li className="blog-post o-media">
-                                                <div className="o-media__figure">
-                                                  <span className="skeleton-box"></span>
-                                                </div>
-                                                <div className="o-media__body">
-                                                  <div className="o-vertical-spacing">
-                                                    <h3 className="blog-post__headline">
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "55%" }}
-                                                      ></span>
-                                                    </h3>
-                                                    <p>
-                                                      <span
-                                                        className="skeleton-box"
-                                                        style={{ width: "80%" }}
-                                                      ></span>
-                                                    </p>
-                                                  </div>
-                                                </div>
-                                              </li>
-                                            </ul>
-                                          </div> */}
-                                          {recentAppsVisible[
-                                            "suggestions-box5"
-                                          ] && <RecentApps />}
-                                          {searchAppVisible["search-box5"] && (
-                                            <SearchResults />
-                                          )}
-                                          {/* <ul
+                                                <svg
+                                                  xmlns="http://www.w3.org/2000/svg"
+                                                  xmlnsXlink="http://www.w3.org/1999/xlink"
+                                                  width="16px"
+                                                  height="16px"
+                                                  viewBox="0 0 16 16"
+                                                  version="1.1"
+                                                >
+                                                  <g id="surface5">
+                                                    <path
+                                                      style={{
+                                                        stroke: "none",
+                                                        fillRule: "nonzero",
+                                                        fill: "#5a5a5c",
+                                                        fillOpacity: 1,
+                                                      }}
+                                                      d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                                    ></path>
+                                                  </g>
+                                                </svg>
+                                              </button>
+                                            )}
+                                          </div>
+                                          <div className="app-output-box">
+                                            {recentAppsVisible[
+                                              "suggestions-box5"
+                                            ] && <RecentApps />}
+                                            {searchAppVisible[
+                                              "search-box5"
+                                            ] && <SearchResults />}
+                                            {/* <ul
                                             id="suggestions-box5"
                                             className="suggestions"
                                             onClick={e => handleClickPrice(e)}
                                           ></ul> */}
+                                          </div>
                                         </div>
+                                        <CountrySelect
+                                          setSelectedCountryCode={
+                                            setSelectedCountryCode
+                                          }
+                                          // selectedApp={selectedApp}
+                                          showCode={false}
+                                        />
                                       </div>
-                                      <CountrySelect
-                                        setSelectedCountryCode={
-                                          setSelectedCountryCode
-                                        }
-                                        // selectedApp={selectedApp}
-                                        showCode={false}
-                                      />
                                     </div>
                                   </div>
                                 </div>
-                              </div>
+                              )}
 
                               {appSelected && (
                                 <>
                                   <div
                                     id="app-pricing-box_Pr"
-                                    className="card-2 contact google_play-store new hidden"
+                                    className="card-2 contact google_play-store new"
                                   >
                                     <div className="package-card logic">
                                       <div className="top-part padding">
