@@ -16,7 +16,7 @@ const AppBasicInfo = ({ data, device }) => {
             </div>
             <div>
               <img src="/assets/imgs/target.svg" alt="R: " />
-              <strong>{data.averageUserRating.toFixed(1)}</strong>
+              <strong>{data.averageUserRating.toFixed(2)}</strong>
               <em> {data.genres[0]}</em>
             </div>
             <div className="app-developer-name">By {data.artistName}</div>
@@ -34,7 +34,7 @@ const AppBasicInfo = ({ data, device }) => {
             </div>
             <div>
               <img src="/assets/imgs/target.svg" alt="R: " />
-              <strong>{data.score.toFixed(1)}</strong>
+              <strong>{data.score.toFixed(2)}</strong>
               <em> {data.genre}</em>
             </div>
             <div className="app-developer-name"></div>

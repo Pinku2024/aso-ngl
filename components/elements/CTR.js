@@ -20,19 +20,19 @@ const CTR = ({ mobile }) => {
   useEffect(() => {
     if (isFetched) {
       if (device === "apple") {
-        setSliderValue(Number(data?.averageUserRating.toFixed(1)) + 0.05);
+        setSliderValue(Number(data?.averageUserRating.toFixed(2)) + 0.05);
       }
       if (device === "android") {
-        setSliderValue(Number(data?.score.toFixed(1)) + 0.05);
+        setSliderValue(Number(data?.score.toFixed(2)) + 0.05);
       }
     }
   }, [isFetched]);
   let currentSliderValue;
   if (device === "apple") {
-    currentSliderValue = data?.averageUserRating.toFixed(1);
+    currentSliderValue = data?.averageUserRating.toFixed(2);
   }
   if (device === "android") {
-    currentSliderValue = data?.score.toFixed(1);
+    currentSliderValue = data?.score.toFixed(2);
   }
   let requiredRatings;
   if (isFetched && device === "apple") {
@@ -98,7 +98,7 @@ const CTR = ({ mobile }) => {
                 </div>
                 <div>
                   <img src="/assets/imgs/target.svg" alt="R: " />
-                  <strong>{data.averageUserRating.toFixed(1)}</strong>
+                  <strong>{data.averageUserRating.toFixed(2)}</strong>
                   <em> {data.genres[0]}</em>
                 </div>
                 <div className="app-developer-name">By {data.artistName}</div>
@@ -109,7 +109,7 @@ const CTR = ({ mobile }) => {
               <div className="milestones-images">
                 <div className="current-milestone">
                   <img src="/assets/imgs/current.svg" alt="currentIMG" />
-                  <span> {data.averageUserRating.toFixed(1)}</span>
+                  <span> {data.averageUserRating.toFixed(2)}</span>
                 </div>
                 <img src="/assets/imgs/Arrow-vector-blue.svg" alt="Arrow" />
                 <div className="next-milestone">
@@ -133,14 +133,14 @@ const CTR = ({ mobile }) => {
                   min="0.0"
                   max="5"
                   step="0.05"
-                  defaultValue={data.averageUserRating.toFixed(1)}
+                  defaultValue={data.averageUserRating.toFixed(2)}
                   onChange={(e) => {
                     if (
                       e.target.value <
-                      Number(data?.averageUserRating.toFixed(1))
+                      Number(data?.averageUserRating.toFixed(2))
                     ) {
                       setSliderValue(
-                        Number(data.averageUserRating.toFixed(1)) + 0.05
+                        Number(data.averageUserRating.toFixed(2)) + 0.05
                       );
                     } else {
                       setSliderValue(parseFloat(e.target.value));
@@ -192,7 +192,7 @@ const CTR = ({ mobile }) => {
                 </div>
                 <div>
                   <img src="/assets/imgs/target.svg" alt="R: " />
-                  <strong>{data.score.toFixed(1)}</strong>
+                  <strong>{data.score.toFixed(2)}</strong>
                   <em> {data.genre}</em>
                 </div>
                 <div className="app-developer-name"></div>
@@ -203,7 +203,7 @@ const CTR = ({ mobile }) => {
               <div className="milestones-images">
                 <div className="current-milestone">
                   <img src="/assets/imgs/current.svg" alt="currentIMG" />
-                  <span> {data.score.toFixed(1)}</span>
+                  <span> {data.score.toFixed(2)}</span>
                 </div>
                 <img src="/assets/imgs/Arrow-vector-blue.svg" alt="Arrow" />
                 <div className="next-milestone">
@@ -227,10 +227,10 @@ const CTR = ({ mobile }) => {
                   min="0.0"
                   max="5"
                   step="0.05"
-                  defaultValue={data.score.toFixed(1)}
+                  defaultValue={data.score.toFixed(2)}
                   onChange={(e) => {
-                    if (e.target.value < Number(data?.score.toFixed(1))) {
-                      setSliderValue(Number(data.score.toFixed(1)) + 0.05);
+                    if (e.target.value < Number(data?.score.toFixed(2))) {
+                      setSliderValue(Number(data.score.toFixed(2)) + 0.05);
                     } else {
                       setSliderValue(parseFloat(e.target.value));
                     }
@@ -254,7 +254,14 @@ const CTR = ({ mobile }) => {
               </li>
             </ul>
             <div className="main-button-box">
-              <button type="submit" className="back-button">
+              <button
+                type="submit"
+                className="back-button"
+                onClick={() => {
+                  setuserSelectedAppObject({});
+                  setAppSelected(false);
+                }}
+              >
                 Back
               </button>
               <button className="contact-button-display-form">

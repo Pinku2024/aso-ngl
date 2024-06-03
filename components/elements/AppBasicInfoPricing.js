@@ -34,7 +34,7 @@ const AppBasicInfoPricing = ({ data, device }) => {
                 {data.trackName}
               </h2>
               <div id="App-Info" className="text-block-25">
-                ⭐️ {data.averageUserRating.toFixed(1)} {data.genres[0]}
+                ⭐️ {data.averageUserRating.toFixed(2)} {data.genres[0]}
               </div>
             </div>
           </div>
@@ -72,7 +72,7 @@ const AppBasicInfoPricing = ({ data, device }) => {
                 {data.title}
               </h2>
               <div id="App-Info" className="text-block-25">
-                ⭐️ {data.score.toFixed(1)} {data.genre}
+                ⭐️ {data.score.toFixed(2)} {data.genre}
               </div>
             </div>
           </div>
