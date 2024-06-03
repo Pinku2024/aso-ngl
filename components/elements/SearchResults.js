@@ -9,6 +9,7 @@ import {
 } from "../../context/store";
 import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 const searchShimmerArray = [0, 1, 2, 3, 4, 5];
 const SearchResults = () => {
   const [countryCode, _1] = useAtom(selectedAppCountry);
@@ -17,6 +18,9 @@ const SearchResults = () => {
   const [_3, setSearchAppVisible] = useAtom(showSearchApps);
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
+  const [country, setCountry] = useAtom(selectedAppCountry);
+
+  const [appDataLocal, setAppDataLocal] = useState(null);
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -25,6 +29,27 @@ const SearchResults = () => {
   if (isFetched) {
     setSearchResult(data);
   }
+  function recentAppDataFromLocalStorage(appData) {
+    let oldAppData = localStorage.getItem("Recent Selected App");
+    if (oldAppData) {
+      let Array = JSON.parse(oldAppData);
+      Array.unshift(appData);
+      let uniqueArray = Array.filter(
+        (item, index) =>
+          Array.findIndex(
+            (obj) => JSON.stringify(obj) === JSON.stringify(item)
+          ) === index
+      );
+      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray));
+    } else {
+      localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
+    }
+  }
+  useEffect(() => {
+    if (appDataLocal) {
+      recentAppDataFromLocalStorage(appDataLocal);
+    }
+  }, [appDataLocal]);
   return (
     <>
       {isPending && (
@@ -76,7 +101,30 @@ const SearchResults = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 console.log(item);
-                setUserSelectedApp(item);
+                setAppDataLocal({
+                  appName: item.appName,
+                  appIcon: item.app_icon,
+                  developer: item.developer,
+                  device: item.device,
+                  "data-package-url": item.dataPackageUrl,
+                  "app-package-id": item.appPackageId,
+                });
+                if (item.device === "android") {
+                  setUserSelectedApp({
+                    appPackageURL: item.dataPackageUrl,
+                    applicationId: item.appPackageId,
+                    device: "android",
+                    country,
+                  });
+                }
+                if (item.device === "apple") {
+                  setUserSelectedApp({
+                    appPackageURL: item.dataPackageUrl,
+                    applicationId: item.appPackageId,
+                    device: "apple",
+                    country,
+                  });
+                }
                 setAppSelect(true);
                 setSearchAppVisible({});
               }}

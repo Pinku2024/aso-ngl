@@ -3,7 +3,7 @@ export function getRecentAppData() {
   const recentSelectedApp = JSON.parse(
     localStorage.getItem("Recent Selected App")
   );
-  const recentSuggestion = recentSelectedApp.map((item) => {
+  const recentSuggestion = recentSelectedApp?.map((item) => {
     let deviceIcon;
     if (item.device === "apple")
       deviceIcon =
@@ -20,7 +20,7 @@ export function getRecentAppData() {
 
 function uniqueArray(arr, key) {
   const seen = new Set();
-  return arr.filter((item) => {
+  return arr?.filter((item) => {
     const keyValue = item[key];
     if (seen.has(keyValue)) {
       return false;
@@ -39,6 +39,7 @@ export async function fetchAndStoreAppDataToBox(
   device,
   country
 ) {
+  console.log(applicationId);
   if (device == "apple") {
     let result = await fetchAppleAppData(appPackageURL, country);
     const appData = JSON.stringify({ apple: result });
@@ -64,7 +65,6 @@ export async function prepareDataForRequests(
   let currentNamePlay = encodingName(searchKeyword);
   let country = selectedCountryCode;
   if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
-    // mainWorkingBox.querySelector(".suggestions").innerHTML = "";
     return false;
   }
   const newKeyword = currentNameIOS.split(" ").join("+");
@@ -73,7 +73,6 @@ export async function prepareDataForRequests(
     requestIOS.trim() ===
     `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
   ) {
-    // mainWorkingBox.querySelector(".suggestions").innerHTML = "";
     return false;
   }
   let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`;
@@ -81,20 +80,9 @@ export async function prepareDataForRequests(
     requestPlay.trim() ===
     `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
   ) {
-    // mainWorkingBox.querySelector(".suggestions").innerHTML = "";
     return false;
   }
   let listData = await handleRequestsAndProcessData(requestPlay, requestIOS);
-  if (listData.length > 0) {
-    // mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-    // mainWorkingBox
-    //   .querySelector(".suggestions")
-    //   .classList.add("format-suggestions");
-  }
-  // mainWorkingBox.querySelector(".searching-shimmer").classList.add("hidden");
-  // mainWorkingBox
-  //   .querySelector(".suggestions")
-  //   .insertAdjacentHTML("beforeend", listData.join(""));
   return listData;
 }
 
@@ -109,17 +97,9 @@ async function handleRequestsAndProcessData(requestPlay, requestIOS) {
       iOSResponse: iOSResponse,
       playResponse: playResponse,
     };
-    // console.log("Merged Data", mergedData);
 
     const fullAppData = mergedExtractedData(mergedData);
     const suggestionList = createListWithDevice(fullAppData);
-
-    // if (suggestionList.length > 0) {
-    //   suggestionList.unshift('<p class="info-search">Search Results</p>');
-    //   suggestionList.push(
-    //     '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
-    //   );
-    // }
 
     return suggestionList;
   } catch (error) {
@@ -217,5 +197,93 @@ async function fetchAppleAppData(appPackageURL, t) {
     return data["results"][0];
   } catch (error) {
     throw new Error(`Error fetching Apple app data: ${error}`);
+  }
+}
+
+// mhr related data
+async function fetchMHRScore(applicationId, country) {
+  const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const todayDate = new Date();
+    todayDate.setDate(todayDate.getDate() - 1);
+    const yesterdayDate = todayDate.toISOString().substr(0, 10);
+    const entry = data.find((entry) => entry.date === yesterdayDate);
+    return entry ? entry.score : 30;
+  } catch (error) {
+    throw new Error(`Error fetching MHR score: ${error}`);
+  }
+}
+
+async function calculateTheSentenceResponseForApple(result, contentBox) {
+  const images = result.screenshotUrls.length;
+  const jpgCount = result.screenshotUrls.filter(
+    (url) =>
+      url.toLowerCase().endsWith(".jpg") || url.toLowerCase().endsWith(".webp")
+  ).length;
+  const video = images === jpgCount ? 1 : 2;
+  const mhrScore = await fetchMHRScoreApple(
+    result.trackId,
+    result.trackViewUrl.split("/")[3]
+  );
+  displayImproveConversionSentence(images, video, mhrScore, contentBox);
+}
+function displayImproveConversionSentence(images, video, mhrScore, contentBox) {
+  const image = images <= 4 ? 0 : images < 8 ? 1 : 2;
+  const mhr = mhrScore <= 40 ? 0 : mhrScore < 80 ? 1 : 2;
+  const imagesSArray = [
+    "Nice that you have added " +
+      images +
+      " Screenshots. Please ensure that your screenshots capture the core features and experience of your app or game. It is recommended that you add upto 8 screenshots per device type",
+    "Great work adding " +
+      images +
+      " screenshots. but Including all eight screenshots per device type can provide a comprehensive view of the app's functionality, features, and user interface.",
+    "That's Awesome, you have used " +
+      images +
+      " screenshots.This would also increases the chances of effectively communicating the app's value proposition by showcasing various aspects and functionalities.",
+  ];
+  const videoSArray = [
+    "",
+    "Utilizing a video to showcase an app's value proposition offers users a preview of what to expect. A Video should highlights distinctive features, achievements, and provides insight into the user interface.",
+    "Great! Work Adding Video to your Store listing. But Make Sure your video highlights distinctive features and provides insight into the user interface.",
+  ];
+  const mhrSArray = [
+    "MHR Score is " +
+      mhrScore +
+      ", This is not good for your ASO strategy. You are losing Installs on your app.",
+    "MHR Score is " +
+      mhrScore +
+      ", Which is causing impact on your conversion Matrices. Having 80+ MHR Can Increase you conversion by 3%-5% from baseline",
+    "That's Nice your MHR Score is " +
+      mhrScore +
+      ", Having good MHR Score is reflected upon your overall conversion metrics.",
+  ];
+  const listLi = contentBox.querySelectorAll(".conversion-suggestion-list li");
+  listLi[0].innerHTML = imagesSArray[image];
+  listLi[1].innerHTML = videoSArray[video];
+  listLi[2].innerHTML = mhrSArray[mhr];
+  const cList = ["bad", "mid", "none"];
+  for (let li of listLi) {
+    li.classList.remove(cList[0]);
+    li.classList.remove(cList[1]);
+    li.classList.remove(cList[2]);
+  }
+  listLi[0].classList.add(cList[image]);
+  listLi[1].classList.add(cList[video]);
+  listLi[2].classList.add(cList[mhr]);
+}
+async function fetchMHRScoreApple(appId, country) {
+  const url =
+    "https://nextgrowthlabs.com/wp-json/my-api/v1/mhr-ios/?appId=" +
+    appId +
+    "&country=" +
+    country;
+  let response = await fetch(url);
+  const result = await response.json();
+  if (result.score) {
+    return result.score;
+  } else {
+    return 30;
   }
 }

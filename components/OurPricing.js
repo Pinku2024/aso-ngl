@@ -14,6 +14,7 @@ import {
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
 import { selectAppHandler } from "./utils";
+import SelectedAppPricing from "./elements/SelectedAppPricing";
 
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
@@ -903,7 +904,7 @@ const OurPricing = () => {
 
                               {appSelected && (
                                 <>
-                                  <div
+                                  {/* <div
                                     id="app-pricing-box_Pr"
                                     className="card-2 contact google_play-store new"
                                   >
@@ -1148,7 +1149,8 @@ const OurPricing = () => {
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
+                                  </div> */}
+                                  <SelectedAppPricing />
                                   <div
                                     id="instruction-Text-Wrapper-pr"
                                     className="instruction-text-wrapper hidden"

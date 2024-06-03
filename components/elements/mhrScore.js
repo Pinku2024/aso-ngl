@@ -1,29 +1,23 @@
-import React from "react";
-
+import { fetchAndStoreAppDataToBox } from "../util";
+import { useAtom } from "jotai";
+import { showAppSelected, userSelectedApp } from "../../context/store";
+import { useQuery } from "@tanstack/react-query";
+import AppBasicInfo from "./AppBasicInfo";
 const MHRScore = ({ mobile }) => {
+  const [userSelectedAppObject, setuserSelectedAppObject] =
+    useAtom(userSelectedApp);
+  const { appPackageURL, applicationId, device, country } =
+    userSelectedAppObject;
+
+  const { data, isFetched } = useQuery({
+    queryKey: ["get single app data in mhr score", userSelectedAppObject],
+    queryFn: () =>
+      fetchAndStoreAppDataToBox(appPackageURL, applicationId, device, country),
+  });
   return (
     <div className={`app-info-display mhr ${mobile}`}>
       <div className="w-embed">
-        <div className="app-basic-info-box">
-          <div className="app-img-box">
-            <img
-              src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-              alt="application logo"
-              className="app-image"
-            />
-          </div>
-          <div className="app-information">
-            <div>
-              <h4></h4>
-            </div>
-            <div>
-              <img src="/assets/imgs/target.svg" alt="R: " />
-              <strong></strong>
-              <em> </em>
-            </div>
-            <div className="app-developer-name"></div>
-          </div>
-        </div>
+        <AppBasicInfo data={data} device={device} />
         <ul className="conversion-suggestion-list">
           <h4>Our Deep Recommendation</h4>
           <li className="conversion-first-line">
