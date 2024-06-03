@@ -1,16 +1,27 @@
-import { fetchAndStoreAppDataToBox } from "../util";
+import {
+  fetchAndStoreAppDataToBox,
+  fetchPriceData,
+  getDataObjectForApple,
+  getDataObjectForPlay,
+} from "../util";
 import { useAtom } from "jotai";
 import { userSelectedApp } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import AppBasicInfoPricing from "./AppBasicInfoPricing";
 import Link from "next/link";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 const SelectedAppPricing = () => {
   const [userSelectedAppObject, setuserSelectedAppObject] =
     useAtom(userSelectedApp);
   const { appPackageURL, applicationId, device, country } =
     userSelectedAppObject;
+  let dataObject;
 
+  const [sliderValue, setSliderValue] = useState(5000);
+  const [sliderPriceData, setSliderPriceData] = useState(5000);
+  const [minValue, setMinValue] = useState(1000);
+  const [maxValue, setMaxValue] = useState(30000);
   const { data, isFetched } = useQuery({
     queryKey: [
       "get single app data in our pricing section",
@@ -19,6 +30,32 @@ const SelectedAppPricing = () => {
     queryFn: () =>
       fetchAndStoreAppDataToBox(appPackageURL, applicationId, device, country),
   });
+
+  if (isFetched) {
+    if (device === "apple") {
+      dataObject = getDataObjectForApple(data);
+    }
+    if (device === "android") {
+      dataObject = getDataObjectForPlay(data);
+    }
+  }
+  const { data: priceData, isFetched: priceDataFetched } = useQuery({
+    queryKey: ["get price data in our pricing section", device, dataObject],
+    queryFn: () => fetchPriceData(device, dataObject),
+  });
+  const handleSliderChange = (event) => {
+    const newValue = event.target.value;
+    setSliderValue(newValue);
+    setSliderPriceData(newValue);
+  };
+  useEffect(() => {
+    const max = parseInt((parseInt(priceData) * 7) / 1000) * 1000;
+    const min = parseInt(parseInt(priceData) / 2 / 500) * 500;
+    setSliderPriceData(priceData);
+    setSliderValue(priceData);
+    setMinValue(min);
+    setMaxValue(max);
+  }, []);
   return (
     <>
       {isFetched && (
@@ -152,20 +189,22 @@ const SelectedAppPricing = () => {
               </div>
               <div className="calculated-pricing-component_wrapper">
                 <div className="pricing-info-text">Recommended Budget</div>
-                <h4 id="Pricing-Amount" className="calculated-pricing">
-                  <span className="suffix">
-                    Please wait.. We are getting you best price
-                  </span>
-                </h4>
-                {/* //
-                <h4 id="Pricing-Amount" className="calculated-pricing">
-                  // ${sliderValue}
-                  // <span className="suffix">/month onwards</span>
-                  //{" "}
-                </h4> */}
+                {!priceDataFetched && (
+                  <h4 id="Pricing-Amount" className="calculated-pricing">
+                    <span className="suffix">
+                      Please wait.. We are getting you best price
+                    </span>
+                  </h4>
+                )}
+                {priceDataFetched && (
+                  <h4 id="Pricing-Amount" className="calculated-pricing">
+                    ${sliderPriceData}
+                    <span className="suffix">/month onwards</span>
+                  </h4>
+                )}
               </div>
               <div>
-                {/* <div className="html-embed-35 w-embed">
+                <div className="html-embed-35 w-embed">
                   <input
                     type="range"
                     min={minValue}
@@ -175,15 +214,7 @@ const SelectedAppPricing = () => {
                     className="slider"
                     id="rangeSlider"
                   />
-                </div> */}
-              </div>
-              <div id="custom-contact-btn" className="button-wrapper">
-                <Link
-                  href="#request-a-quote"
-                  className="button-primary-4 width-max w-button"
-                >
-                  Contact Us
-                </Link>
+                </div>
               </div>
               <div className="personal-plan-offer">
                 <h5 className="personal-plan-heading">Want a personal plan?</h5>
