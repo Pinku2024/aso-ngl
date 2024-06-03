@@ -13,10 +13,11 @@ import Clients from "../components/Clients";
 import Reveal from "../components/elements/Reveal";
 import { useRef } from "react";
 import FormPopup from "../components/elements/FormPopup";
-import { useSelectedApp } from "../context/EventContext";
+import { useAtom } from 'jotai';
+import { popupVisibleAtom } from '../context/store';
 
 const Home = ()=> {
-  const { isPopupVisible } = useSelectedApp();
+  const [isPopupVisible] = useAtom(popupVisibleAtom);
 
   const auditRef = useRef(null);
   const servicesRef = useRef(null);

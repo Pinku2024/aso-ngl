@@ -1941,7 +1941,7 @@ p {
 }
 
 .app-search-box-holder.margin-top.new-height {
-  height: 450px;
+  /* height: 450px; */
   justify-content: center;
 }
 

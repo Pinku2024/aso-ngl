@@ -1,12 +1,12 @@
 import Link from "next/link";
-import { useEffect, useState, useRef } from "react";
+import {useState, useRef } from "react";
 import CountrySelect from "./elements/CountrySelect";
-import { useSelectedApp } from "../context/EventContext";
 import { useAtom } from "jotai";
 import {
   searchKeyword,
   showRecentApps,
   showSearchApps,
+  popupVisibleAtom
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
@@ -15,306 +15,16 @@ const Audit = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
+  const [_, setPopupVisible] = useAtom(popupVisibleAtom);
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
-  const { setIsPopupVisible } = useSelectedApp();
-  const [selectedApp, setSelectedApp] = useState(null);
 
   // Function to close the popup
   const togglePopup = () => {
-    setIsPopupVisible(true);
+    setPopupVisible(true);
   };
 
-  // // ************************************
 
-  // useEffect(() => {
-  //   function setupautoComplete(iOSOuterBox) {
-  //     let iOSautoCompleteTimer;
-  //     const inputElement = iOSOuterBox.querySelector(".search-input");
-  //     const appSearchCloseBtn = iOSOuterBox.querySelector(".close-search-form");
-  //     inputElement.addEventListener("input", (event) => {
-  //       if (event.target.value.trim() === "" && event.target.value.length < 1) {
-  //         console.log("Keyword Not Found!");
-  //         return false;
-  //       }
-  //       iOSOuterBox
-  //         .querySelector(".searching-shimmer")
-  //         .classList.remove("hidden");
-  //       try {
-  //         iOSOuterBox
-  //           .querySelector(".suggestions")
-  //           .classList.remove("format-suggestions");
-  //       } catch {}
-  //       try {
-  //         //Hiding Contact form
-  //         document
-  //           .querySelector(".apple-ios-app_store")
-  //           .classList.add("hidden");
-  //       } catch {}
-  //       try {
-  //         appSearchCloseBtn.classList.add("hidden");
-  //       } catch {}
-  //       clearTimeout(iOSautoCompleteTimer);
-  //       iOSautoCompleteTimer = setTimeout(function () {
-  //         prepareDataForRequests(iOSOuterBox);
-  //       }, 500);
-  //     });
-  //   }
-
-  //   function encodingName(e) {
-  //     return encodeURIComponent(e);
-  //   }
-  //   async function prepareDataForRequests(mainWorkingBox) {
-  //     const inputElement = mainWorkingBox.querySelector(".search-input");
-  //     const appSearchCloseBtn =
-  //       mainWorkingBox.querySelector(".close-search-form");
-  //     try {
-  //       appSearchCloseBtn.classList.remove("hidden");
-  //     } catch {}
-  //     let currentNameIOS = inputElement.value;
-  //     let currentNamePlay = encodingName(inputElement.value);
-  //     let country = selectedCountryCode;
-  //     // let country = mainWorkingBox
-  //     //   .querySelector(".country-select-button")
-  //     //   .getAttribute("country-code");
-  //     if (currentNameIOS.trim().length < 2 && currentNameIOS.trim() === "") {
-  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-  //       return false;
-  //     }
-  //     const newKeyword = currentNameIOS.split(" ").join("+");
-  //     const requestIOS = `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=${newKeyword}&country=${country}&limit=30`;
-  //     if (
-  //       requestIOS.trim() ===
-  //       `https://itunes.apple.com/search?media=software&entity=software%2CiPadSoftware%2CsoftwareDeveloper&term=&country=&limit=30`
-  //     ) {
-  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-  //       return false;
-  //     }
-  //     let requestPlay = `https://store.maakeetoo.com/apps/search/?q=${currentNamePlay}&gl=${country}`;
-  //     if (
-  //       requestPlay.trim() ===
-  //       `https://store.maakeetoo.com/apps/search/?q=&gl=${country}`
-  //     ) {
-  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-  //       return false;
-  //     }
-  //     let listData = await handleRequestsAndProcessData(
-  //       requestPlay,
-  //       requestIOS
-  //     );
-  //     if (listData.length > 0) {
-  //       mainWorkingBox.querySelector(".suggestions").innerHTML = "";
-  //       mainWorkingBox
-  //         .querySelector(".suggestions")
-  //         .classList.add("format-suggestions");
-  //     }
-  //     mainWorkingBox
-  //       .querySelector(".searching-shimmer")
-  //       .classList.add("hidden");
-  //     mainWorkingBox
-  //       .querySelector(".suggestions")
-  //       .insertAdjacentHTML("beforeend", listData.join(""));
-  //   }
-
-  //   async function handleRequestsAndProcessData(requestPlay, requestIOS) {
-  //     try {
-  //       const response1 = await fetch(requestIOS);
-  //       const response2 = await fetch(requestPlay);
-  //       const iOSResponse = await response1.json();
-  //       const playResponse = await response2.json();
-
-  //       const mergedData = {
-  //         iOSResponse: iOSResponse,
-  //         playResponse: playResponse,
-  //       };
-  //       // console.log("Merged Data", mergedData);
-
-  //       const fullAppData = mergedExtractedData(mergedData);
-  //       const suggestionList = createListWithDevice(fullAppData);
-
-  //       if (suggestionList.length > 0) {
-  //         suggestionList.unshift('<p class="info-search">Search Results</p>');
-  //         suggestionList.push(
-  //           '<p class="info-search" style={{textAlign: "center"}}>Unable to locate your App? Try using your App ID or <Link href="#lp-contact">App URL</Link></p>'
-  //         );
-  //       }
-
-  //       return suggestionList;
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //       return false;
-  //     }
-  //   }
-
-  //   function createListWithDevice(data) {
-  //     return data.map((item) => {
-  //       if (item.appName !== undefined) {
-  //         let deviceIcon;
-  //         if (item.device == "apple")
-  //           deviceIcon =
-  //             "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
-  //         else
-  //           deviceIcon =
-  //             "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-  //         return `<li class= "li-suggestion-item" application-url="${item.dataPackageUrl}" application-id="${item.appPackageId}" application-img-logo="${item.app_icon}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.app_icon}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info"><strong>${item.appName}</strong><span>${item.developer}</span></div></div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"/></div></li>`;
-  //       }
-  //     });
-  //   }
-
-  //   function clearSearchBar(mainBoxHolder) {
-  //     // console.log(mainBoxHolder);
-  //     let inputBox = mainBoxHolder.querySelector(".search-input");
-  //     inputBox.value = "";
-  //     inputBox.removeAttribute("application-url");
-  //     inputBox.removeAttribute("application-id");
-  //     inputBox.removeAttribute("application-img-logo");
-  //     try {
-  //       mainBoxHolder
-  //         .querySelector(".suggestions")
-  //         .classList.remove("format-suggestions");
-  //     } catch {}
-  //     mainBoxHolder.querySelector(".suggestions").innerHTML = "";
-  //   }
-
-  //   function clearFormElement() {
-  //     document.querySelector(".apple-ios-app_store").classList.add("hidden");
-  //     const imageBox = document.querySelector("#iOS-form-logo");
-  //     imageBox.src = "";
-  //     imageBox.setAttribute("image-data", "");
-  //   }
-
-  //   function mergedExtractedData(rowData) {
-  //     let appDataMain = [];
-  //     let appDataA = [];
-  //     let appDataP = [];
-  //     rowData.iOSResponse.results.map((item) => {
-  //       if (item.trackViewUrl) {
-  //         let iosData = {
-  //           dataPackageUrl: item.trackViewUrl,
-  //           appPackageId: item.trackViewUrl.split("/")[5],
-  //           app_icon: item.artworkUrl100,
-  //           appName: item.trackName,
-  //           developer: "By " + item.artistName,
-  //           device: "apple",
-  //           deviceIcon: "apple_icon.svg",
-  //         };
-  //         appDataA.push(iosData);
-  //       }
-  //     });
-  //     rowData.playResponse.map((item) => {
-  //       let playData = {
-  //         dataPackageUrl:
-  //           "https://play.google.com/store/apps/details?id=" + item.package_id,
-  //         appPackageId: item.package_id,
-  //         app_icon: item.app_icon,
-  //         appName: item.title,
-  //         developer: "By " + item.developer_name,
-  //         device: "android",
-  //         deviceIcon: "android_icon.svg",
-  //       };
-  //       appDataP.push(playData);
-  //     });
-  //     appDataA.map((app, index) => {
-  //       appDataMain.push(appDataA[index]);
-  //       if (appDataP[index]) {
-  //         appDataMain.push(appDataP[index]);
-  //       }
-  //     });
-  //     if (appDataA.length === 0) appDataMain = appDataP;
-  //     return appDataMain;
-  //   }
-
-  //   setInterval(() => {
-  //     const inputBox = document.querySelectorAll(".search-input");
-  //     inputBox.forEach((input) => {
-  //       if (input.value === "") {
-  //         input
-  //           .closest(".main-box-holder")
-  //           .querySelector(".searching-shimmer")
-  //           .classList.add("hidden");
-  //       }
-  //     });
-  //   }, 500);
-  //   // document.getElementById("search-bar-input1").focus();
-  //   const iOSOuterBoxes = document.querySelectorAll(".main-box-holder");
-  //   const closeSearchBtn = document.querySelectorAll(".close-search-form");
-  //   closeSearchBtn.forEach((close) => {
-  //     close.addEventListener("click", (event) => {
-  //       event.target.classList.add("hidden");
-  //       clearSearchBar(event.target.closest(".main-box-holder"));
-  //       clearFormElement();
-  //     });
-  //   });
-  //   iOSOuterBoxes.forEach((iOSOuterBox) => {
-  //     setupautoComplete(iOSOuterBox);
-  //   });
-  // });
-
-  // // ********************* Recently seleced app **************************
-  const inputBoxesRef = useRef([]);
-
-  // useEffect(() => {
-  //   const inputBoxes = document.querySelectorAll(
-  //     ".main-box-holder .search-input"
-  //   );
-  //   inputBoxesRef.current = inputBoxes;
-
-  //   inputBoxes.forEach((inputBox) => {
-  //     if (window.screen.width < 550) {
-  //       inputBox.placeholder = "Search your app";
-  //     }
-  //     inputBox.addEventListener("click", handleRecentClick);
-  //   });
-
-  //   return () => {
-  //     inputBoxes.forEach((inputBox) => {
-  //       inputBox.removeEventListener("click", handleRecentClick);
-  //     });
-  //   };
-  // }, []);
-
-  // const handleRecentClick = (event) => {
-  //   let mainBoxHolder = event.target.closest(".main-box-holder");
-  //   let fullListData = mainBoxHolder.querySelector(".suggestions");
-  //   let data = fullListData.querySelector("li.li-suggestion-item");
-  //   const allCountrySelectBtn = document.querySelectorAll(
-  //     ".country-select-button"
-  //   );
-
-  //   allCountrySelectBtn.forEach((btn) => {
-  //     if (btn.classList.contains("active")) {
-  //       btn.click();
-  //     }
-  //   });
-
-  //   if (data) {
-  //     fullListData.classList.add("format-suggestions");
-  //   } else {
-  //     try {
-  //       let recentSelectedApp = JSON.parse(
-  //         localStorage.getItem("Recent Selected App")
-  //       );
-  //       let recentSuggestion = recentSelectedApp.map((item) => {
-  //         let deviceIcon;
-  //         if (item.device === "apple")
-  //           deviceIcon =
-  //             "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f645042f50918e6e390f_app-store.svg";
-  //         else
-  //           deviceIcon =
-  //             "https://uploads-ssl.webflow.com/63806eb7687817f7f9be26de/6492f644817f822625b18bb6_google-play-store.svg";
-  //         return `<li class="li-suggestion-item" application-url="${item["data-package-url"]}" application-id="${item["app-package-id"]}" application-img-logo="${item.icon_urls}" device="${item.device}"><div class="show-device-icon"><div class="li-suggestion-item-logo"><img src="${item.icon_urls}" alt="app_icon" class="app-icon-li-item" /></div><div class="li-suggestion-item-info">${item.packageName}</div></div> <div class="device-icon" device="${item.device}"><img src="${deviceIcon}" alt="device-logo" class="device-icon-logo"></div></li>`;
-  //       });
-  //       if (recentSuggestion.length > 0) {
-  //         fullListData.classList.add("format-suggestions");
-  //         recentSuggestion.unshift(
-  //           '<p class= "info-search">Recently selected apps:</p>'
-  //         );
-  //       }
-  //       fullListData.insertAdjacentHTML("beforeend", recentSuggestion.join(""));
-  //     } catch {}
-  //   }
-  // };
-
-  // // handle event *****************************************
+  // handle event *****************************************
 
   // const handleClick = (event) => {
   //   setSelectedApp(event);
@@ -322,7 +32,7 @@ const Audit = () => {
   //   setIsPopupVisible(true);
   // };
 
-  // // **************
+  // **************
   const appSuggestionRef = useRef(null);
   // useEffect(() => {
   //   const handleClickOutside = (event) => {
@@ -443,7 +153,6 @@ const Audit = () => {
                       </div>
                       <CountrySelect
                         setSelectedCountryCode={setSelectedCountryCode}
-                        selectedApp={selectedApp}
                         showCode={false}
                       />
                       <button
@@ -587,49 +296,6 @@ const Audit = () => {
           </article>
         </div>
       </section>
-      {/* <div className="container-large-1134px"> */}
-      {/* <div className="images-wrapper hero-service">
-          <img
-            src="/assets/imgs/BG-Lines-Yellow.svg"
-            loading="lazy"
-            style={{
-              WebkitTransform:
-                "translate3d(0, -60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, -60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, -60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, -60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
-            data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45e5"
-            alt=""
-            className="bg service"
-          />
-        </div> */}
-      {/* <div className="images-wrapper-mob">
-          <img
-            src="/assets/imgs/BG-Lines-Yellow.svg"
-            loading="lazy"
-            style={{
-              WebkitTransform:
-                "translate3d(0, -60PX, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, -60PX, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, -60PX, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, -60PX, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
-            data-w-id="82a7697f-b6ea-f83c-de2b-48cbab6c52c4"
-            alt=""
-            className="bg service-2"
-          />
-        </div> */}
-      {/* </div> */}
-      {/* {isPopupVisible && <FormPopup onClose={closePopup} />} */}
     </>
   );
 };

@@ -1,15 +1,17 @@
 import { useEffect, useState, useRef } from "react";
-import Link from "next/link";
+import { useAtom } from 'jotai';
+import { popupVisibleAtom } from '../context/store';
 
 const AppSearch = () => {
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [isPopupVisible, setPopupVisible] = useAtom(popupVisibleAtom);
   const appSearchRef = useRef();
+
   // Function to close the popup
   const togglePopup = () => {
-    setIsPopupVisible(!isPopupVisible);
+    setPopupVisible(!isPopupVisible);
   };
   const closePopup = () => {
-    setIsPopupVisible(false);
+    setPopupVisible(false);
   };
   useEffect(() => {
     document.addEventListener("click", (e) => {

@@ -6,8 +6,7 @@ import { useRef, useState } from "react";
 import AppBasicInfo from "./AppBasicInfo";
 
 const AppInstalls = ({ mobile }) => {
-  const [userSelectedAppObject, setuserSelectedAppObject] =
-    useAtom(userSelectedApp);
+  const [userSelectedAppObject, setuserSelectedAppObject] = useAtom(userSelectedApp);
   const [appSelected, setAppSelected] = useAtom(showAppSelected);
   const { appPackageURL, applicationId, device, country } =
     userSelectedAppObject;

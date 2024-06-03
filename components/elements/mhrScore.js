@@ -4,11 +4,8 @@ import { showAppSelected, userSelectedApp } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import AppBasicInfo from "./AppBasicInfo";
 const MHRScore = ({ mobile }) => {
-  const [userSelectedAppObject, setuserSelectedAppObject] =
-    useAtom(userSelectedApp);
-  const { appPackageURL, applicationId, device, country } =
-    userSelectedAppObject;
-
+  const [userSelectedAppObject, setuserSelectedAppObject] = useAtom(userSelectedApp);
+  const { appPackageURL, applicationId, device, country } = userSelectedAppObject;
   const { data, isFetched } = useQuery({
     queryKey: ["get single app data in mhr score", userSelectedAppObject],
     queryFn: () =>

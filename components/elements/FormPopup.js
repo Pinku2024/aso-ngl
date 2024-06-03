@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react"
-import { useSelectedApp } from "../../context/EventContext"
+// import { useSelectedApp } from "../../context/EventContext"
+import { useAtom } from "jotai";
+import { popupVisibleAtom } from '../../context/store';
 const FormPopup = () => {
-  const { setIsPopupVisible } = useSelectedApp()
-
+  // const { setIsPopupVisible } = useSelectedApp()
+const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
   const closePopup = () => {
     setIsPopupVisible(false)
   }

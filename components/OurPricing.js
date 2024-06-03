@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import CountrySelect from "./elements/CountrySelect";
 import { useEffect, useState, useRef } from "react";
-import { useSelectedApp } from "../context/EventContext";
+// import { useSelectedApp } from "../context/EventContext";
 import { useAtom } from "jotai";
 import {
   searchKeyword,
@@ -13,9 +13,8 @@ import {
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
-import { selectAppHandler } from "./utils";
 import SelectedAppPricing from "./elements/SelectedAppPricing";
-
+  
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
@@ -23,15 +22,16 @@ const OurPricing = () => {
   const [appSelected, setAppSelected] = useAtom(showAppSelected);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
-  const { appSelect } = useSelectedApp();
+  // const { appSelect } = useSelectedApp();
   const [showInputCloseBtn, setShowInputCloseBtn] = useAtom(showCloseBtn);
-  useEffect(() => {
-    if (appSelect !== null) {
-      setTimeout(() => {
-        handleClickPrice(appSelect);
-      }, 500);
-    }
-  }, [appSelect]);
+
+  // useEffect(() => {
+  //   if (appSelect !== null) {
+  //     setTimeout(() => {
+  //       handleClickPrice(appSelect);
+  //     }, 500);
+  //   }
+  // }, [appSelect]);
 
   const handleClickPrice = (event) => {
     let { appPackageURL, applicationId, imageURL, device } =
