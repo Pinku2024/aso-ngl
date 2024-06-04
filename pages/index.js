@@ -18,7 +18,6 @@ import { popupVisibleAtom } from '../context/store';
 
 const Home = ()=> {
   const [isPopupVisible] = useAtom(popupVisibleAtom);
-
   const auditRef = useRef(null);
   const servicesRef = useRef(null);
   const testimonialsRef = useRef(null);

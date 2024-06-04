@@ -17,6 +17,23 @@ const RecentApps = () => {
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const suggestions = document.querySelectorAll('.suggestions.format-suggestions');
+      suggestions.forEach((suggestion) => {
+        if (!suggestion.contains(event.target)) {
+          suggestion.classList.remove('format-suggestions');
+        }
+      });
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  
+
   return (
     <>
       {recentlySelectedApps?.length > 0 && (

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {useState, useRef } from "react";
+import {useState, useRef, useEffect } from "react";
 import CountrySelect from "./elements/CountrySelect";
 import { useAtom } from "jotai";
 import {
@@ -24,36 +24,6 @@ const Audit = () => {
   };
 
 
-  // handle event *****************************************
-
-  // const handleClick = (event) => {
-  //   setSelectedApp(event);
-  //   setAppSelect(event);
-  //   setIsPopupVisible(true);
-  // };
-
-  // **************
-  const appSuggestionRef = useRef(null);
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (
-  //       appSuggestionRef.current &&
-  //       !appSuggestionRef.current.contains(event.target)
-  //     ) {
-  //       const suggestion =
-  //         appSuggestionRef.current.querySelector(".suggestions");
-  //       if (suggestion) {
-  //         suggestion.classList.remove("format-suggestions");
-  //       }
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <>
@@ -81,7 +51,7 @@ const Audit = () => {
               </p>
             </div>
 
-            <div ref={appSuggestionRef} className="app-search-box-holder">
+            <div  className="app-search-box-holder">
               <div className="search-box_holder flex-custom width">
                 <div className="code-left">
                   <div className="html-embed-8 w-embed">
@@ -148,7 +118,7 @@ const Audit = () => {
                           {recentAppsVisible["suggestions-box1"] && (
                             <RecentApps />
                           )}
-                          {searchAppVisible["search-box1"] && <SearchResults />}
+                          {searchAppVisible["search-box1"] && <SearchResults searchbox={"search-box1"} />}
                         </div>
                       </div>
                       <CountrySelect
@@ -163,131 +133,6 @@ const Audit = () => {
                       >
                         Start Now
                       </button>
-                    </div>
-                  </div>
-                </div>
-                <div className="card-2 contact apple-ios-app_store hidden">
-                  <div className="hide w-embed"></div>
-                  <div className="app-logo_holder small-icon">
-                    <img
-                      src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                      loading="lazy"
-                      alt=""
-                      id="Platform-form-logo"
-                      className="logo-image-lead small-icon-platform"
-                    />
-                  </div>
-                  <div className="app-logo_holder bottom-spacing-margin">
-                    <img
-                      id="iOS-form-logo"
-                      loading="lazy"
-                      height=""
-                      alt="ios-app-logo"
-                      src="https://d3e54v103j8qbb.cloudfront.net/plugins/Basic/assets/placeholder.60f9b1840c.svg"
-                      className="logo-image-lead"
-                    />
-                  </div>
-                  <div className="w-form">
-                    <form
-                      id="wf-form-ContactUsForm2"
-                      name="wf-form-ContactUsForm"
-                      data-name="ContactUsForm"
-                      method="get"
-                      data-wf-page-id="6576f808b0f14ea0f93c043d"
-                      data-wf-element-id="74b03cde-6fdc-298a-3713-4dbaa67e1f5d"
-                    >
-                      <div className="w-embed"></div>
-
-                      <div className="w-layout-grid contact-form-grid">
-                        <div
-                          id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f61-f93c043d"
-                          className="input-wrapper"
-                        >
-                          <label htmlFor="name-2">Full Name</label>
-                          <input
-                            className="input-4 w-input"
-                            maxLength="256"
-                            name="name-2"
-                            data-name="Name 2"
-                            placeholder="What’s your name?"
-                            type="text"
-                            id="name-2"
-                            required=""
-                          />
-                        </div>
-                        <div
-                          id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f65-f93c043d"
-                          className="input-wrapper"
-                        >
-                          <label htmlFor="Emailaddress">Email Address</label>
-                          <input
-                            className="input-4 w-input"
-                            maxLength="256"
-                            name="Email"
-                            data-name="Email"
-                            placeholder="What’s your email?"
-                            type="email"
-                            id="Emailaddress2"
-                            required=""
-                          />
-                        </div>
-                        <div
-                          id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f69-f93c043d"
-                          className="input-wrapper-2"
-                        >
-                          <label htmlFor="Phone" className="field-label">
-                            Phone
-                          </label>
-                          <input
-                            className="input-2 w-input"
-                            maxLength="256"
-                            name="Phone-3"
-                            data-name="Phone 3"
-                            placeholder="What&#x27;s your phone number?"
-                            type="tel"
-                            id="Phone-3"
-                          />
-                        </div>
-                        <div
-                          id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f6d-f93c043d"
-                          className="input-wrapper"
-                        >
-                          <label htmlFor="Message-2">Message</label>
-                          <textarea
-                            id="Message2"
-                            name="Message-2"
-                            maxLength="5000"
-                            data-name="Message 2"
-                            placeholder="What can we help you with?"
-                            className="message-2 w-input"
-                          ></textarea>
-                        </div>
-                        <input
-                          type="submit"
-                          data-wait="Please wait..."
-                          id="w-node-_74b03cde-6fdc-298a-3713-4dbaa67e1f71-f93c043d"
-                          className="button-primary-2 request-a-quote w-button"
-                          value="Submit App"
-                        />
-                      </div>
-                    </form>
-                    <div className="success-message w-form-done">
-                      <div className="text-block-23">
-                        Your message has been submitted. <br />
-                        We will get back to you within 24-48 hours.
-                      </div>
-                      <div className="button-holder-error-message">
-                        <Link
-                          href="#"
-                          id="get-custom-pricing-btn"
-                          className="button-primary-cleint width-small w-button"
-                        >
-                          Get Custom Pricing
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="error-message w-form-fail">
-                      <div>Oops! Something went wrong.</div>
                     </div>
                   </div>
                 </div>

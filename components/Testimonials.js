@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 const Testimonials = () => {
+
   const data = [
     {
       name: "Tushar Pathak",

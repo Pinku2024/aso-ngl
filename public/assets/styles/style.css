@@ -2718,7 +2718,8 @@ p {
 }
 
 .calculated-pricing {
-  color: #1c7df8;
+  /* color: #1c7df8; */
+  color: var(--bgColor);
   text-align: center;
   margin-bottom: 0;
   font-size: 3rem;

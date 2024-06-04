@@ -10,16 +10,20 @@ import {
 } from "../../context/store";
 import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 const searchShimmerArray = [0, 1, 2, 3, 4, 5];
-const SearchResults = () => {
+const SearchResults = ({searchbox}) => {
   const [countryCode, _1] = useAtom(selectedAppCountry);
   const [searchResults, setSearchResult] = useAtom(searchedApps);
   const [searchAppKeyword, _2] = useAtom(searchKeyword);
   const [_3, setSearchAppVisible] = useAtom(showSearchApps);
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
-  const [country, setCountry] = useAtom(selectedAppCountry);
+  const [country] = useAtom(selectedAppCountry);
+  useEffect(() => {
+    console.log('searchbox prop received from SearchResults component:', searchbox);
+  }, [searchbox]);
+
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -46,9 +50,29 @@ const SearchResults = () => {
     }
   }
 
-  function handleSelectApp(data){
+  function handleSelectedApp(data){
     recentAppDataFromLocalStorage(data);
   }
+
+ // ******** close suggestion list whenever click outside
+  const appSuggestionRef = useRef(null);
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const suggestion = appSuggestionRef.current;
+      if (suggestion && !suggestion.contains(event.target)) {
+        suggestion.classList.remove("format-suggestions");
+      }
+    };
+  
+    document.addEventListener("mousedown", handleClickOutside);
+  
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [appSuggestionRef]);
+  
+
+
   return (
     <>
       {isPending && (
@@ -87,7 +111,7 @@ const SearchResults = () => {
         </ul>
       )}
       {!isPending && isFetched && searchResults.length > 0 && (
-        <ul className="suggestions format-suggestions">
+        <ul ref={appSuggestionRef} className="suggestions format-suggestions">
           <p className="info-search">Search Results:</p>
           {searchResults.map((item) => (
             <li
@@ -107,7 +131,7 @@ const SearchResults = () => {
                     "data-package-url": item.dataPackageUrl,
                     "app-package-id": item.appPackageId, 
                 }
-                handleSelectApp(data)
+                handleSelectedApp(data)
                 if (item.device === "android") {
                   setUserSelectedApp({
                     appPackageURL: item.dataPackageUrl,
