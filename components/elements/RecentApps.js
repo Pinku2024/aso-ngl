@@ -14,7 +14,6 @@ const RecentApps = () => {
   const [_1, setAppSelect] = useAtom(showAppSelected);
   const [_2, setUserSelectApp] = useAtom(userSelectedApp);
   const [country, setCountry] = useAtom(selectedAppCountry);
-  console.log("Recent", recentlySelectedApps)
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -25,7 +24,7 @@ const RecentApps = () => {
           <p className="info-search">Recently Selected Apps:</p>
           {recentlySelectedApps.map((item) => (
             <li
-              key={item.appIcon}
+              key={item.icon_urls}
               className="li-suggestion-item"
               application-url={`${item["data-package-url"]}`}
               application-id={`${item["app-package-id"]}`}

@@ -20,8 +20,6 @@ const SearchResults = () => {
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const [country, setCountry] = useAtom(selectedAppCountry);
-  const [appDataLocal, setAppDataLocal] = useAtom(recentSelectedApp)
-  console.log("local", appDataLocal)
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -32,7 +30,6 @@ const SearchResults = () => {
   }
 
   function recentAppDataFromLocalStorage(appData) {
-    console.log("Set local data", appData)
     let oldAppData = localStorage.getItem("Recent Selected App");
     if (oldAppData) {
       let Array = JSON.parse(oldAppData);
@@ -48,15 +45,8 @@ const SearchResults = () => {
       localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
     }
   }
-  // useEffect(() => {
-  //   if (appDataLocal !== "" ) {
-  //     console.log("appDataLoca", appDataLocal)
-  //     recentAppDataFromLocalStorage(appDataLocal);
-  //   }
-  // }, [appDataLocal]);
 
   function handleSelectApp(data){
-    console.log("Data", data)
     recentAppDataFromLocalStorage(data);
   }
   return (
