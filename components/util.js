@@ -326,20 +326,6 @@ async function fetchAppleAppData(appPackageURL, t) {
 }
 
 // mhr related data
-async function fetchMHRScore(applicationId, country) {
-  const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
-  try {
-    const response = await fetch(url);
-    const data = await response.json();
-    const todayDate = new Date();
-    todayDate.setDate(todayDate.getDate() - 1);
-    const yesterdayDate = todayDate.toISOString().substr(0, 10);
-    const entry = data.find((entry) => entry.date === yesterdayDate);
-    return entry ? entry.score : 30;
-  } catch (error) {
-    throw new Error(`Error fetching MHR score: ${error}`);
-  }
-}
 
 async function calculateTheSentenceResponseForApple(result, contentBox) {
   const images = result.screenshotUrls.length;
@@ -398,7 +384,9 @@ function displayImproveConversionSentence(images, video, mhrScore, contentBox) {
   listLi[1].classList.add(cList[video]);
   listLi[2].classList.add(cList[mhr]);
 }
-async function fetchMHRScoreApple(appId, country) {
+
+// fetching mhr for apple
+export async function fetchMHRScoreApple(appId, country) {
   const url =
     "https://nextgrowthlabs.com/wp-json/my-api/v1/mhr-ios/?appId=" +
     appId +
@@ -410,5 +398,60 @@ async function fetchMHRScoreApple(appId, country) {
     return result.score;
   } else {
     return 30;
+  }
+}
+// fetching mhr for android
+async function fetchMHRScore(applicationId, country) {
+  const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+  try {
+    const response = await fetch(url);
+    const data = await response.json();
+    const todayDate = new Date();
+    todayDate.setDate(todayDate.getDate() - 1);
+    const yesterdayDate = todayDate.toISOString().substr(0, 10);
+    const entry = data.find((entry) => entry.date === yesterdayDate);
+    return entry ? entry.score : 30;
+  } catch (error) {
+    throw new Error(`Error fetching MHR score: ${error}`);
+  }
+}
+
+async function calculateTheSentenceResponseForPlay(result, contentBox) {
+  const images = result.screenshots.length;
+  const video = result.video == undefined ? 1 : 2;
+  const urlParams = new URLSearchParams(result.url);
+  const appId = result.url.split("id=")[1].split("&")[0];
+  const country = urlParams.get("gl");
+  const mhrScore = await fetchMHRScore(appId, country);
+  displayImproveConversionSentence(images, video, mhrScore, contentBox);
+}
+export async function fetchMHRScoreCombined(applicationId, country, device) {
+  if (device === "apple") {
+    const url =
+      "https://nextgrowthlabs.com/wp-json/my-api/v1/mhr-ios/?appId=" +
+      applicationId +
+      "&country=" +
+      country;
+    let response = await fetch(url);
+    const result = await response.json();
+    if (result.score) {
+      return result.score;
+    } else {
+      return 30;
+    }
+  }
+  if (device === "android") {
+    const url = `https://store.maakeetoo.com/apps/mhr-score/?id=${applicationId}&gl=${country}`;
+    try {
+      const response = await fetch(url);
+      const data = await response.json();
+      const todayDate = new Date();
+      todayDate.setDate(todayDate.getDate() - 1);
+      const yesterdayDate = todayDate.toISOString().substr(0, 10);
+      const entry = data.find((entry) => entry.date === yesterdayDate);
+      return entry ? entry.score : 30;
+    } catch (error) {
+      throw new Error(`Error fetching MHR score: ${error}`);
+    }
   }
 }

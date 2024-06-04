@@ -1,5 +1,6 @@
 import { useAtom } from "jotai";
 import {
+  recentSelectedApp,
   searchedApps,
   searchKeyword,
   selectedAppCountry,
@@ -19,8 +20,8 @@ const SearchResults = () => {
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const [country, setCountry] = useAtom(selectedAppCountry);
-
-  const [appDataLocal, setAppDataLocal] = useState(null);
+  const [appDataLocal, setAppDataLocal] = useAtom(recentSelectedApp)
+  console.log("local", appDataLocal)
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -29,7 +30,9 @@ const SearchResults = () => {
   if (isFetched) {
     setSearchResult(data);
   }
+
   function recentAppDataFromLocalStorage(appData) {
+    console.log("Set local data", appData)
     let oldAppData = localStorage.getItem("Recent Selected App");
     if (oldAppData) {
       let Array = JSON.parse(oldAppData);
@@ -45,11 +48,17 @@ const SearchResults = () => {
       localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
     }
   }
-  useEffect(() => {
-    if (appDataLocal) {
-      recentAppDataFromLocalStorage(appDataLocal);
-    }
-  }, [appDataLocal]);
+  // useEffect(() => {
+  //   if (appDataLocal !== "" ) {
+  //     console.log("appDataLoca", appDataLocal)
+  //     recentAppDataFromLocalStorage(appDataLocal);
+  //   }
+  // }, [appDataLocal]);
+
+  function handleSelectApp(data){
+    console.log("Data", data)
+    recentAppDataFromLocalStorage(data);
+  }
   return (
     <>
       {isPending && (
@@ -100,15 +109,15 @@ const SearchResults = () => {
               key={item.app_icon}
               onClick={(e) => {
                 e.stopPropagation();
-                console.log(item);
-                setAppDataLocal({
-                  appName: item.appName,
-                  appIcon: item.app_icon,
+                const data = {
+                  packageName:item.appName,
                   developer: item.developer,
-                  device: item.device,
-                  "data-package-url": item.dataPackageUrl,
-                  "app-package-id": item.appPackageId,
-                });
+                    icon_urls: item.app_icon,
+                    device: item.device,
+                    "data-package-url": item.dataPackageUrl,
+                    "app-package-id": item.appPackageId, 
+                }
+                handleSelectApp(data)
                 if (item.device === "android") {
                   setUserSelectedApp({
                     appPackageURL: item.dataPackageUrl,
@@ -125,8 +134,10 @@ const SearchResults = () => {
                     country,
                   });
                 }
+
                 setAppSelect(true);
                 setSearchAppVisible({});
+                
               }}
             >
               <div className="show-device-icon">

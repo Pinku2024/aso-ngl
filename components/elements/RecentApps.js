@@ -14,6 +14,7 @@ const RecentApps = () => {
   const [_1, setAppSelect] = useAtom(showAppSelected);
   const [_2, setUserSelectApp] = useAtom(userSelectedApp);
   const [country, setCountry] = useAtom(selectedAppCountry);
+  console.log("Recent", recentlySelectedApps)
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -56,13 +57,13 @@ const RecentApps = () => {
               <div className="show-device-icon">
                 <div className="li-suggestion-item-logo">
                   <img
-                    src={item.appIcon}
+                    src={item.icon_urls}
                     alt="app_icon"
                     className="app-icon-li-item"
                   />
                 </div>
                 <div className="li-suggestion-item-info">
-                  <strong>{item.appName}</strong>
+                  <strong>{item.packageName}</strong>
                   <span>{item.developer}</span>
                 </div>
               </div>
