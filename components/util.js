@@ -455,3 +455,64 @@ export async function fetchMHRScoreCombined(applicationId, country, device) {
     }
   }
 }
+
+// fetch price data
+export async function fetchPriceData(device, dataObject) {
+  if (device === "apple") {
+    const priceData = await fetchPrice(
+      "https://nextgrowthlabs.com/wp-json/my-api/v1/apple-price-request",
+      dataObject
+    );
+    return priceData;
+  }
+  if (device === "android") {
+    const priceData = await fetchPrice(
+      "https://nextgrowthlabs.com/wp-json/my-api/v1/play-price-request",
+      dataObject
+    );
+    return priceData;
+  }
+}
+async function fetchPrice(url, dataObject) {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataObject),
+    });
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Error fetching price data: ${error}`);
+  }
+}
+
+// dataObject for apple and android
+
+export function getDataObjectForApple(row_data) {
+  let userRating = row_data.averageUserRating.toFixed(2);
+  let dataObject = {
+    TitleLength: row_data.trackCensoredName.length,
+    Size: row_data.fileSizeBytes,
+    ImageCount: row_data.screenshotUrls.length,
+    DescriptionLength: row_data.description.length,
+    Rating: userRating < 1.0 ? 1.2 : userRating,
+    RatingCount: row_data.userRatingCount,
+  };
+  return dataObject;
+}
+export function getDataObjectForPlay(responseData) {
+  let dataObject = {
+    Score:
+      parseFloat(responseData.score).toFixed(1) < 1.0
+        ? 1.2
+        : responseData.score,
+    DownloadEstimate: responseData.maxInstalls,
+    ImageCount: responseData.screenshots.length,
+    VideoPresent: responseData.video ? true : false,
+    Size: responseData.size || 123456,
+    MHR: 20,
+  };
+  return dataObject;
+}
