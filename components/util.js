@@ -164,7 +164,6 @@ export async function fetchAndStoreAppDataToBox(
   device,
   country
 ) {
-  console.log(applicationId);
   if (device == "apple") {
     let result = await fetchAppleAppData(appPackageURL, country);
     const appData = JSON.stringify({ apple: result });
@@ -235,7 +234,6 @@ async function handleRequestsAndProcessData(requestPlay, requestIOS) {
 
 // merging fetched data
 function mergedExtractedData(rowData) {
-  // console.log(rowData);
   let appDataMain = [];
   let appDataA = [];
   let appDataP = [];
@@ -291,7 +289,6 @@ function createListWithDevice(data) {
       return item;
     }
   });
-  // console.log(formattedData);
   return formattedData;
 }
 
@@ -300,7 +297,6 @@ async function fetchPlayStoreAppData(applicationId, t) {
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error(`Error fetching Play Store app data: ${error}`);
@@ -318,7 +314,6 @@ async function fetchAppleAppData(appPackageURL, t) {
   try {
     const response = await fetch(requestURL, requestOptions);
     const data = await response.json();
-    console.log(data);
     return data["results"][0];
   } catch (error) {
     throw new Error(`Error fetching Apple app data: ${error}`);
@@ -425,6 +420,7 @@ async function calculateTheSentenceResponseForPlay(result, contentBox) {
   const mhrScore = await fetchMHRScore(appId, country);
   displayImproveConversionSentence(images, video, mhrScore, contentBox);
 }
+
 export async function fetchMHRScoreCombined(applicationId, country, device) {
   if (device === "apple") {
     const url =
@@ -473,6 +469,7 @@ export async function fetchPriceData(device, dataObject) {
     return priceData;
   }
 }
+
 async function fetchPrice(url, dataObject) {
   try {
     const response = await fetch(url, {

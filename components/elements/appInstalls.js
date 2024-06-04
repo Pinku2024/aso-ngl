@@ -17,7 +17,7 @@ const AppInstalls = ({ mobile }) => {
     queryFn: () =>
       fetchAndStoreAppDataToBox(appPackageURL, applicationId, device, country),
   });
-  console.log(data);
+  // console.log(data);
   function formatReadableNumber(number) {
     if (number < 1e3) {
       return number;

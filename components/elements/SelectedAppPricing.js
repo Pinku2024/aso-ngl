@@ -12,10 +12,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 const SelectedAppPricing = () => {
-  const [userSelectedAppObject, setuserSelectedAppObject] =
-    useAtom(userSelectedApp);
-  const { appPackageURL, applicationId, device, country } =
-    userSelectedAppObject;
+  const [userSelectedAppObject, setuserSelectedAppObject] = useAtom(userSelectedApp);
+  const { appPackageURL, applicationId, device, country } = userSelectedAppObject;
   let dataObject;
 
   const [sliderValue, setSliderValue] = useState(5000);
@@ -55,7 +53,7 @@ const SelectedAppPricing = () => {
     setSliderValue(priceData);
     setMinValue(min);
     setMaxValue(max);
-  }, []);
+  }, [priceData]);
   return (
     <>
       {isFetched && (
@@ -207,9 +205,9 @@ const SelectedAppPricing = () => {
                 <div className="html-embed-35 w-embed">
                   <input
                     type="range"
-                    min={minValue}
-                    max={maxValue}
-                    value={sliderValue}
+                    min={minValue || 0 }
+                    max={maxValue || 0}
+                    value={sliderValue ?? ""}
                     onChange={handleSliderChange}
                     className="slider"
                     id="rangeSlider"

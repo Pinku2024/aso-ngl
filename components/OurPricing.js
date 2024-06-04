@@ -22,16 +22,7 @@ const OurPricing = () => {
   const [appSelected, setAppSelected] = useAtom(showAppSelected);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
-  // const { appSelect } = useSelectedApp();
   const [showInputCloseBtn, setShowInputCloseBtn] = useAtom(showCloseBtn);
-
-  // useEffect(() => {
-  //   if (appSelect !== null) {
-  //     setTimeout(() => {
-  //       handleClickPrice(appSelect);
-  //     }, 500);
-  //   }
-  // }, [appSelect]);
 
   const handleClickPrice = (event) => {
     let { appPackageURL, applicationId, imageURL, device } =

@@ -78,7 +78,6 @@ const CTR = ({ mobile }) => {
     const formattedResult = result.toFixed(0);
     return Number(formattedResult).toLocaleString();
   }
-  console.log(data);
   return (
     <>
       {isFetched && device === "apple" && (
