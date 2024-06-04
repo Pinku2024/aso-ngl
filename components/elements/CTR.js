@@ -3,6 +3,7 @@ import { showAppSelected, userSelectedApp } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAndStoreAppDataToBox } from "../util";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 const CTR = ({ mobile }) => {
   const [userSelectedAppObject, setuserSelectedAppObject] =
@@ -263,9 +264,11 @@ const CTR = ({ mobile }) => {
               >
                 Back
               </button>
+              <Link href="#request-a-quote">
               <button className="contact-button-display-form">
                 Submit App
               </button>
+              </Link>
             </div>
           </div>
         </div>

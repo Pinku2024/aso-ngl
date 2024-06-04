@@ -3,8 +3,8 @@ import { showAppSelected, userSelectedApp } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import { fetchAndStoreAppDataToBox } from "../util";
 import { useRef, useState } from "react";
-import AppBasicInfo from "./AppBasicInfo";
-
+import AppBasicInfo from "./AppBasicInfo"
+import Link from "next/link";
 const AppInstalls = ({ mobile }) => {
   const [userSelectedAppObject, setuserSelectedAppObject] = useAtom(userSelectedApp);
   const [appSelected, setAppSelected] = useAtom(showAppSelected);
@@ -17,7 +17,6 @@ const AppInstalls = ({ mobile }) => {
     queryFn: () =>
       fetchAndStoreAppDataToBox(appPackageURL, applicationId, device, country),
   });
-  // console.log(data);
   function formatReadableNumber(number) {
     if (number < 1e3) {
       return number;
@@ -176,7 +175,10 @@ const AppInstalls = ({ mobile }) => {
             >
               Back
             </button>
+            <Link href="#request-a-quote">
             <button className="contact-button-display-form">Submit App</button>
+            </Link>
+              
           </div>
         </div>
       )}

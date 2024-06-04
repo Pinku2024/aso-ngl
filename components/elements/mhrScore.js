@@ -3,6 +3,7 @@ import { useAtom } from "jotai";
 import { userSelectedApp, showAppSelected } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import AppBasicInfo from "./AppBasicInfo";
+import Link from "next/link";
 const MHRScore = ({ mobile }) => {
   const [userSelectedAppObject, setuserSelectedAppObject] =
     useAtom(userSelectedApp);
@@ -112,7 +113,9 @@ const MHRScore = ({ mobile }) => {
           >
             Back
           </button>
+          <Link href="#request-a-quote">
           <button className="contact-button-display-form">Submit App</button>
+          </Link>
         </div>
       </div>
     </div>

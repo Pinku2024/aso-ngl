@@ -6,14 +6,6 @@
   grid-auto-columns: 1fr;
   display: grid;
 }
-
-body {
-  color: #5c5cbf;
-  font-family: Plus Jakarta Sans, sans-serif;
-  font-size: 14px;
-  line-height: 20px;
-}
-
 h1 {
   margin-top: 20px;
   margin-bottom: 10px;
@@ -363,13 +355,15 @@ p {
   font-size: 18px;
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
-  box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22);
+  /* box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 2px 6px var(--bgColor);
 }
 
 .button-primary:hover {
   color: #fff;
   transform: translate3d(0, -2px, 0.01px);
-  box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22);
+  /* box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 8px 20px var(--bgColor);
 }
 
 .button-primary.empty-cart {
@@ -1740,14 +1734,16 @@ p {
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
   display: flex;
-  box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22);
+  /* box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 2px 6px var(--bgColor);
 }
 
 .button-primary-cleint:hover {
   color: #5c5cbf;
   background-color: #fff;
   border: 1px solid #5c5cbf;
-  box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22);
+  /* box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 8px 20px var(--bgColor);
 }
 
 .logo-carousel-wrapper-2 {
@@ -6307,7 +6303,8 @@ p {
 .back-button,
 .contact-button-display-form {
   height: 40px;
-  background-color: #1c7df8;
+  /* background-color: #1c7df8; */
+  background-color: var(--bgColor);
   padding: 0 20px;
   font-size: 16px;
   font-weight: 600;
@@ -6469,7 +6466,8 @@ p {
   width: 25px;
   height: 25px;
   border-radius: 50%;
-  background: #1c7df8;
+  /* background: #1c7df8; */
+  background: var(--bgColor);
   cursor: pointer;
 }
 
@@ -6477,9 +6475,30 @@ p {
   width: 25px;
   height: 25px;
 }
-.suggestions {
+/* .suggestions {
   z-index: 999;
-}
+} */
+
+/* .app-range-slider{
+    appearance: none; 
+    cursor: pointer;
+    outline: none;
+    border-radius: 15px;
+    height: 6px;
+    background: #ccc;
+} */
+/* .app-range-slider::-webkit-slider-thumb{
+background-color: var(--bgColor);
+  -webkit-appearance: none;
+  appearance: none; 
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: none;
+  transition: .2s ease-in-out;
+} */
+
+
 
 /* custom css */
 

@@ -12,7 +12,7 @@ import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 const searchShimmerArray = [0, 1, 2, 3, 4, 5];
-const SearchResults = ({searchbox}) => {
+const SearchResults = () => {
   const [countryCode, _1] = useAtom(selectedAppCountry);
   const [searchResults, setSearchResult] = useAtom(searchedApps);
   const [searchAppKeyword, _2] = useAtom(searchKeyword);
@@ -20,10 +20,6 @@ const SearchResults = ({searchbox}) => {
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const [country] = useAtom(selectedAppCountry);
-  useEffect(() => {
-    console.log('searchbox prop received from SearchResults component:', searchbox);
-  }, [searchbox]);
-
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
