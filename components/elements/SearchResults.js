@@ -16,7 +16,7 @@ const SearchResults = () => {
   const [countryCode, _1] = useAtom(selectedAppCountry);
   const [searchResults, setSearchResult] = useAtom(searchedApps);
   const [searchAppKeyword, _2] = useAtom(searchKeyword);
-  const [_3, setSearchAppVisible] = useAtom(showSearchApps);
+  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const [country] = useAtom(selectedAppCountry);
@@ -46,11 +46,11 @@ const SearchResults = () => {
     }
   }
 
-  function handleSelectedApp(data){
+  function handleSelectedApp(data) {
     recentAppDataFromLocalStorage(data);
   }
 
- // ******** close suggestion list whenever click outside
+  // ******** close suggestion list whenever click outside
   const appSuggestionRef = useRef(null);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -59,15 +59,13 @@ const SearchResults = () => {
         suggestion.classList.remove("format-suggestions");
       }
     };
-  
+
     document.addEventListener("mousedown", handleClickOutside);
-  
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [appSuggestionRef]);
-  
-
 
   return (
     <>
@@ -120,14 +118,17 @@ const SearchResults = () => {
               onClick={(e) => {
                 e.stopPropagation();
                 const data = {
-                  packageName:item.appName,
+                  packageName: item.appName,
                   developer: item.developer,
-                    icon_urls: item.app_icon,
-                    device: item.device,
-                    "data-package-url": item.dataPackageUrl,
-                    "app-package-id": item.appPackageId, 
+                  icon_urls: item.app_icon,
+                  device: item.device,
+                  "data-package-url": item.dataPackageUrl,
+                  "app-package-id": item.appPackageId,
+                };
+                if (searchAppVisible["search-box1"]) {
+                  console.log("form can be displayed");
                 }
-                handleSelectedApp(data)
+                handleSelectedApp(data);
                 if (item.device === "android") {
                   setUserSelectedApp({
                     appPackageURL: item.dataPackageUrl,
@@ -147,7 +148,6 @@ const SearchResults = () => {
 
                 setAppSelect(true);
                 setSearchAppVisible({});
-                
               }}
             >
               <div className="show-device-icon">
@@ -172,6 +172,11 @@ const SearchResults = () => {
               </div>
             </li>
           ))}
+          <p className="info-search">
+            Couldn't find your app try with{" "}
+            <button className="audit-button">App ID</button> or{" "}
+            <button className="audit-button">App URL</button>
+          </p>
         </ul>
       )}
     </>

@@ -5,16 +5,16 @@ import { useEffect, useState, useRef } from "react";
 // import { useSelectedApp } from "../context/EventContext";
 import { useAtom } from "jotai";
 import {
+  focusAtom,
   searchKeyword,
   showAppSelected,
-  showCloseBtn,
   showRecentApps,
   showSearchApps,
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
 import SelectedAppPricing from "./elements/SelectedAppPricing";
-  
+
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
@@ -22,8 +22,7 @@ const OurPricing = () => {
   const [appSelected, setAppSelected] = useAtom(showAppSelected);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
-  const [showInputCloseBtn, setShowInputCloseBtn] = useAtom(showCloseBtn);
-
+  const [inputFocused, setInputFocused] = useAtom(focusAtom);
 
   return (
     <>
@@ -461,9 +460,7 @@ const OurPricing = () => {
                                         id="search-box5"
                                         className="main-box-holder"
                                       >
-                                        <div
-                                          className="search-box-suggestion"
-                                        >
+                                        <div className="search-box-suggestion">
                                           <div className="main-search-bar">
                                             <input
                                               type="text"
@@ -473,8 +470,13 @@ const OurPricing = () => {
                                               placeholder="Search your iOS or android app"
                                               value={searchAppKeyword}
                                               onFocus={() => {
-                                                setShowInputCloseBtn(true);
                                                 setRecentAppsVisible((prev) => {
+                                                  return {
+                                                    ...prev,
+                                                    ["suggestions-box5"]: true,
+                                                  };
+                                                });
+                                                setInputFocused((prev) => {
                                                   return {
                                                     ...prev,
                                                     ["suggestions-box5"]: true,
@@ -502,13 +504,16 @@ const OurPricing = () => {
                                               }}
                                               // remove this once we move to the app select functionality
                                             />
-                                            {showInputCloseBtn && (
+                                            {inputFocused[
+                                              "suggestions-box5"
+                                            ] && (
                                               <button
                                                 id="close-search-form5"
                                                 className="close-search-form"
                                                 onClick={() => {
                                                   setRecentAppsVisible({});
                                                   setSearchAppVisible({});
+                                                  setInputFocused({});
                                                 }}
                                               >
                                                 <svg

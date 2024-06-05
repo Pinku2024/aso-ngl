@@ -12,7 +12,9 @@ export const showAppSelected = atom(false);
 export const userSelectedApp = atom({});
 export const popupVisibleAtom = atom(false);
 export const selectedCountryAtom = atom({
-    code: "in",
-    name: "India",
-    flag: "in.png",
-  });
+  code: "in",
+  name: "India",
+  flag: "in.png",
+});
+
+export const focusAtom = atom({});
