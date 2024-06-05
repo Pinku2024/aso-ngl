@@ -36,7 +36,7 @@ const Footer = () => {
                     href="mailto:contact@nextgrowthlabs.com"
                     className="footer-link-2 email"
                   >
-                    contact@ngl.com
+                    contact@nextgrowthlabs.com
                   </Link>
                 </li>
               </ul>

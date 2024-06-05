@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import CountrySelect from "./elements/CountrySelect";
 import { useState } from "react";
-// import { useSelectedApp } from "../context/EventContext";
 import { useAtom } from "jotai";
 import {
   focusAtom,
@@ -10,7 +9,8 @@ import {
   showAppSelected,
   showRecentApps,
   showSearchApps,
-  pricingWrapper
+  pricingWrapper,
+  pricingTabs
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
@@ -19,8 +19,8 @@ import SelectedAppPricing from "./elements/SelectedAppPricing";
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
-  const [activeTab, setActiveTab] = useState("tab2");
-  const [appSelected, setAppSelected] = useAtom(showAppSelected);
+  const [activeTab, setActiveTab] = useAtom(pricingTabs);
+  const [appSelected] = useAtom(showAppSelected);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
   const [inputFocused, setInputFocused] = useAtom(focusAtom);
@@ -55,10 +55,10 @@ const OurPricing = () => {
               >
                 <div className="tabs_menu-service w-tab-menu">
                   <button
-                    onClick={() => setActiveTab("tab1")}
+                    onClick={() => setActiveTab("offeringsTab")}
                     data-w-tab="Tab 1 form"
                     className={`tabs1_link-service first w-inline-block w-tab-link ${
-                      activeTab === "tab1" ? "w--current" : ""
+                      activeTab === "offeringsTab" ? "w--current" : ""
                     }`}
                   >
                     <div>
@@ -67,10 +67,10 @@ const OurPricing = () => {
                     </div>
                   </button>
                   <button
-                    onClick={() => setActiveTab("tab2")}
+                    onClick={() => setActiveTab("pricingTab")}
                     data-w-tab="Tab 2 Form"
                     className={`tabs1_link-service _3rd w-inline-block w-tab-link ${
-                      activeTab === "tab2" ? "w--current" : ""
+                      activeTab === "pricingTab" ? "w--current" : ""
                     }`}
                   >
                     <div>
@@ -83,7 +83,7 @@ const OurPricing = () => {
                   <div
                     data-w-tab="Tab 1 form"
                     className={`tabs_tab-pane w-tab-pane ${
-                      activeTab === "tab1" ? "w--tab-active" : ""
+                      activeTab === "offeringsTab" ? "w--tab-active" : ""
                     }`}
                   >
                     <div className="tabs_content-wrapper-service">
@@ -449,7 +449,7 @@ const OurPricing = () => {
                   <div
                     data-w-tab="Tab 2 Form"
                     className={`tabs_tab-pane w-tab-pane ${
-                      activeTab === "tab2" ? "w--tab-active" : ""
+                      activeTab === "pricingTab" ? "w--tab-active" : ""
                     }`}
                   >
                     <div className="tabs_content-wrapper-service">

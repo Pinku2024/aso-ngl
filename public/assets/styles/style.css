@@ -2986,7 +2986,8 @@ p {
 }
 
 .footer-link-2:hover {
-  color: #1c7df8;
+  /* color: #1c7df8; */
+  color: var(--bgColor);
 }
 
 .footer-link-2.w--current {

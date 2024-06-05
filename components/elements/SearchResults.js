@@ -1,4 +1,4 @@
-import { useAtom } from "jotai";
+import { useAtom } from "jotai"
 import {
   recentSelectedApp,
   searchedApps,
@@ -9,80 +9,97 @@ import {
   userSelectedApp,
   pricingWrapper,
   popupVisibleAtom,
-  isScrolled
-} from "../../context/store";
-import { prepareDataForRequests } from "../util";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
-const searchShimmerArray = [0, 1, 2, 3, 4, 5];
+  isScrolled,
+  pricingTabs,
+} from "../../context/store"
+import { prepareDataForRequests } from "../util"
+import { useQuery } from "@tanstack/react-query"
+import { useEffect, useRef } from "react"
+const searchShimmerArray = [0, 1, 2, 3, 4, 5]
 const SearchResults = () => {
-  const [countryCode, _1] = useAtom(selectedAppCountry);
-  const [searchResults, setSearchResult] = useAtom(searchedApps);
-  const [searchAppKeyword, _2] = useAtom(searchKeyword);
-  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
-  const [_4, setAppSelect] = useAtom(showAppSelected);
-  const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
-  const [country] = useAtom(selectedAppCountry);
+  const [countryCode, _1] = useAtom(selectedAppCountry)
+  const [searchResults, setSearchResult] = useAtom(searchedApps)
+  const [searchAppKeyword, _2] = useAtom(searchKeyword)
+  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps)
+  const [_4, setAppSelect] = useAtom(showAppSelected)
+  const [_5, setUserSelectedApp] = useAtom(userSelectedApp)
+  const [country] = useAtom(selectedAppCountry)
   const [isHidden, setIsHidden] = useAtom(pricingWrapper)
-  const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom);
-  const [_7, setShouldScroll] = useAtom(isScrolled);
+  const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom)
+  const [_7, setShouldScroll] = useAtom(isScrolled)
+  const [activeTab, setActiveTab] = useAtom(pricingTabs)
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
     staleTime: Infinity,
-  });
+  })
   if (isFetched) {
-    setSearchResult(data);
+    setSearchResult(data)
   }
- 
+
   function recentAppDataFromLocalStorage(appData) {
-    let oldAppData = localStorage.getItem("Recent Selected App");
+    let oldAppData = localStorage.getItem("Recent Selected App")
     if (oldAppData) {
-      let Array = JSON.parse(oldAppData);
-      Array.unshift(appData);
+      let Array = JSON.parse(oldAppData)
+      Array.unshift(appData)
       let uniqueArray = Array.filter(
         (item, index) =>
           Array.findIndex(
-            (obj) => JSON.stringify(obj) === JSON.stringify(item)
-          ) === index
-      );
-      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray));
+            obj => JSON.stringify(obj) === JSON.stringify(item),
+          ) === index,
+      )
+      localStorage.setItem("Recent Selected App", JSON.stringify(uniqueArray))
     } else {
-      localStorage.setItem("Recent Selected App", JSON.stringify([appData]));
+      localStorage.setItem("Recent Selected App", JSON.stringify([appData]))
     }
   }
 
   function handleSelectedApp(data) {
-    recentAppDataFromLocalStorage(data);
+    recentAppDataFromLocalStorage(data)
   }
-
+  // handle audit app
+  const handleSelectedAppForAudit = () => {
+    if (searchAppVisible["search-box1"]) {
+      setIsPopupVisible(true)
+      setShouldScroll(true)
+    }
+    if(activeTab !== "pricingTab"){
+      setActiveTab("pricingTab")
+    }
+  }
   // ******** close suggestion list whenever click outside
-  const appSuggestionRef = useRef(null);
+  const appSuggestionRef = useRef(null)
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      const suggestion = appSuggestionRef.current;
+    const handleClickOutside = event => {
+      const suggestion = appSuggestionRef.current
       if (suggestion && !suggestion.contains(event.target)) {
-        suggestion.classList.remove("format-suggestions");
+        suggestion.classList.remove("format-suggestions")
         if (isHidden) {
-          setIsHidden(false);
+          setIsHidden(false)
         }
       }
-    };
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside)
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [appSuggestionRef]);
+      document.removeEventListener("mousedown", handleClickOutside)
+    }
+  }, [appSuggestionRef])
 
   return (
     <>
       {isPending && (
-        <div id="searching-shimmer1" className="searching-shimmer">
+        <div
+          id="searching-shimmer1"
+          className="searching-shimmer"
+        >
           <ul className="o-vertical-spacing o-vertical-spacing--l">
-            {searchShimmerArray.map((item) => (
-              <li key={item} className="blog-post o-media">
+            {searchShimmerArray.map(item => (
+              <li
+                key={item}
+                className="blog-post o-media"
+              >
                 <div className="o-media__figure">
                   <span className="skeleton-box"></span>
                 </div>
@@ -114,9 +131,12 @@ const SearchResults = () => {
         </ul>
       )}
       {!isPending && isFetched && searchResults.length > 0 && (
-        <ul ref={appSuggestionRef} className="suggestions format-suggestions">
+        <ul
+          ref={appSuggestionRef}
+          className="suggestions format-suggestions"
+        >
           <p className="info-search">Search Results:</p>
-          {searchResults.map((item) => (
+          {searchResults.map(item => (
             <li
               className="li-suggestion-item"
               application-url={item.dataPackageUrl}
@@ -124,8 +144,8 @@ const SearchResults = () => {
               application-img-logo={item.app_icon}
               device={item.device}
               key={item.app_icon}
-              onClick={(e) => {
-                e.stopPropagation();
+              onClick={e => {
+                e.stopPropagation()
                 const data = {
                   packageName: item.appName,
                   developer: item.developer,
@@ -133,19 +153,20 @@ const SearchResults = () => {
                   device: item.device,
                   "data-package-url": item.dataPackageUrl,
                   "app-package-id": item.appPackageId,
-                };
-                if (searchAppVisible["search-box1"]) {
-                  setIsPopupVisible(true)
-                  setShouldScroll(true);
                 }
-                handleSelectedApp(data);
+                handleSelectedAppForAudit()
+                // if (searchAppVisible["search-box1"]) {
+                //   setIsPopupVisible(true)
+                //   setShouldScroll(true);
+                // }
+                handleSelectedApp(data)
                 if (item.device === "android") {
                   setUserSelectedApp({
                     appPackageURL: item.dataPackageUrl,
                     applicationId: item.appPackageId,
                     device: "android",
                     country,
-                  });
+                  })
                 }
                 if (item.device === "apple") {
                   setUserSelectedApp({
@@ -153,11 +174,11 @@ const SearchResults = () => {
                     applicationId: item.appPackageId,
                     device: "apple",
                     country,
-                  });
+                  })
                 }
 
-                setAppSelect(true);
-                setSearchAppVisible({});
+                setAppSelect(true)
+                setSearchAppVisible({})
               }}
             >
               <div className="show-device-icon">
@@ -173,7 +194,10 @@ const SearchResults = () => {
                   <span>{item.developer}</span>
                 </div>
               </div>
-              <div className="device-icon" device={item.device}>
+              <div
+                className="device-icon"
+                device={item.device}
+              >
                 <img
                   src={item.deviceIcon}
                   alt="device-logo"
@@ -190,7 +214,7 @@ const SearchResults = () => {
         </ul>
       )}
     </>
-  );
-};
+  )
+}
 
-export default SearchResults;
+export default SearchResults

@@ -9,7 +9,8 @@ import {
   userSelectedApp,
   pricingWrapper,
   popupVisibleAtom,
-  isScrolled
+  isScrolled,
+  pricingTabs
 } from "../../context/store";
 const RecentApps = () => {
   const [recentlySelectedApps, setRecentlySelectedApps] = useAtom(recentApps);
@@ -20,6 +21,8 @@ const RecentApps = () => {
   const [isHidden, setIsHidden] = useAtom(pricingWrapper)
   const [_3, setIsPopupVisible] = useAtom(popupVisibleAtom);
   const [_4, setShouldScroll] = useAtom(isScrolled);
+  const [activeTab, setActiveTab] = useAtom(pricingTabs)
+
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -41,7 +44,16 @@ const RecentApps = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+  // handle recent app selection
+  const handleRecentAppSelection = () => {
+    if (recentAppsVisible["suggestions-box1"]) {
+      setIsPopupVisible(true)
+      setShouldScroll(true)
+    }
+    if(activeTab !== "pricingTab"){
+      setActiveTab("pricingTab")
+    }
+  }
 
   return (
     <>
@@ -58,11 +70,11 @@ const RecentApps = () => {
               device={`${item.device}`}
               onClick={(e) => {
                 e.stopPropagation();
-
-                if (recentAppsVisible["suggestions-box1"]) {
-                  setIsPopupVisible(true)
-                  setShouldScroll(true)
-                }
+                handleRecentAppSelection()
+                // if (recentAppsVisible["suggestions-box1"]) {
+                //   setIsPopupVisible(true)
+                //   setShouldScroll(true)
+                // }
                 if (item.device === "android") {
                   setUserSelectApp({
                     appPackageURL: item["data-package-url"],
