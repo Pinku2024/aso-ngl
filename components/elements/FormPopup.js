@@ -1,38 +1,38 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef } from "react";
 // import { useSelectedApp } from "../../context/EventContext"
 import { useAtom } from "jotai";
-import { popupVisibleAtom } from '../../context/store';
+import { popupVisibleAtom } from "../../context/store";
 const FormPopup = () => {
   // const { setIsPopupVisible } = useSelectedApp()
-const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
+  const [_, setIsPopupVisible] = useAtom(popupVisibleAtom);
   const closePopup = () => {
-    setIsPopupVisible(false)
-  }
+    setIsPopupVisible(false);
+  };
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     message: "",
-  })
-  const formRef = useRef(null)
-  const successMessageRef = useRef(null)
-  const errorMessageRef = useRef(null)
+  });
+  const formRef = useRef(null);
+  const successMessageRef = useRef(null);
+  const errorMessageRef = useRef(null);
 
-  const handleChange = e => {
-    const { name, value } = e.target
-    setFormData(prevData => ({
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
-  const handleSubmit = e => {
-    e.preventDefault()
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-    const imageData = formRef.current.getAttribute("app-url")
-    const { name, email, phone, message } = formData
-    const pageURL = window.location.href
+    const imageData = formRef.current.getAttribute("app-url");
+    const { name, email, phone, message } = formData;
+    const pageURL = window.location.href;
 
     const domains = [
       "yahoo",
@@ -45,15 +45,15 @@ const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
       "zoho",
       "icloud",
       "gmx",
-    ]
-    const domain = email.slice(email.indexOf("@") + 1, email.lastIndexOf("."))
-    let con_value
+    ];
+    const domain = email.slice(email.indexOf("@") + 1, email.lastIndexOf("."));
+    let con_value;
     if (domains.includes(domain)) {
-      con_value = 331
+      con_value = 331;
     } else if (email === "") {
-      con_value = 331
+      con_value = 331;
     } else {
-      con_value = 1237
+      con_value = 1237;
     }
 
     // const eventNameW =
@@ -75,8 +75,8 @@ const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
     //   });
     // }
 
-    const myHeaders = new Headers()
-    myHeaders.append("Content-Type", "application/json")
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
     const raw = JSON.stringify({
       fields: [
@@ -87,60 +87,60 @@ const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
         { name: "message", value: message },
       ],
       context: { pageUri: pageURL },
-    })
+    });
 
     const requestOptions = {
       method: "POST",
       headers: myHeaders,
       body: raw,
       redirect: "follow",
-    }
+    };
 
     fetch(
       "https://api.hsforms.com/submissions/v3/integration/submit/3885214/efaf7e24-de65-496d-9983-ffb476f65524",
-      requestOptions,
+      requestOptions
     )
-      .then(response => {
+      .then((response) => {
         if (response.ok) {
-          response.text().then(result => {
-            showSuccessMessage()
-            hideForm()
-            console.log(result)
-          })
+          response.text().then((result) => {
+            showSuccessMessage();
+            hideForm();
+            console.log(result);
+          });
         } else {
-          showErrorMessage()
+          showErrorMessage();
         }
       })
-      .catch(error => {
-        console.log("error", error)
-        showErrorMessage()
-      })
-  }
+      .catch((error) => {
+        console.log("error", error);
+        showErrorMessage();
+      });
+  };
 
   const showSuccessMessage = () => {
-    console.log("Success")
-    successMessageRef.current.style.display = "block"
-    errorMessageRef.current.style.display = "none"
-  }
+    console.log("Success");
+    successMessageRef.current.style.display = "block";
+    errorMessageRef.current.style.display = "none";
+  };
 
   const showErrorMessage = () => {
-    console.log("Error")
-    successMessageRef.current.style.display = "none"
-    errorMessageRef.current.style.display = "block"
-  }
+    console.log("Error");
+    successMessageRef.current.style.display = "none";
+    errorMessageRef.current.style.display = "block";
+  };
 
   const hideForm = () => {
-    formRef.current.style.display = "none"
-  }
+    formRef.current.style.display = "none";
+  };
 
   return (
-    <section
-      id="lead-form"
-      className="form-section"
-    >
+    <section id="lead-form" className="form-section">
       <div className="form-holder">
-        <div className="loginpopupcontainer">
-          <div className="popup-content contact lead-form spacing">
+        <div className="loginpopupcontainer" onClick={closePopup}>
+          <div
+            className="popup-content contact lead-form spacing"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="close-button-holder">
               <img
                 src="/assets/imgs/close-button.svg"
@@ -198,10 +198,7 @@ const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
                     />
                   </div>
                   <div className="input-wrapper-2">
-                    <label
-                      htmlFor="Phone-5"
-                      className="field-label"
-                    >
+                    <label htmlFor="Phone-5" className="field-label">
                       Phone
                     </label>
                     <input
@@ -247,10 +244,7 @@ const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
                 </div>
                 <div className="button-holder-error-message"></div>
               </div>
-              <div
-                className="error-message w-form-fail"
-                ref={errorMessageRef}
-              >
+              <div className="error-message w-form-fail" ref={errorMessageRef}>
                 <div>Oops! Something went wrong.</div>
               </div>
             </div>
@@ -262,7 +256,7 @@ const [_, setIsPopupVisible] = useAtom(popupVisibleAtom)
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default FormPopup
+export default FormPopup;

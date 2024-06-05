@@ -1,14 +1,11 @@
-import Link from "next/link"
-import Image from "next/image"
-import { useState } from "react"
+import Link from "next/link";
+import Image from "next/image";
+import { useState } from "react";
 
 const ContactForm = () => {
-  const [formSubmit, setFormSubmit] = useState(false)
+  const [formSubmit, setFormSubmit] = useState(false);
   return (
-    <section
-      id="request-a-quote"
-      className="section request-a-quote"
-    >
+    <section id="request-a-quote" className="section request-a-quote">
       <div className="container-default w-container">
         <div className="request-a-quote-wrapper">
           <div className="split-content request-a-quote-left">
@@ -102,21 +99,6 @@ const ContactForm = () => {
                 >
                   contact@nextgrowthlabs.com
                 </div>
-              </Link>
-              <Link
-                href="tel:(546)232-9872"
-                className="request-a-quote-contact-wrapper last hidden w-inline-block"
-              >
-                <div className="image-wrapper request-a-quote-contact _1">
-                  <Image
-                    width={37}
-                    height={36}
-                    src="assets/imgs/icon-quote-contact-2-seo-template.svg"
-                    alt="Phone Icon - SEO Webflow Template"
-                    className="image request-a-quote-contact"
-                  />
-                </div>
-                <div>(546) 232 - 9872</div>
               </Link>
             </div>
           </div>
@@ -270,7 +252,7 @@ const ContactForm = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ContactForm
+export default ContactForm;

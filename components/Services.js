@@ -11,6 +11,7 @@ import {
   showAppSelected,
   showRecentApps,
   showSearchApps,
+  focusAtom,
 } from "../context/store";
 import SearchResults from "./elements/SearchResults";
 import MHRScore from "./elements/mhrScore";
@@ -23,6 +24,7 @@ const Services = () => {
   const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [appSelected] = useAtom(showAppSelected);
+  const [inputFocused, setInputFocused] = useAtom(focusAtom);
 
   return (
     <section id="services" className="tabsection">
@@ -115,6 +117,12 @@ const Services = () => {
                                             ["suggestions-box6"]: true,
                                           };
                                         });
+                                        setInputFocused((prev) => {
+                                          return {
+                                            ...prev,
+                                            ["suggestions-box6"]: true,
+                                          };
+                                        });
                                       }}
                                       onChange={(e) => {
                                         if (
@@ -136,7 +144,12 @@ const Services = () => {
                                     />
                                     <button
                                       id="close-search-form6"
-                                      className="hidden close-search-form"
+                                      className="close-search-form"
+                                      onClick={() => {
+                                        setRecentAppsVisible({});
+                                        setSearchAppVisible({});
+                                        setInputFocused({});
+                                      }}
                                     >
                                       <svg
                                         xmlns="http://www.w3.org/2000/svg"
@@ -191,7 +204,6 @@ const Services = () => {
                         </div>
                       )}
                       {appSelected && <AppInstalls mobile="mobile" />}
-
                     </div>
                   </div>
                 )}
@@ -259,6 +271,12 @@ const Services = () => {
                                             ["suggestions-box7"]: true,
                                           };
                                         });
+                                        setInputFocused((prev) => {
+                                          return {
+                                            ...prev,
+                                            ["suggestions-box7"]: true,
+                                          };
+                                        });
                                       }}
                                       onChange={(e) => {
                                         if (
@@ -277,31 +295,38 @@ const Services = () => {
                                         });
                                       }}
                                     />
-                                    <button
-                                      id="close-search-form7"
-                                      className="hidden close-search-form"
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                                        width="16px"
-                                        height="16px"
-                                        viewBox="0 0 16 16"
-                                        version="1.1"
+                                    {inputFocused["suggestions-box7"] && (
+                                      <button
+                                        id="close-search-form7"
+                                        className="close-search-form"
+                                        onClick={() => {
+                                          setRecentAppsVisible({});
+                                          setSearchAppVisible({});
+                                          setInputFocused({});
+                                        }}
                                       >
-                                        <g id="surface7">
-                                          <path
-                                            style={{
-                                              stroke: "none",
-                                              fillRule: "nonzero",
-                                              fill: "#5a5a5c",
-                                              fillOpacity: 1,
-                                            }}
-                                            d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                          ></path>
-                                        </g>
-                                      </svg>
-                                    </button>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                                          width="16px"
+                                          height="16px"
+                                          viewBox="0 0 16 16"
+                                          version="1.1"
+                                        >
+                                          <g id="surface7">
+                                            <path
+                                              style={{
+                                                stroke: "none",
+                                                fillRule: "nonzero",
+                                                fill: "#5a5a5c",
+                                                fillOpacity: 1,
+                                              }}
+                                              d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                            ></path>
+                                          </g>
+                                        </svg>
+                                      </button>
+                                    )}
                                   </div>
                                   <div className="app-output-box">
                                     {recentAppsVisible["suggestions-box7"] && (
@@ -336,7 +361,6 @@ const Services = () => {
                         </div>
                       )}
                       {appSelected && <CTR mobile="mobile" />}
-
                     </div>
                   </div>
                 )}
@@ -401,6 +425,12 @@ const Services = () => {
                                             ["suggestions-box8"]: true,
                                           };
                                         });
+                                        setInputFocused((prev) => {
+                                          return {
+                                            ...prev,
+                                            ["suggestions-box8"]: true,
+                                          };
+                                        });
                                       }}
                                       onChange={(e) => {
                                         if (
@@ -419,31 +449,38 @@ const Services = () => {
                                         });
                                       }}
                                     />
-                                    <button
-                                      id="close-search-form8"
-                                      className="hidden close-search-form"
-                                    >
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        xmlnsXlink="http://www.w3.org/1999/xlink"
-                                        width="16px"
-                                        height="16px"
-                                        viewBox="0 0 16 16"
-                                        version="1.1"
+                                    {inputFocused["suggestions-box8"] && (
+                                      <button
+                                        id="close-search-form8"
+                                        className="close-search-form"
+                                        onClick={() => {
+                                          setRecentAppsVisible({});
+                                          setSearchAppVisible({});
+                                          setInputFocused({});
+                                        }}
                                       >
-                                        <g id="surface8">
-                                          <path
-                                            style={{
-                                              stroke: "none",
-                                              fillRule: "nonzero",
-                                              fill: "#5a5a5c",
-                                              fillOpacity: 1,
-                                            }}
-                                            d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                          ></path>
-                                        </g>
-                                      </svg>
-                                    </button>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                                          width="16px"
+                                          height="16px"
+                                          viewBox="0 0 16 16"
+                                          version="1.1"
+                                        >
+                                          <g id="surface8">
+                                            <path
+                                              style={{
+                                                stroke: "none",
+                                                fillRule: "nonzero",
+                                                fill: "#5a5a5c",
+                                                fillOpacity: 1,
+                                              }}
+                                              d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                            ></path>
+                                          </g>
+                                        </svg>
+                                      </button>
+                                    )}
                                   </div>
 
                                   <div className="app-output-box">
@@ -524,6 +561,12 @@ const Services = () => {
                                         ["suggestions-box2"]: true,
                                       };
                                     });
+                                    setInputFocused((prev) => {
+                                      return {
+                                        ...prev,
+                                        ["suggestions-box2"]: true,
+                                      };
+                                    });
                                   }}
                                   onChange={(e) => {
                                     if (e.target.value.trim().length === 0) {
@@ -540,31 +583,38 @@ const Services = () => {
                                     });
                                   }}
                                 />
-                                <button
-                                  id="close-search-form2"
-                                  className="hidden close-search-form"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                                    width="16px"
-                                    height="16px"
-                                    viewBox="0 0 16 16"
-                                    version="1.1"
+                                {inputFocused["suggestions-box2"] && (
+                                  <button
+                                    id="close-search-form2"
+                                    className="close-search-form"
+                                    onClick={() => {
+                                      setRecentAppsVisible({});
+                                      setSearchAppVisible({});
+                                      setInputFocused({});
+                                    }}
                                   >
-                                    <g id="surface2">
-                                      <path
-                                        style={{
-                                          stroke: "none",
-                                          fillRule: "nonzero",
-                                          fill: "#5a5a5c",
-                                          fillOpacity: 1,
-                                        }}
-                                        d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                      ></path>
-                                    </g>
-                                  </svg>
-                                </button>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                                      width="16px"
+                                      height="16px"
+                                      viewBox="0 0 16 16"
+                                      version="1.1"
+                                    >
+                                      <g id="surface2">
+                                        <path
+                                          style={{
+                                            stroke: "none",
+                                            fillRule: "nonzero",
+                                            fill: "#5a5a5c",
+                                            fillOpacity: 1,
+                                          }}
+                                          d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                        ></path>
+                                      </g>
+                                    </svg>
+                                  </button>
+                                )}
                               </div>
                               <div className="app-output-box">
                                 {recentAppsVisible["suggestions-box2"] && (
@@ -638,6 +688,12 @@ const Services = () => {
                                         ["suggestions-box3"]: true,
                                       };
                                     });
+                                    setInputFocused((prev) => {
+                                      return {
+                                        ...prev,
+                                        ["suggestions-box3"]: true,
+                                      };
+                                    });
                                   }}
                                   onChange={(e) => {
                                     if (e.target.value.trim().length === 0) {
@@ -654,34 +710,40 @@ const Services = () => {
                                     });
                                   }}
                                 />
-                                <button
-                                  id="close-search-form3"
-                                  className="hidden close-search-form"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                                    width="16px"
-                                    height="16px"
-                                    viewBox="0 0 16 16"
-                                    version="1.1"
+                                {inputFocused["suggestions-box3"] && (
+                                  <button
+                                    id="close-search-form3"
+                                    className="close-search-form"
+                                    onClick={() => {
+                                      setRecentAppsVisible({});
+                                      setSearchAppVisible({});
+                                      setInputFocused({});
+                                    }}
                                   >
-                                    <g id="surface3">
-                                      <path
-                                        style={{
-                                          stroke: "none",
-                                          fillRule: "nonzero",
-                                          fill: "#5a5a5c",
-                                          fillOpacity: 1,
-                                        }}
-                                        d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                      ></path>
-                                    </g>
-                                  </svg>
-                                </button>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                                      width="16px"
+                                      height="16px"
+                                      viewBox="0 0 16 16"
+                                      version="1.1"
+                                    >
+                                      <g id="surface3">
+                                        <path
+                                          style={{
+                                            stroke: "none",
+                                            fillRule: "nonzero",
+                                            fill: "#5a5a5c",
+                                            fillOpacity: 1,
+                                          }}
+                                          d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                        ></path>
+                                      </g>
+                                    </svg>
+                                  </button>
+                                )}
                               </div>
                               <div className="app-output-box">
-
                                 {recentAppsVisible["suggestions-box3"] && (
                                   <RecentApps />
                                 )}{" "}
@@ -708,10 +770,7 @@ const Services = () => {
                       </div>
                     </div>
                   )}
-                  {
-                    appSelected && <CTR />
-                   
-                  }
+                  {appSelected && <CTR />}
                 </div>
               </div>
             )}
@@ -752,6 +811,12 @@ const Services = () => {
                                         ["suggestions-box4"]: true,
                                       };
                                     });
+                                    setInputFocused((prev) => {
+                                      return {
+                                        ...prev,
+                                        ["suggestions-box4"]: true,
+                                      };
+                                    });
                                   }}
                                   onChange={(e) => {
                                     if (e.target.value.trim().length === 0) {
@@ -768,31 +833,38 @@ const Services = () => {
                                     });
                                   }}
                                 />
-                                <button
-                                  id="close-search-form4"
-                                  className="hidden close-search-form"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                                    width="16px"
-                                    height="16px"
-                                    viewBox="0 0 16 16"
-                                    version="1.1"
+                                {inputFocused["suggestions-box4"] && (
+                                  <button
+                                    id="close-search-form4"
+                                    className="close-search-form"
+                                    onClick={() => {
+                                      setRecentAppsVisible({});
+                                      setSearchAppVisible({});
+                                      setInputFocused({});
+                                    }}
                                   >
-                                    <g id="surface4">
-                                      <path
-                                        style={{
-                                          stroke: "none",
-                                          fillRule: "nonzero",
-                                          fill: "#5a5a5c",
-                                          fillOpacity: 1,
-                                        }}
-                                        d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
-                                      ></path>
-                                    </g>
-                                  </svg>
-                                </button>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      xmlnsXlink="http://www.w3.org/1999/xlink"
+                                      width="16px"
+                                      height="16px"
+                                      viewBox="0 0 16 16"
+                                      version="1.1"
+                                    >
+                                      <g id="surface4">
+                                        <path
+                                          style={{
+                                            stroke: "none",
+                                            fillRule: "nonzero",
+                                            fill: "#5a5a5c",
+                                            fillOpacity: 1,
+                                          }}
+                                          d="M 0.332031 0.332031 C 0.546875 0.121094 0.839844 -0.00390625 1.144531 -0.00390625 C 1.445312 -0.00390625 1.738281 0.121094 1.953125 0.332031 L 8 6.382812 L 14.046875 0.332031 C 14.496094 -0.113281 15.21875 -0.113281 15.667969 0.332031 C 16.113281 0.78125 16.113281 1.503906 15.667969 1.953125 L 9.617188 8 L 15.667969 14.046875 C 16.113281 14.496094 16.113281 15.21875 15.667969 15.667969 C 15.21875 16.113281 14.496094 16.113281 14.046875 15.667969 L 8 9.617188 L 1.953125 15.667969 C 1.503906 16.113281 0.78125 16.113281 0.332031 15.667969 C -0.113281 15.21875 -0.113281 14.496094 0.332031 14.046875 L 6.382812 8 L 0.332031 1.953125 C 0.121094 1.738281 -0.00390625 1.445312 -0.00390625 1.144531 C -0.00390625 0.839844 0.121094 0.546875 0.332031 0.332031 Z M 0.332031 0.332031 "
+                                        ></path>
+                                      </g>
+                                    </svg>
+                                  </button>
+                                )}
                               </div>
                               <div className="app-output-box">
                                 {recentAppsVisible["suggestions-box4"] && (
@@ -822,7 +894,6 @@ const Services = () => {
                     </div>
                   )}
                   {appSelected && <MHRScore />}
-                 
                 </div>
               </div>
             )}
