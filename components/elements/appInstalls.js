@@ -5,6 +5,7 @@ import { fetchAndStoreAppDataToBox } from "../util";
 import { useRef, useState } from "react";
 import AppBasicInfo from "./AppBasicInfo"
 import Link from "next/link";
+import Loader from "./Loader";
 const AppInstalls = ({ mobile }) => {
   const [userSelectedAppObject, setuserSelectedAppObject] = useAtom(userSelectedApp);
   const [appSelected, setAppSelected] = useAtom(showAppSelected);
@@ -54,7 +55,7 @@ const AppInstalls = ({ mobile }) => {
   }
   return (
     <>
-      {!isFetched && <p>Your data is loading</p>}
+      {!isFetched && <Loader />}
       {isFetched && device === "apple" && (
         <div className={`app-info-display installs ${mobile}`}>
           <AppBasicInfo data={data} device={device} />

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchAndStoreAppDataToBox } from "../util";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-
+import Loader from "./Loader";
 const CTR = ({ mobile }) => {
   const [userSelectedAppObject, setuserSelectedAppObject] =
     useAtom(userSelectedApp);
@@ -81,6 +81,7 @@ const CTR = ({ mobile }) => {
   }
   return (
     <>
+    {!isFetched && <Loader />}
       {isFetched && device === "apple" && (
         <div className={`app-info-display ctr ${mobile}`}>
           <div className="w-embed w-script">

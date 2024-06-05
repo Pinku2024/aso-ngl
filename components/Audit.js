@@ -26,6 +26,9 @@ const Audit = () => {
   const togglePopup = () => {
     setPopupVisible(true);
   };
+  const clearInput = () => {
+    setSearchAppKeyword('');
+  };
 
   return (
     <>
@@ -66,7 +69,7 @@ const Audit = () => {
                             id="search-bar-input1"
                             className="search-input"
                             placeholder="Search your iOS or android app"
-                            // value={searchAppKeyword}
+                            value={searchAppKeyword}
                             ref={inputRef}
                             onFocus={() => {
                               setRecentAppsVisible((prev) => {
@@ -105,6 +108,7 @@ const Audit = () => {
                                 setRecentAppsVisible({});
                                 setSearchAppVisible({});
                                 setInputFocused({});
+                                clearInput()
                               }}
                             >
                               <svg

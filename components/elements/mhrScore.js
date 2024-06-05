@@ -4,6 +4,7 @@ import { userSelectedApp, showAppSelected } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import AppBasicInfo from "./AppBasicInfo";
 import Link from "next/link";
+import Loader from "./Loader";
 const MHRScore = ({ mobile }) => {
   const [userSelectedAppObject, setuserSelectedAppObject] =
     useAtom(userSelectedApp);
@@ -37,6 +38,8 @@ const MHRScore = ({ mobile }) => {
     }
   }
   return (
+    <>
+    {!isFetched && <Loader />}
     <div className={`app-info-display mhr ${mobile}`}>
       <div className="w-embed">
         <AppBasicInfo data={data} device={device} />
@@ -119,7 +122,7 @@ const MHRScore = ({ mobile }) => {
         </div>
       </div>
     </div>
+</>
   );
 };
-
 export default MHRScore;
