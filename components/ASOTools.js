@@ -5,7 +5,7 @@ import Reveal from "./elements/Reveal";
 const ASOTools = () => {
   return (
     <section id="aso-tools" className="section">
-      {/* <div className="container-medium-666px process">
+      <div className="container-medium-666px process">
         <div className="subtitle hidden">Our Process</div>
         <Reveal>
           <h2>Tools built by Us</h2>
@@ -213,9 +213,9 @@ const ASOTools = () => {
             Get Access
           </Link>
         </div>
-      </div> */}
+      </div>
 
-      <div className="honeycomb">
+      {/* <div className="honeycomb">
         <div className="row">
           <div className="hex hex-small hex-grow">
             <div
@@ -453,7 +453,7 @@ const ASOTools = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 };

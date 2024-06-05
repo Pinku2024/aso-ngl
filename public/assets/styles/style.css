@@ -2643,14 +2643,15 @@ p {
 
 .instruction-text-wrapper {
   z-index: 1;
-  height: 440px;
+  height: 400px;
   justify-content: center;
   display: flex;
   position: relative;
 }
 
 .instruction-text-wrapper.hidden {
-  position: static;
+  /* position: static; */
+  display: none
 }
 
 .html-embed-36 {
@@ -6222,7 +6223,8 @@ p {
 }
 .mini-main-container .suggestions,
 .searching-shimmer {
-  max-height: 350px;
+  /* max-height: 350px; */
+  max-height: 244px;
 }
 
 .mini-main-container .search-box-suggestion {

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import CountrySelect from "./elements/CountrySelect";
-import { useEffect, useState, useRef } from "react";
+import { useState } from "react";
 // import { useSelectedApp } from "../context/EventContext";
 import { useAtom } from "jotai";
 import {
@@ -10,6 +10,7 @@ import {
   showCloseBtn,
   showRecentApps,
   showSearchApps,
+  pricingWrapper
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
@@ -23,6 +24,13 @@ const OurPricing = () => {
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [selectedCountryCode, setSelectedCountryCode] = useState("in");
   const [showInputCloseBtn, setShowInputCloseBtn] = useAtom(showCloseBtn);
+  const [isHidden,setIsHidden] = useAtom(pricingWrapper);
+  
+
+  const toggleHidden = () => {
+    setIsHidden(!isHidden);
+  };
+
 
 
   return (
@@ -474,6 +482,7 @@ const OurPricing = () => {
                                               value={searchAppKeyword}
                                               onFocus={() => {
                                                 setShowInputCloseBtn(true);
+                                                toggleHidden()
                                                 setRecentAppsVisible((prev) => {
                                                   return {
                                                     ...prev,
@@ -509,6 +518,7 @@ const OurPricing = () => {
                                                 onClick={() => {
                                                   setRecentAppsVisible({});
                                                   setSearchAppVisible({});
+                                                  setShowInputCloseBtn(false);
                                                 }}
                                               >
                                                 <svg
@@ -564,15 +574,16 @@ const OurPricing = () => {
                               {appSelected && (
                                 <>
                                   <SelectedAppPricing />
-                                  <div
+                                  {/* <div
                                     id="instruction-Text-Wrapper-pr"
                                     className="instruction-text-wrapper hidden"
-                                  ></div>
+                                  ></div> */}
                                 </>
                               )}
                             </div>
                           </div>
                         </div>
+                        <div id="instruction-Text-Wrapper-pr" className={`instruction-text-wrapper ${isHidden ? '' : 'hidden'}`}></div>
                       </div>
                     </div>
                   </div>

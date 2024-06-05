@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import { useAtom } from "jotai";
-import { selectedAppCountry,selectedCountryAtom } from "../../context/store";
+import { selectedAppCountry,selectedCountryAtom} from "../../context/store";
 import { countries } from "../util";
 
-const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
+const CountrySelect = ({ setSelectedCountryCode, showCode }) => {
   const [_, setSelectedAppCountryCode] = useAtom(selectedAppCountry);
   const [selectedCountry, setSelectedCountry] = useAtom(selectedCountryAtom);
   const [filteredCountries, setFilteredCountries] = useState(countries);
@@ -47,18 +47,7 @@ const CountrySelect = ({ setSelectedCountryCode, showCode, selectedApp }) => {
     };
   }, []);
 
-  // ******************************
-  useEffect(() => {
-    if (selectedApp) {
-      handleEvent(selectedApp);
-    }
-  }, [selectedApp]);
 
-  const handleEvent = (event) => {
-    // console.log("Select APP", event)
-  };
-
-  // *********************************
 
   return (
     <div ref={countrySelectionBoxRef} className="country-selection-box">

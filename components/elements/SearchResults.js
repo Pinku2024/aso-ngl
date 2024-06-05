@@ -7,6 +7,7 @@ import {
   showAppSelected,
   showSearchApps,
   userSelectedApp,
+  pricingWrapper
 } from "../../context/store";
 import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +21,7 @@ const SearchResults = () => {
   const [_4, setAppSelect] = useAtom(showAppSelected);
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const [country] = useAtom(selectedAppCountry);
+  const [isHidden, setIsHidden] = useAtom(pricingWrapper)
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -57,6 +59,9 @@ const SearchResults = () => {
       const suggestion = appSuggestionRef.current;
       if (suggestion && !suggestion.contains(event.target)) {
         suggestion.classList.remove("format-suggestions");
+        if (isHidden) {
+          setIsHidden(false);
+        }
       }
     };
   

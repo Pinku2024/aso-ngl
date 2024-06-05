@@ -7,6 +7,7 @@ import {
   showAppSelected,
   showRecentApps,
   userSelectedApp,
+  pricingWrapper
 } from "../../context/store";
 const RecentApps = () => {
   const [recentlySelectedApps, setRecentlySelectedApps] = useAtom(recentApps);
@@ -14,6 +15,7 @@ const RecentApps = () => {
   const [_1, setAppSelect] = useAtom(showAppSelected);
   const [_2, setUserSelectApp] = useAtom(userSelectedApp);
   const [country, setCountry] = useAtom(selectedAppCountry);
+  const [isHidden, setIsHidden] = useAtom(pricingWrapper)
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -24,6 +26,9 @@ const RecentApps = () => {
       suggestions.forEach((suggestion) => {
         if (!suggestion.contains(event.target)) {
           suggestion.classList.remove('format-suggestions');
+          if (isHidden) {
+            setIsHidden(!isHidden);
+          }
         }
       });
     };
