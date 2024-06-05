@@ -1,12 +1,11 @@
-
 const Loader = () => {
   return (
-    <div class="display_none" id="Loading">
-                <div class="ball"></div>
-                <div class="ball"></div>
-                <div class="ball"></div>
-                <div class="ball"></div>
-           </div>
+    <div id="Loading">
+      <div className="ball"></div>
+      <div className="ball"></div>
+      <div className="ball"></div>
+      <div className="ball"></div>
+    </div>
   )
 }
 

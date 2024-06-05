@@ -7,7 +7,8 @@ import {
   showAppSelected,
   showSearchApps,
   userSelectedApp,
-  pricingWrapper
+  pricingWrapper,
+  popupVisibleAtom
 } from "../../context/store";
 import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +23,7 @@ const SearchResults = () => {
   const [_5, setUserSelectedApp] = useAtom(userSelectedApp);
   const [country] = useAtom(selectedAppCountry);
   const [isHidden, setIsHidden] = useAtom(pricingWrapper)
+  const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom);
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -30,7 +32,7 @@ const SearchResults = () => {
   if (isFetched) {
     setSearchResult(data);
   }
-
+ 
   function recentAppDataFromLocalStorage(appData) {
     let oldAppData = localStorage.getItem("Recent Selected App");
     if (oldAppData) {
@@ -131,7 +133,7 @@ const SearchResults = () => {
                   "app-package-id": item.appPackageId,
                 };
                 if (searchAppVisible["search-box1"]) {
-                  console.log("form can be displayed");
+                  setIsPopupVisible(true)
                 }
                 handleSelectedApp(data);
                 if (item.device === "android") {

@@ -7,15 +7,17 @@ import {
   showAppSelected,
   showRecentApps,
   userSelectedApp,
-  pricingWrapper
+  pricingWrapper,
+  popupVisibleAtom
 } from "../../context/store";
 const RecentApps = () => {
   const [recentlySelectedApps, setRecentlySelectedApps] = useAtom(recentApps);
-  const [_, setShowRecentApps] = useAtom(showRecentApps);
+  const [recentAppsVisible, setShowRecentApps] = useAtom(showRecentApps);
   const [_1, setAppSelect] = useAtom(showAppSelected);
   const [_2, setUserSelectApp] = useAtom(userSelectedApp);
-  const [country, setCountry] = useAtom(selectedAppCountry);
+  const [country] = useAtom(selectedAppCountry);
   const [isHidden, setIsHidden] = useAtom(pricingWrapper)
+  const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom);
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -55,6 +57,9 @@ const RecentApps = () => {
               onClick={(e) => {
                 e.stopPropagation();
 
+                if (recentAppsVisible["suggestions-box1"]) {
+                  setIsPopupVisible(true)
+                }
                 if (item.device === "android") {
                   setUserSelectApp({
                     appPackageURL: item["data-package-url"],
@@ -73,6 +78,7 @@ const RecentApps = () => {
                 }
                 setShowRecentApps({});
                 setAppSelect(true);
+
               }}
             >
               <div className="show-device-icon">

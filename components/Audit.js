@@ -139,7 +139,7 @@ const Audit = () => {
                             <RecentApps />
                           )}
                           {searchAppVisible["search-box1"] && (
-                            <SearchResults searchbox={"search-box1"} />
+                            <SearchResults  />
                           )}
                         </div>
                       </div>
