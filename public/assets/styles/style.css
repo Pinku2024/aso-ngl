@@ -2595,14 +2595,16 @@ p {
   font-weight: 500;
   line-height: 1em;
   transition: box-shadow 0.35s, transform 0.35s;
-  box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22);
+  /* box-shadow: 0 2px 6px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 2px 6px var(--bgColor);
   font-size: 18px;
 }
 
 .button-primary-4:hover {
   color: #fff;
   transform: translate3d(0, -2px, 0.01px);
-  box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22);
+  /* box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 8px 20px var(--bgColor);
 }
 
 .button-primary-4.width-max {
