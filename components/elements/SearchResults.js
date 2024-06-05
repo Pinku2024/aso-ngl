@@ -8,7 +8,8 @@ import {
   showSearchApps,
   userSelectedApp,
   pricingWrapper,
-  popupVisibleAtom
+  popupVisibleAtom,
+  isScrolled
 } from "../../context/store";
 import { prepareDataForRequests } from "../util";
 import { useQuery } from "@tanstack/react-query";
@@ -24,6 +25,7 @@ const SearchResults = () => {
   const [country] = useAtom(selectedAppCountry);
   const [isHidden, setIsHidden] = useAtom(pricingWrapper)
   const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom);
+  const [_7, setShouldScroll] = useAtom(isScrolled);
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -134,6 +136,7 @@ const SearchResults = () => {
                 };
                 if (searchAppVisible["search-box1"]) {
                   setIsPopupVisible(true)
+                  setShouldScroll(true);
                 }
                 handleSelectedApp(data);
                 if (item.device === "android") {

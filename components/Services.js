@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState , useEffect, useRef} from "react";
 import CountrySelect from "./elements/CountrySelect";
 import Lottie from "lottie-react";
 import asoGreen from "../public/assets/documents/aso-green.json";
@@ -12,6 +12,7 @@ import {
   showRecentApps,
   showSearchApps,
   focusAtom,
+  isScrolled,
 } from "../context/store";
 import SearchResults from "./elements/SearchResults";
 import MHRScore from "./elements/mhrScore";
@@ -25,9 +26,17 @@ const Services = () => {
   const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
   const [appSelected] = useAtom(showAppSelected);
   const [inputFocused, setInputFocused] = useAtom(focusAtom);
+const[shouldScroll] = useAtom(isScrolled)
+
+const targetRef = useRef(null);
+  useEffect(() => {
+    if (shouldScroll && targetRef.current) {
+      targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [shouldScroll]);
 
   return (
-    <section id="services" className="tabsection">
+    <section ref={targetRef} id="services" className="tabsection">
       <div className="container-11">
         <div className="title-wrap-2 horizontal lesspadding">
           <h2

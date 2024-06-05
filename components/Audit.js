@@ -9,6 +9,7 @@ import {
   popupVisibleAtom,
   showAppSelected,
   focusAtom,
+  
 } from "../context/store";
 import RecentApps from "./elements/RecentApps";
 import SearchResults from "./elements/SearchResults";
@@ -21,6 +22,8 @@ const Audit = () => {
   const [selectedCountryCode, setSelectedCountryCode] = useState("us");
   const [appSelected, _3] = useAtom(showAppSelected);
   const [inputFocused, setInputFocused] = useAtom(focusAtom);
+  
+
   const inputRef = useRef();
   // Function to close the popup
   const togglePopup = () => {

@@ -8,7 +8,8 @@ import {
   showRecentApps,
   userSelectedApp,
   pricingWrapper,
-  popupVisibleAtom
+  popupVisibleAtom,
+  isScrolled
 } from "../../context/store";
 const RecentApps = () => {
   const [recentlySelectedApps, setRecentlySelectedApps] = useAtom(recentApps);
@@ -17,7 +18,8 @@ const RecentApps = () => {
   const [_2, setUserSelectApp] = useAtom(userSelectedApp);
   const [country] = useAtom(selectedAppCountry);
   const [isHidden, setIsHidden] = useAtom(pricingWrapper)
-  const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom);
+  const [_3, setIsPopupVisible] = useAtom(popupVisibleAtom);
+  const [_4, setShouldScroll] = useAtom(isScrolled);
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
   }, []);
@@ -59,6 +61,7 @@ const RecentApps = () => {
 
                 if (recentAppsVisible["suggestions-box1"]) {
                   setIsPopupVisible(true)
+                  setShouldScroll(true)
                 }
                 if (item.device === "android") {
                   setUserSelectApp({
