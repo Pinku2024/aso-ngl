@@ -2674,7 +2674,8 @@ p {
 
 .tabs1_link-service {
   width: 33.33%;
-  color: #193150;
+  /* color: #193150; */
+  color: var(--bgColor);
   text-align: center;
   background-color: #f5f5f7;
   margin-bottom: 0;
@@ -2687,6 +2688,7 @@ p {
 .tabs1_link-service:hover {
   /* color: #eaeaea; */
   /* background-color: #1e7df8; */
+  border: 1px solid var(--bgColor);
   background-color: #eaeaea;;
   color: var(--bgColor);
 }
@@ -2694,6 +2696,7 @@ p {
 .tabs1_link-service.w--current {
   color: #fafbfd;
   /* background-color: #1c7df8; */
+  border: 1px solid var(--bgColor);
   background-color: var(--bgColor);
   padding-left: 0.125rem;
 }
@@ -3207,7 +3210,7 @@ p {
   background-color: #fff;
   border-radius: 30px;
   margin-bottom: 54px;
-  padding: 31px 32px 38px;
+  padding: 11px 32px 38px;
   box-shadow: 0 34px 24px rgba(25, 49, 80, 0.02),
     0 4px 44px rgba(28, 125, 248, 0.08);
 }
@@ -5031,6 +5034,11 @@ p {
     width: 210%;
   }
 }
+@media screen and (min-width: 768px) {
+  .title-4.testimonials.centre-aligned{
+    margin: 0 -62px;
+  }
+}
 
 @media screen and (max-width: 479px) {
   ._2-buttons {
@@ -6517,6 +6525,9 @@ background-color: var(--bgColor);
 
 
 /* custom css */
+/* .offerings{
+  color: var(--bgColor);
+} */
 
 .mobile-sidebar{
   position: fixed;
