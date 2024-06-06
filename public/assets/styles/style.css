@@ -5688,7 +5688,7 @@ p {
   }
 
   .navbar-wrapper {
-    justify-content: center;
+    /* justify-content: center; */
   }
 
   .navbar {
@@ -6277,6 +6277,7 @@ p {
   .app-info-display > div > * {
     margin-bottom: 10px !important;
   }
+  
 }
 
 @media screen and (max-width: 687px) {
@@ -6516,6 +6517,33 @@ background-color: var(--bgColor);
 
 
 /* custom css */
+
+.mobile-sidebar{
+  position: absolute;
+  z-index: 1000000;
+  margin: 5rem 0px;
+  background-color: white;
+  width: 100%;
+  top: 21px;
+} 
+.mobile-sidebar nav ul{
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  list-style: none;
+}
+.mobile-sidebar nav ul a{
+  color: #778ba5;
+  text-decoration: none;
+  font-size: 16px;
+}
+.hamburger-icon{
+  font-size: 24px;
+  color: var(--bgColor);
+}
+.nav-mob-menu{
+  min-height: 250px;
+}
 .extra-padding{
   padding-top: 8rem;
 }
