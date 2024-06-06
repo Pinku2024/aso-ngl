@@ -32,10 +32,7 @@ const OurPricing = () => {
 
   return (
     <>
-      <div
-        id="our-pricing"
-        className="form-capture-section"
-      >
+      <section id="our-pricing" className="form-capture-section">
         <div className="form-tab-wrapper">
           <div className="tab-wrapper vertical-centre-aligned">
             <div className="max-width-large align-center">
@@ -597,7 +594,7 @@ const OurPricing = () => {
             </div>
           </div>
         </div>
-      </div>
+      </section>
       <div
         data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb463b"
         className="section bg-neutral-200"

@@ -14,6 +14,7 @@ export const popupVisibleAtom = atom(false);
 export const pricingWrapper = atom(false);
 export const isScrolled = atom(false)
 export const pricingTabs = atom("offeringsTab")
+export const activeMenuTab = atom("#app-audit")
 export const selectedCountryAtom = atom({
   code: "in",
   name: "India",

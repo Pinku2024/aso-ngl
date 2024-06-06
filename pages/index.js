@@ -11,11 +11,10 @@ import Other from "../components/Other";
 import ContactForm from "../components/ContactForm";
 import Clients from "../components/Clients";
 import Reveal from "../components/elements/Reveal";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import FormPopup from "../components/elements/FormPopup";
 import { useAtom } from 'jotai';
-import { popupVisibleAtom } from '../context/store';
-
+import { activeMenuTab, popupVisibleAtom } from '../context/store';
 const Home = ()=> {
   const [isPopupVisible] = useAtom(popupVisibleAtom);
   const auditRef = useRef(null);
@@ -24,6 +23,33 @@ const Home = ()=> {
   const pricingRef = useRef(null);
   const asoToolsRef = useRef(null);
   const appIntelligenctRef = useRef(null);
+
+  const [_, setActiveMenu] = useAtom(activeMenuTab);
+
+  useEffect(() => {
+    const handleIntersection = (entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveMenu(`#${entry.target.id}`);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.5,
+    });
+
+    const sectionsToTrack = document.querySelectorAll('section[id]');
+    sectionsToTrack.forEach(section => {
+      observer.observe(section);
+    });
+
+    return () => {
+      sectionsToTrack.forEach(section => {
+        observer.unobserve(section);
+      });
+    };
+  }, []);
 
   return (
     <>

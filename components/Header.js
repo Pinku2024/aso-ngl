@@ -2,9 +2,11 @@ import { useState } from "react";
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { activeMenuTab } from "../context/store";
+import { useAtom } from "jotai";
 
 const Header = () => {
-  const [activeMenu, setActiveMenu] = useState("#app-audit");
+  const [activeMenu, setActiveMenu] = useAtom(activeMenuTab);
 
   const handleClick = (id) => {
     setActiveMenu(id);
