@@ -6519,9 +6519,9 @@ background-color: var(--bgColor);
 /* custom css */
 
 .mobile-sidebar{
-  position: absolute;
+  position: fixed;
   z-index: 1000000;
-  margin: 5rem 0px;
+  margin: 3.29rem 0px;
   background-color: white;
   width: 100%;
   top: 21px;
@@ -6537,12 +6537,14 @@ background-color: var(--bgColor);
   text-decoration: none;
   font-size: 16px;
 }
+
 .hamburger-icon{
   font-size: 24px;
   color: var(--bgColor);
 }
 .nav-mob-menu{
   min-height: 250px;
+  padding-top: 10px;
 }
 .extra-padding{
   padding-top: 8rem;

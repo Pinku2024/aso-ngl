@@ -1,7 +1,6 @@
-import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { activeMenuTab } from "../context/store"
+import { activeMenuTab, showMobileMenu } from "../context/store"
 import { useAtom } from "jotai"
 import { GiHamburgerMenu } from "react-icons/gi"
 import { FaTimes } from "react-icons/fa"
@@ -9,8 +8,7 @@ import Sidebar from "./elements/Sidebar"
 
 const Header = () => {
   const [activeMenu, setActiveMenu] = useAtom(activeMenuTab)
-  const [showMenu, setShowMenu] = useState(true)
-
+  const [showMenu, setShowMenu] = useAtom(showMobileMenu)
   const handleClick = id => {
     setActiveMenu(id)
   }
@@ -182,7 +180,7 @@ const Header = () => {
                 </Link>
                 <div className="hamburger-icon">
                   <i onClick={handleMenu}>
-                    {showMenu ? <GiHamburgerMenu /> : <FaTimes />}
+                    {showMenu ?  <FaTimes /> : <GiHamburgerMenu />}
                   </i>
                 </div>
               </div>
@@ -191,7 +189,7 @@ const Header = () => {
         </div>
       </div>
       {
-        showMenu ? "" : <Sidebar />
+        showMenu ? <Sidebar /> : ""
       }
     </>
   )
