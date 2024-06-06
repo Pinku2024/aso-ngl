@@ -207,9 +207,11 @@ const SearchResults = () => {
             </li>
           ))}
           <p className="info-search">
-            Couldn't find your app try with{" "}
-            <button className="audit-button">App ID</button> or{" "}
-            <button className="audit-button">App URL</button>
+            Couldn't find your app try with  <strong>App ID</strong> or <strong>App URL</strong>
+            {/* <button className="audit-button"> */}
+              {/* </button> or{" "} */}
+            {/* <button className="audit-button"> */}
+              {/* </button> */}
           </p>
         </ul>
       )}

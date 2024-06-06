@@ -196,17 +196,6 @@ const ASOTools = () => {
         </div>
         <div
           data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4638"
-          style={{
-            WebkitTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            MozTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            msTransform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            transform:
-              "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-            opacity: 1,
-          }}
           className="flex-vc"
         >
           <Link href="#request-a-quote" className="button-primary w-button">

@@ -12,6 +12,13 @@
   border: 0px !important;
   text-wrap: nowrap;
 }
+.audit-button:hover{
+  color: #5c5cbf;
+  background-color: #fff;
+  border: 1px solid #5c5cbf;
+  /* box-shadow: 0 8px 20px rgba(28, 125, 248, 0.22); */
+  box-shadow: 0 8px 20px var(--bgColor);
+}
 
 .main-box-holder {
   display: flex;
@@ -254,8 +261,21 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
 .content-country .options {
   margin-top: 10px;
   max-height: 250px;
-  overflow-y: auto;
+  overflow-y: scroll;
   padding: 0px 7px 0px 7px;
+}
+.mini-main-container .content-country .options {
+  margin-top: 10px;
+  max-height: 150px;
+  overflow-y: scroll;
+  padding: 0px 7px 0px 7px;
+}
+.mini-main-container .app-icon-li-item{
+  width: 38px;
+}
+.mini-main-container img.device-icon-logo{
+  width: 20px;
+  height: 20px;
 }
 .options::-webkit-scrollbar {
   width: 7px;
@@ -285,6 +305,7 @@ ul.o-vertical-spacing.o-vertical-spacing--l {
 }
 
 p.info-search {
+  margin: 0;
   padding: 10px 5px !important;
   border-bottom: 1px solid #e5dfdf !important;
   background: rgba(28, 125, 248, 0.1) !important;

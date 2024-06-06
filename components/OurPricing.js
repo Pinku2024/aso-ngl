@@ -15,6 +15,7 @@ import {
 import RecentApps from "./elements/RecentApps"
 import SearchResults from "./elements/SearchResults"
 import SelectedAppPricing from "./elements/SelectedAppPricing"
+import { color } from "framer-motion"
 
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps)
@@ -54,7 +55,7 @@ const OurPricing = () => {
                       activeTab === "offeringsTab" ? "w--current" : ""
                     }`}
                   >
-                    <div>
+                    <div className="offerings">
                       Offerings Guide
                       <br />
                     </div>
