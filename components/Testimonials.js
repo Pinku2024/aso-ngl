@@ -2,7 +2,6 @@ import Link from "next/link"
 import Image from "next/image"
 import { useState } from "react"
 const Testimonials = () => {
-
   const data = [
     {
       name: "Tushar Pathak",
@@ -41,8 +40,7 @@ const Testimonials = () => {
   const [activeTestimonial, setActiveTestimonial] = useState("tab1")
   return (
     <>
-
-       <section
+      <section
         id="testimonials"
         className="section-2 bg-neutral-200 small-padding"
       >
@@ -67,7 +65,6 @@ const Testimonials = () => {
                 Testimonials
               </div>
               <h2
-                data-w-id="b6a8be3b-3ec1-49ac-4497-99252f215b39"
                 style={{
                   transform:
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
@@ -92,21 +89,7 @@ const Testimonials = () => {
             data-easing="ease"
             className="testimonials-tabs w-tabs"
           >
-            <div
-              data-w-id="b6a8be3b-3ec1-49ac-4497-99252f215b3f"
-              style={{
-                WebkitTransform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                MozTransform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                msTransform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                transform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                opacity: "1",
-              }}
-              className="testimonials-tabs-menu w-tab-menu"
-            >
+            <div className="testimonials-tabs-menu w-tab-menu">
               <a
                 data-w-tab="Tab 1"
                 className={`testimonial-tab-link w-inline-block w-tab-link ${
@@ -372,7 +355,7 @@ const Testimonials = () => {
             </div>
           </div>
         </div>
-      </section> 
+      </section>
     </>
   )
 }

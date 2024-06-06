@@ -2086,7 +2086,8 @@ p {
   text-align: center;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
+  margin-top: 40px;
 }
 
 .tab-button-title {
@@ -2710,8 +2711,9 @@ p {
 
 .form-tab-wrapper {
   max-width: 100rem;
-  margin-bottom: 4rem;
-  padding-top: 1rem;
+  /* margin-bottom: 4rem; */
+  /* padding-top: 1rem; */
+  margin-top: 8rem;
   padding-left: 4rem;
   padding-right: 4rem;
 }
@@ -6514,6 +6516,9 @@ background-color: var(--bgColor);
 
 
 /* custom css */
+.extra-padding{
+  padding-top: 8rem;
+}
 #Loading{
   display: flex;
   justify-content: center;

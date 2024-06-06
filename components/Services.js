@@ -1,11 +1,11 @@
-import { useState , useEffect, useRef} from "react";
-import CountrySelect from "./elements/CountrySelect";
-import Lottie from "lottie-react";
-import asoGreen from "../public/assets/documents/aso-green.json";
-import conversionMarketing from "../public/assets/documents/conversion-marketing.json";
-import starRating from "../public/assets/documents/Five-Star-Rating.json";
-import RecentApps from "./elements/RecentApps";
-import { useAtom } from "jotai";
+import { useState, useEffect, useRef } from "react"
+import CountrySelect from "./elements/CountrySelect"
+import Lottie from "lottie-react"
+import asoGreen from "../public/assets/documents/aso-green.json"
+import conversionMarketing from "../public/assets/documents/conversion-marketing.json"
+import starRating from "../public/assets/documents/Five-Star-Rating.json"
+import RecentApps from "./elements/RecentApps"
+import { useAtom } from "jotai"
 import {
   searchKeyword,
   showAppSelected,
@@ -13,40 +13,52 @@ import {
   showSearchApps,
   focusAtom,
   isScrolled,
-} from "../context/store";
-import SearchResults from "./elements/SearchResults";
-import MHRScore from "./elements/mhrScore";
-import AppInstalls from "./elements/appInstalls";
-import CTR from "./elements/CTR";
+} from "../context/store"
+import SearchResults from "./elements/SearchResults"
+import MHRScore from "./elements/mhrScore"
+import AppInstalls from "./elements/appInstalls"
+import CTR from "./elements/CTR"
 const Services = () => {
-  const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
-  const [activeSol, setActiveSol] = useState("solution1");
-  const [selectedCountryCode, setSelectedCountryCode] = useState("in");
-  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
-  const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
-  const [appSelected] = useAtom(showAppSelected);
-  const [inputFocused, setInputFocused] = useAtom(focusAtom);
-const[shouldScroll] = useAtom(isScrolled)
+  const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps)
+  const [activeSol, setActiveSol] = useState("solution1")
+  const [selectedCountryCode, setSelectedCountryCode] = useState("in")
+  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps)
+  const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword)
+  const [appSelected] = useAtom(showAppSelected)
+  const [inputFocused, setInputFocused] = useAtom(focusAtom)
+  const [shouldScroll] = useAtom(isScrolled)
 
-const targetRef = useRef(null);
+  const targetRef = useRef(null)
   useEffect(() => {
     if (shouldScroll && targetRef.current) {
-      targetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      targetRef.current.scrollIntoView({ behavior: "smooth", block: "start" })
     }
-  }, [shouldScroll]);
+  }, [shouldScroll])
 
   return (
-    <section ref={targetRef} id="services" className="tabsection">
+    <section
+      ref={targetRef}
+      id="services"
+      className="tabsection"
+    >
       <div className="container-11">
         <div className="title-wrap-2 horizontal lesspadding">
           <h2
-            data-w-id="0862d6f9-a925-7b8c-65e6-58a2fd5c72b5"
+            style={
+              {
+                transform:
+                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              }
+            }
             className="heading tabsectiontitle"
           >
             Improve App&#x27;s Organic Visibility
           </h2>
           <p
-            data-w-id="0862d6f9-a925-7b8c-65e6-58a2fd5c72b7"
+            style={{
+              transform:
+                "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            }}
             className="paragraph-main-centre"
           >
             Our app marketing solutions for growing an app&#x27;s organic
@@ -63,10 +75,10 @@ const targetRef = useRef(null);
         >
           <div className="tabs-menu w-tab-menu">
             <div
-              onClick={(e) => {
+              onClick={e => {
                 // e.preventDefault()
-                e.stopPropagation();
-                setActiveSol("solution1");
+                e.stopPropagation()
+                setActiveSol("solution1")
               }}
               data-w-tab="Tab 2"
               className={`tab-button-2 w-inline-block w-tab-link ${
@@ -120,34 +132,34 @@ const targetRef = useRef(null);
                                       placeholder="Search your iOS or android app"
                                       value={searchAppKeyword}
                                       onFocus={() => {
-                                        setRecentAppsVisible((prev) => {
+                                        setRecentAppsVisible(prev => {
                                           return {
                                             ...prev,
                                             ["suggestions-box6"]: true,
-                                          };
-                                        });
-                                        setInputFocused((prev) => {
+                                          }
+                                        })
+                                        setInputFocused(prev => {
                                           return {
                                             ...prev,
                                             ["suggestions-box6"]: true,
-                                          };
-                                        });
+                                          }
+                                        })
                                       }}
-                                      onChange={(e) => {
+                                      onChange={e => {
                                         if (
                                           e.target.value.trim().length === 0
                                         ) {
-                                          setRecentAppsVisible({});
-                                          setSearchAppVisible({});
+                                          setRecentAppsVisible({})
+                                          setSearchAppVisible({})
                                         }
-                                        setRecentAppsVisible({});
-                                        setSearchAppKeyword(e.target.value);
-                                        setSearchAppVisible((prev) => {
+                                        setRecentAppsVisible({})
+                                        setSearchAppKeyword(e.target.value)
+                                        setSearchAppVisible(prev => {
                                           return {
                                             ...prev,
                                             ["search-box6"]: true,
-                                          };
-                                        });
+                                          }
+                                        })
                                       }}
                                       // remove this once we move to the app select functionality
                                     />
@@ -155,9 +167,9 @@ const targetRef = useRef(null);
                                       id="close-search-form6"
                                       className="close-search-form"
                                       onClick={() => {
-                                        setRecentAppsVisible({});
-                                        setSearchAppVisible({});
-                                        setInputFocused({});
+                                        setRecentAppsVisible({})
+                                        setSearchAppVisible({})
+                                        setInputFocused({})
                                       }}
                                     >
                                       <svg
@@ -219,10 +231,10 @@ const targetRef = useRef(null);
               </div>
             </div>
             <div
-              onClick={(e) => {
+              onClick={e => {
                 // e.preventDefault()
-                e.stopPropagation();
-                setActiveSol("solution2");
+                e.stopPropagation()
+                setActiveSol("solution2")
               }}
               data-w-tab="Tab 3"
               className={`tab-button-2 w-inline-block w-tab-link ${
@@ -274,34 +286,34 @@ const targetRef = useRef(null);
                                       placeholder="Search your iOS or android app"
                                       value={searchAppKeyword}
                                       onFocus={() => {
-                                        setRecentAppsVisible((prev) => {
+                                        setRecentAppsVisible(prev => {
                                           return {
                                             ...prev,
                                             ["suggestions-box7"]: true,
-                                          };
-                                        });
-                                        setInputFocused((prev) => {
+                                          }
+                                        })
+                                        setInputFocused(prev => {
                                           return {
                                             ...prev,
                                             ["suggestions-box7"]: true,
-                                          };
-                                        });
+                                          }
+                                        })
                                       }}
-                                      onChange={(e) => {
+                                      onChange={e => {
                                         if (
                                           e.target.value.trim().length === 0
                                         ) {
-                                          setRecentAppsVisible({});
-                                          setSearchAppVisible({});
+                                          setRecentAppsVisible({})
+                                          setSearchAppVisible({})
                                         }
-                                        setRecentAppsVisible({});
-                                        setSearchAppKeyword(e.target.value);
-                                        setSearchAppVisible((prev) => {
+                                        setRecentAppsVisible({})
+                                        setSearchAppKeyword(e.target.value)
+                                        setSearchAppVisible(prev => {
                                           return {
                                             ...prev,
                                             ["search-box7"]: true,
-                                          };
-                                        });
+                                          }
+                                        })
                                       }}
                                     />
                                     {inputFocused["suggestions-box7"] && (
@@ -309,9 +321,9 @@ const targetRef = useRef(null);
                                         id="close-search-form7"
                                         className="close-search-form"
                                         onClick={() => {
-                                          setRecentAppsVisible({});
-                                          setSearchAppVisible({});
-                                          setInputFocused({});
+                                          setRecentAppsVisible({})
+                                          setSearchAppVisible({})
+                                          setInputFocused({})
                                         }}
                                       >
                                         <svg
@@ -376,10 +388,10 @@ const targetRef = useRef(null);
               </div>
             </div>
             <div
-              onClick={(e) => {
+              onClick={e => {
                 // e.preventDefault()
-                e.stopPropagation();
-                setActiveSol("solution3");
+                e.stopPropagation()
+                setActiveSol("solution3")
               }}
               data-w-tab="Tab 4"
               className={`tab-button-2 w-inline-block w-tab-link ${
@@ -428,34 +440,34 @@ const targetRef = useRef(null);
                                       placeholder="Search your iOS or android app"
                                       value={searchAppKeyword}
                                       onFocus={() => {
-                                        setRecentAppsVisible((prev) => {
+                                        setRecentAppsVisible(prev => {
                                           return {
                                             ...prev,
                                             ["suggestions-box8"]: true,
-                                          };
-                                        });
-                                        setInputFocused((prev) => {
+                                          }
+                                        })
+                                        setInputFocused(prev => {
                                           return {
                                             ...prev,
                                             ["suggestions-box8"]: true,
-                                          };
-                                        });
+                                          }
+                                        })
                                       }}
-                                      onChange={(e) => {
+                                      onChange={e => {
                                         if (
                                           e.target.value.trim().length === 0
                                         ) {
-                                          setRecentAppsVisible({});
-                                          setSearchAppVisible({});
+                                          setRecentAppsVisible({})
+                                          setSearchAppVisible({})
                                         }
-                                        setRecentAppsVisible({});
-                                        setSearchAppKeyword(e.target.value);
-                                        setSearchAppVisible((prev) => {
+                                        setRecentAppsVisible({})
+                                        setSearchAppKeyword(e.target.value)
+                                        setSearchAppVisible(prev => {
                                           return {
                                             ...prev,
                                             ["search-box8"]: true,
-                                          };
-                                        });
+                                          }
+                                        })
                                       }}
                                     />
                                     {inputFocused["suggestions-box8"] && (
@@ -463,9 +475,9 @@ const targetRef = useRef(null);
                                         id="close-search-form8"
                                         className="close-search-form"
                                         onClick={() => {
-                                          setRecentAppsVisible({});
-                                          setSearchAppVisible({});
-                                          setInputFocused({});
+                                          setRecentAppsVisible({})
+                                          setSearchAppVisible({})
+                                          setInputFocused({})
                                         }}
                                       >
                                         <svg
@@ -564,32 +576,32 @@ const targetRef = useRef(null);
                                   placeholder="Search your iOS or android app"
                                   value={searchAppKeyword}
                                   onFocus={() => {
-                                    setRecentAppsVisible((prev) => {
+                                    setRecentAppsVisible(prev => {
                                       return {
                                         ...prev,
                                         ["suggestions-box2"]: true,
-                                      };
-                                    });
-                                    setInputFocused((prev) => {
+                                      }
+                                    })
+                                    setInputFocused(prev => {
                                       return {
                                         ...prev,
                                         ["suggestions-box2"]: true,
-                                      };
-                                    });
+                                      }
+                                    })
                                   }}
-                                  onChange={(e) => {
+                                  onChange={e => {
                                     if (e.target.value.trim().length === 0) {
-                                      setRecentAppsVisible({});
-                                      setSearchAppVisible({});
+                                      setRecentAppsVisible({})
+                                      setSearchAppVisible({})
                                     }
-                                    setRecentAppsVisible({});
-                                    setSearchAppKeyword(e.target.value);
-                                    setSearchAppVisible((prev) => {
+                                    setRecentAppsVisible({})
+                                    setSearchAppKeyword(e.target.value)
+                                    setSearchAppVisible(prev => {
                                       return {
                                         ...prev,
                                         ["search-box2"]: true,
-                                      };
-                                    });
+                                      }
+                                    })
                                   }}
                                 />
                                 {inputFocused["suggestions-box2"] && (
@@ -597,9 +609,9 @@ const targetRef = useRef(null);
                                     id="close-search-form2"
                                     className="close-search-form"
                                     onClick={() => {
-                                      setRecentAppsVisible({});
-                                      setSearchAppVisible({});
-                                      setInputFocused({});
+                                      setRecentAppsVisible({})
+                                      setSearchAppVisible({})
+                                      setInputFocused({})
                                     }}
                                   >
                                     <svg
@@ -691,32 +703,32 @@ const targetRef = useRef(null);
                                   placeholder="Search your iOS or android app"
                                   value={searchAppKeyword}
                                   onFocus={() => {
-                                    setRecentAppsVisible((prev) => {
+                                    setRecentAppsVisible(prev => {
                                       return {
                                         ...prev,
                                         ["suggestions-box3"]: true,
-                                      };
-                                    });
-                                    setInputFocused((prev) => {
+                                      }
+                                    })
+                                    setInputFocused(prev => {
                                       return {
                                         ...prev,
                                         ["suggestions-box3"]: true,
-                                      };
-                                    });
+                                      }
+                                    })
                                   }}
-                                  onChange={(e) => {
+                                  onChange={e => {
                                     if (e.target.value.trim().length === 0) {
-                                      setRecentAppsVisible({});
-                                      setSearchAppVisible({});
+                                      setRecentAppsVisible({})
+                                      setSearchAppVisible({})
                                     }
-                                    setRecentAppsVisible({});
-                                    setSearchAppKeyword(e.target.value);
-                                    setSearchAppVisible((prev) => {
+                                    setRecentAppsVisible({})
+                                    setSearchAppKeyword(e.target.value)
+                                    setSearchAppVisible(prev => {
                                       return {
                                         ...prev,
                                         ["search-box3"]: true,
-                                      };
-                                    });
+                                      }
+                                    })
                                   }}
                                 />
                                 {inputFocused["suggestions-box3"] && (
@@ -724,9 +736,9 @@ const targetRef = useRef(null);
                                     id="close-search-form3"
                                     className="close-search-form"
                                     onClick={() => {
-                                      setRecentAppsVisible({});
-                                      setSearchAppVisible({});
-                                      setInputFocused({});
+                                      setRecentAppsVisible({})
+                                      setSearchAppVisible({})
+                                      setInputFocused({})
                                     }}
                                   >
                                     <svg
@@ -814,32 +826,32 @@ const targetRef = useRef(null);
                                   placeholder="Search your iOS or android app"
                                   value={searchAppKeyword}
                                   onFocus={() => {
-                                    setRecentAppsVisible((prev) => {
+                                    setRecentAppsVisible(prev => {
                                       return {
                                         ...prev,
                                         ["suggestions-box4"]: true,
-                                      };
-                                    });
-                                    setInputFocused((prev) => {
+                                      }
+                                    })
+                                    setInputFocused(prev => {
                                       return {
                                         ...prev,
                                         ["suggestions-box4"]: true,
-                                      };
-                                    });
+                                      }
+                                    })
                                   }}
-                                  onChange={(e) => {
+                                  onChange={e => {
                                     if (e.target.value.trim().length === 0) {
-                                      setRecentAppsVisible({});
-                                      setSearchAppVisible({});
+                                      setRecentAppsVisible({})
+                                      setSearchAppVisible({})
                                     }
-                                    setRecentAppsVisible({});
-                                    setSearchAppKeyword(e.target.value);
-                                    setSearchAppVisible((prev) => {
+                                    setRecentAppsVisible({})
+                                    setSearchAppKeyword(e.target.value)
+                                    setSearchAppVisible(prev => {
                                       return {
                                         ...prev,
                                         ["search-box4"]: true,
-                                      };
-                                    });
+                                      }
+                                    })
                                   }}
                                 />
                                 {inputFocused["suggestions-box4"] && (
@@ -847,9 +859,9 @@ const targetRef = useRef(null);
                                     id="close-search-form4"
                                     className="close-search-form"
                                     onClick={() => {
-                                      setRecentAppsVisible({});
-                                      setSearchAppVisible({});
-                                      setInputFocused({});
+                                      setRecentAppsVisible({})
+                                      setSearchAppVisible({})
+                                      setInputFocused({})
                                     }}
                                   >
                                     <svg
@@ -910,7 +922,7 @@ const targetRef = useRef(null);
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Services;
+export default Services

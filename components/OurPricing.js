@@ -1,8 +1,8 @@
-import Image from "next/image";
-import Link from "next/link";
-import CountrySelect from "./elements/CountrySelect";
-import { useState } from "react";
-import { useAtom } from "jotai";
+import Image from "next/image"
+import Link from "next/link"
+import CountrySelect from "./elements/CountrySelect"
+import { useState } from "react"
+import { useAtom } from "jotai"
 import {
   focusAtom,
   searchKeyword,
@@ -10,40 +10,36 @@ import {
   showRecentApps,
   showSearchApps,
   pricingWrapper,
-  pricingTabs
-} from "../context/store";
-import RecentApps from "./elements/RecentApps";
-import SearchResults from "./elements/SearchResults";
-import SelectedAppPricing from "./elements/SelectedAppPricing";
+  pricingTabs,
+} from "../context/store"
+import RecentApps from "./elements/RecentApps"
+import SearchResults from "./elements/SearchResults"
+import SelectedAppPricing from "./elements/SelectedAppPricing"
 
 const OurPricing = () => {
-  const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps);
-  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps);
-  const [activeTab, setActiveTab] = useAtom(pricingTabs);
-  const [appSelected] = useAtom(showAppSelected);
-  const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword);
-  const [selectedCountryCode, setSelectedCountryCode] = useState("in");
-  const [inputFocused, setInputFocused] = useAtom(focusAtom);
-  const [isHidden,setIsHidden] = useAtom(pricingWrapper);
-  
+  const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps)
+  const [searchAppVisible, setSearchAppVisible] = useAtom(showSearchApps)
+  const [activeTab, setActiveTab] = useAtom(pricingTabs)
+  const [appSelected] = useAtom(showAppSelected)
+  const [searchAppKeyword, setSearchAppKeyword] = useAtom(searchKeyword)
+  const [selectedCountryCode, setSelectedCountryCode] = useState("in")
+  const [inputFocused, setInputFocused] = useAtom(focusAtom)
+  const [isHidden, setIsHidden] = useAtom(pricingWrapper)
 
   const toggleHidden = () => {
-    setIsHidden(!isHidden);
-  };
-
+    setIsHidden(!isHidden)
+  }
 
   return (
     <>
-      <div id="our-pricing" className="form-capture-section">
+      <div
+        id="our-pricing"
+        className="form-capture-section"
+      >
         <div className="form-tab-wrapper">
           <div className="tab-wrapper vertical-centre-aligned">
             <div className="max-width-large align-center">
-              <h2
-                data-w-id="5232b42b-7451-0536-8c39-cebc65da8058"
-                className="heading tabsectiontitle"
-              >
-                Our Pricing{" "}
-              </h2>
+              <h2 className="heading tabsectiontitle">Our Pricing </h2>
             </div>
             <div className="max-width-xlarge align-center">
               <div
@@ -478,38 +474,38 @@ const OurPricing = () => {
                                               placeholder="Search your iOS or android app"
                                               value={searchAppKeyword}
                                               onFocus={() => {
-                                                setRecentAppsVisible((prev) => {
+                                                setRecentAppsVisible(prev => {
                                                   return {
                                                     ...prev,
                                                     ["suggestions-box5"]: true,
-                                                  };
-                                                });
-                                                setInputFocused((prev) => {
+                                                  }
+                                                })
+                                                setInputFocused(prev => {
                                                   return {
                                                     ...prev,
                                                     ["suggestions-box5"]: true,
-                                                  };
-                                                });
+                                                  }
+                                                })
                                                 toggleHidden()
                                               }}
-                                              onChange={(e) => {
+                                              onChange={e => {
                                                 if (
                                                   e.target.value.trim()
                                                     .length === 0
                                                 ) {
-                                                  setRecentAppsVisible({});
-                                                  setSearchAppVisible({});
+                                                  setRecentAppsVisible({})
+                                                  setSearchAppVisible({})
                                                 }
-                                                setRecentAppsVisible({});
+                                                setRecentAppsVisible({})
                                                 setSearchAppKeyword(
-                                                  e.target.value
-                                                );
-                                                setSearchAppVisible((prev) => {
+                                                  e.target.value,
+                                                )
+                                                setSearchAppVisible(prev => {
                                                   return {
                                                     ...prev,
                                                     ["search-box5"]: true,
-                                                  };
-                                                });
+                                                  }
+                                                })
                                               }}
                                               // remove this once we move to the app select functionality
                                             />
@@ -520,9 +516,9 @@ const OurPricing = () => {
                                                 id="close-search-form5"
                                                 className="close-search-form"
                                                 onClick={() => {
-                                                  setRecentAppsVisible({});
-                                                  setSearchAppVisible({});
-                                                  setInputFocused({});
+                                                  setRecentAppsVisible({})
+                                                  setSearchAppVisible({})
+                                                  setInputFocused({})
                                                 }}
                                               >
                                                 <svg
@@ -587,7 +583,12 @@ const OurPricing = () => {
                             </div>
                           </div>
                         </div>
-                        <div id="instruction-Text-Wrapper-pr" className={`instruction-text-wrapper ${isHidden ? '' : 'hidden'}`}></div>
+                        <div
+                          id="instruction-Text-Wrapper-pr"
+                          className={`instruction-text-wrapper ${
+                            isHidden ? "" : "hidden"
+                          }`}
+                        ></div>
                       </div>
                     </div>
                   </div>
@@ -749,7 +750,7 @@ const OurPricing = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default OurPricing;
+export default OurPricing

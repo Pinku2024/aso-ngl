@@ -4,7 +4,7 @@ import Reveal from "./elements/Reveal";
 
 const ASOTools = () => {
   return (
-    <section id="aso-tools" className="section">
+    <section id="aso-tools" className="section extra-padding">
       <div className="container-medium-666px process">
         <div className="subtitle hidden">Our Process</div>
         <Reveal>
