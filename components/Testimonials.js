@@ -84,28 +84,6 @@ const Testimonials = () => {
                 Read what our amazing clients say
               </h2>
             </div>
-            <div
-              data-w-id="b6a8be3b-3ec1-49ac-4497-99252f215b3b"
-              style={{
-                transform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                WebkitTransform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                MozTransform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                msTransform:
-                  "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                opacity: "1",
-              }}
-              className="split-content testimonials-right"
-            >
-              <a
-                href="#"
-                className="button-primary hidden w-button"
-              >
-                Contact us
-              </a>
-            </div>
           </div>
           <div
             data-duration-in="300"

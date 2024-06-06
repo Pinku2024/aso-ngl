@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const Header = () => {
-  const [activeMenu, setActiveMenu] = useState("");
+  const [activeMenu, setActiveMenu] = useState("#app-audit");
 
   const handleClick = (id) => {
     setActiveMenu(id);
