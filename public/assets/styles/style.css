@@ -639,10 +639,10 @@ p {
     0 1px 3px rgba(25, 49, 80, 0.03);
 }
 
-.input:hover {
+/* .input:hover {
   /* border-color: white; */
-  /* border-color: var(--bgColor); */
-}
+/* border-color: var(--bgColor); 
+} */
 
 .input:focus {
   color: #193150;
@@ -1318,11 +1318,11 @@ p {
   box-shadow: 0 2px 8px rgba(28, 125, 248, 0.07),
     0 1px 3px rgba(25, 49, 80, 0.03);
 }
-
+/* 
 .message:hover {
   /* border-color: #1c7df8; */
-  /* border-color: var(--bgColor) */
-}
+/* border-color: var(--bgColor) 
+} */
 
 .message:focus {
   color: #193150;
@@ -1488,6 +1488,7 @@ p {
 }
 
 .title.service-features {
+  color: #5c5cbf;
   text-align: center;
   margin-bottom: 0;
 }
@@ -1931,10 +1932,10 @@ p {
   margin-bottom: 2rem;
   display: flex;
 }
-
+/* 
 .app-search-box-holder.margin-top {
-  /* margin-top: 1rem; */
-}
+  /* margin-top: 1rem; 
+} */
 
 .app-search-box-holder.margin-top.new-height {
   /* height: 450px; */
@@ -2654,7 +2655,7 @@ p {
 
 .instruction-text-wrapper.hidden {
   /* position: static; */
-  display: none
+  display: none;
 }
 
 .html-embed-36 {
@@ -2687,7 +2688,7 @@ p {
 .tabs1_link-service:hover {
   /* color: #eaeaea; */
   /* background-color: #1e7df8; */
-  background-color: #eaeaea;;
+  background-color: #eaeaea;
   color: var(--bgColor);
 }
 
@@ -4366,10 +4367,9 @@ p {
   .card-flex {
     flex-direction: column;
   }
-
 }
-@media screen and (max-width: 1024px){
-  .top-part{
+@media screen and (max-width: 1024px) {
+  .top-part {
     min-height: 38%;
   }
 }
@@ -4956,10 +4956,10 @@ p {
     /* border-bottom-color: #1c7df8; */
     border-bottom-color: var(--bgColor);
   }
-
+  /* 
   .testimonials-tabs {
-    /* flex-direction: column; */
-  }
+    /* flex-direction: column; 
+  } */
 
   .about-testimonial-company-wrapper {
     max-width: 160px;
@@ -5686,10 +5686,10 @@ p {
     padding-left: 16px;
     padding-right: 16px;
   }
-
+  /* 
   .navbar-wrapper {
-    /* justify-content: center; */
-  }
+    /* justify-content: center; 
+  } */
 
   .navbar {
     padding-top: 15px;
@@ -6277,7 +6277,6 @@ p {
   .app-info-display > div > * {
     margin-bottom: 10px !important;
   }
-  
 }
 
 @media screen and (max-width: 687px) {
@@ -6514,42 +6513,40 @@ background-color: var(--bgColor);
   transition: .2s ease-in-out;
 } */
 
-
-
 /* custom css */
 
-.mobile-sidebar{
+.mobile-sidebar {
   position: fixed;
   z-index: 1000000;
   margin: 3.29rem 0px;
   background-color: white;
   width: 100%;
   top: 21px;
-} 
-.mobile-sidebar nav ul{
+}
+.mobile-sidebar nav ul {
   display: flex;
   flex-direction: column;
   gap: 18px;
   list-style: none;
 }
-.mobile-sidebar nav ul a{
+.mobile-sidebar nav ul a {
   color: #778ba5;
   text-decoration: none;
   font-size: 16px;
 }
 
-.hamburger-icon{
+.hamburger-icon {
   font-size: 24px;
   color: var(--bgColor);
 }
-.nav-mob-menu{
+.nav-mob-menu {
   min-height: 250px;
   padding-top: 10px;
 }
-.extra-padding{
+.extra-padding {
   padding-top: 8rem;
 }
-#Loading{
+#Loading {
   display: flex;
   justify-content: center;
   padding: 50px;
@@ -6589,7 +6586,6 @@ background-color: var(--bgColor);
 .ball:nth-child(4) {
   animation-delay: -0.9s;
 }
-
 
 /* for the data and processes grid */
 .flex-data-process {
@@ -6686,7 +6682,7 @@ background-color: var(--bgColor);
 .marqueeContainer .marqueeSlide {
   display: inline-block;
   width: 10040px;
-  animation: 39s slide linear infinite;
+  animation: 60s slide linear infinite;
   position: relative;
   z-index: -1;
 }
@@ -6696,7 +6692,8 @@ background-color: var(--bgColor);
 .marqueeContainer .marqueeSlide2 {
   display: inline-block;
   width: 10040px;
-  animation: 39s slide2 linear infinite;
+  animation: 60s slide2 linear infinite;
+  z-index: -1;
 }
 .marqueeContainer .marqueeSlide2 img {
   margin: 0 40px;
@@ -6705,4 +6702,10 @@ background-color: var(--bgColor);
 .card-flex {
   display: flex;
   gap: 7%;
+}
+.dataHeading {
+  color: #5c5cbf;
+}
+.dataParagraph {
+  color: "#1a1a1a";
 }

@@ -72,13 +72,7 @@ const Other = () => {
                   }}
                   className="paragraph about-this-service"
                 >
-                  ● We work on all 7 areas of acquisition (
-                  <strong>
-                    <em>
-                      If you are on Desktop, You can click the chart to dive in
-                    </em>
-                  </strong>
-                  ).
+                  ● We work on all 7 areas of acquisition.
                   <br />● There are well over 20 sub-properties that influences
                   acquisition - eg: logo, brand name, ratings, etc.
                   <br />● There are at least 50 other properties that are

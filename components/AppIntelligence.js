@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Reveal from "../components/elements/Reveal";
 const AppIntelligence = () => {
-  
   return (
-    <section id="aso-intelligence" className="section bg-neutral-200 extra-padding">
+    <section
+      id="aso-intelligence"
+      className="section bg-neutral-200 extra-padding"
+    >
       <div className="container-default w-container">
         <div className="top-content service-features flex">
           <div className="split-content service-features-left">
@@ -29,7 +31,7 @@ const AppIntelligence = () => {
                 Our Data &amp; Processes
               </h2>
             </Reveal>
-            <p>
+            <p className="dataParagraph">
               Our ASO Innovation Stack - that captures everything from the app
               stores.
             </p>
@@ -48,8 +50,8 @@ const AppIntelligence = () => {
                 />
               </div>
               <div>
-                <h3>Listing Intelligence</h3>
-                <p>
+                <h3 className="dataHeading">Listing Intelligence</h3>
+                <p className="dataParagraph">
                   Identify the keywords that your competitors are using. Keep a
                   close eye on the changes they make.
                 </p>
@@ -69,8 +71,8 @@ const AppIntelligence = () => {
                 />
               </div>
               <div>
-                <h3>Anomalies</h3>
-                <p>
+                <h3 className="dataHeading">Anomalies</h3>
+                <p className="dataParagraph">
                   About 5% of the total 1-star reviews tend to be sementic
                   mismatches. And there&#x27;s a way to fix it.
                 </p>
@@ -89,8 +91,8 @@ const AppIntelligence = () => {
                 />
               </div>
               <div>
-                <h3>Ratings &amp; MHR</h3>
-                <p>
+                <h3 className="dataHeading">Ratings &amp; MHR</h3>
+                <p className="dataParagraph">
                   Get historical ranking context - based on the rating and MHR
                   (Most Helpful Review Section) Score - developed by us.
                 </p>
@@ -109,8 +111,8 @@ const AppIntelligence = () => {
                 />
               </div>
               <div>
-                <h3>Engagement and Open Count</h3>
-                <p>
+                <h3 className="dataHeading">Engagement and Open Count</h3>
+                <p className="dataParagraph">
                   Our app intelligence, that tells you the engagement time of
                   your peers, and help you improve on it.
                 </p>
