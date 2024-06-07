@@ -1,8 +1,9 @@
 import Link from "next/link"
 import Image from "next/image"
 import { useState, useRef } from "react"
-
+import Loader from "./elements/Loader"
 const ContactForm = () => {
+  const [isLoading, setLoading] = useState(false)
   const [formInput, setFormInput] = useState({
     name: "",
     email: "",
@@ -19,6 +20,8 @@ const ContactForm = () => {
 
   const handleFormSubmission = e => {
     e.preventDefault()
+    setLoading(true)
+    hideForm()
     const imageData = formRef.current.getAttribute("app-url")
     const { name, email, phone, message } = formInput
     const pageURL = window.location.href
@@ -96,16 +99,19 @@ const ContactForm = () => {
       .then(response => {
         if (response.ok) {
           response.text().then(result => {
+            setLoading(false)
             showSuccessMessage()
             hideForm()
             console.log(result)
           })
         } else {
+          setLoading(false)
           showErrorMessage()
         }
       })
       .catch(error => {
         console.log("error", error)
+        setLoading(false)
         showErrorMessage()
       })
   }
@@ -118,12 +124,16 @@ const ContactForm = () => {
 
   const showErrorMessage = () => {
     console.log("Error")
+    unHideForm()
     successMessageRef.current.style.display = "none"
     errorMessageRef.current.style.display = "block"
   }
 
   const hideForm = () => {
     formRef.current.style.display = "none"
+  }
+  const unHideForm = () => {
+    formRef.current.style.display = "block"
   }
 
   return (
@@ -168,8 +178,11 @@ const ContactForm = () => {
               </Link>
             </div>
           </div>
+
+          
           <div className="split-content request-a-quote-right">
             <div className="card request-a-quote-form">
+            {isLoading && <Loader />}
               <div className="w-form">
                 <form
                   id="email-form-2"
@@ -284,7 +297,9 @@ const ContactForm = () => {
             </div>
             <div className="bg request-a-quote-form-2"></div>
             <div className="bg request-a-quote-form-1"></div>
+
           </div>
+
         </div>
       </div>
     </section>

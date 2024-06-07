@@ -15,7 +15,6 @@ import {
 import RecentApps from "./elements/RecentApps"
 import SearchResults from "./elements/SearchResults"
 import SelectedAppPricing from "./elements/SelectedAppPricing"
-import { color } from "framer-motion"
 
 const OurPricing = () => {
   const [recentAppsVisible, setRecentAppsVisible] = useAtom(showRecentApps)
@@ -33,7 +32,10 @@ const OurPricing = () => {
 
   return (
     <>
-      <section id="our-pricing" className="form-capture-section">
+      <section
+        id="our-pricing"
+        className="form-capture-section"
+      >
         <div className="form-tab-wrapper">
           <div className="tab-wrapper vertical-centre-aligned">
             <div className="max-width-large align-center">
@@ -603,54 +605,9 @@ const OurPricing = () => {
         <div className="container-default w-container">
           <div className="about-this-service-wrapper">
             <div className="split-content about-this-service-left">
-              <div
-                // data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb463f"
-                // style={{
-                //   WebkitTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   MozTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   msTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   transform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   opacity: "1",
-                // }}
-                className="subtitle hidden"
-              >
-                about this service
-              </div>
-              <h2
-                // data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4641"
-                // style={{
-                //   WebkitTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   MozTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   msTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   transform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   opacity: "1",
-                // }}
-              >
-                Reduce Cost on UAC Campaigns
-              </h2>
-              <p
-                // data-w-id="a08ad5f5-0a38-fd3d-c3bc-bd33a525ad13"
-                // style={{
-                //   WebkitTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   MozTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   msTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   transform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   opacity: "1",
-                // }}
-                className="paragraph about-this-service"
-              >
+              <div className="subtitle hidden">about this service</div>
+              <h2>Reduce Cost on UAC Campaigns</h2>
+              <p className="paragraph about-this-service">
                 <Image
                   width={23}
                   height={23}
@@ -700,21 +657,7 @@ const OurPricing = () => {
                 />
                 Fee is significantly lower than the cost reduction (x).
               </p>
-              <div
-                // data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4645"
-                // style={{
-                //   WebkitTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   MozTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   msTransform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   transform:
-                //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                //   opacity: "1",
-                // }}
-                className="animation-div"
-              >
+              <div className="animation-div">
                 <Link
                   href="#request-a-quote"
                   className="button-primary w-button"
