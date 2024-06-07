@@ -48,7 +48,6 @@ const Testimonials = () => {
           <div className="top-content testimonials centre-aligned">
             <div className="split-content testimonials-left">
               <div
-                data-w-id="b6a8be3b-3ec1-49ac-4497-99252f215b37"
                 style={{
                   transform:
                     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
@@ -142,18 +141,18 @@ const Testimonials = () => {
               </a>
             </div>
             <div
-              data-w-id="b6a8be3b-3ec1-49ac-4497-99252f215b58"
-              style={{
-                WebkitTransform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                MozTransform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                Mstransform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                transform:
-                  "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-                opacity: "1",
-              }}
+              // data-w-id="b6a8be3b-3ec1-49ac-4497-99252f215b58"
+              // style={{
+              //   WebkitTransform:
+              //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   MozTransform:
+              //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   Mstransform:
+              //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   transform:
+              //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+              //   opacity: "1",
+              // }}
               className="testimonials-tabs-content w-tab-content"
             >
               <div
