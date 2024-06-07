@@ -40,18 +40,18 @@ const ASOTools = () => {
             </div>
           </div>
           <div
-            data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4624"
-            style={{
-              WebkitTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
+            // data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb4624"
+            // style={{
+            //   WebkitTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   MozTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   msTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   transform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   opacity: 1,
+            // }}
             className="process-wrapper"
           >
             <div className="image-wrapper process">
@@ -92,18 +92,18 @@ const ASOTools = () => {
             </div>
           </div>
           <div
-            data-w-id="a251b392-772a-4bc2-2dee-756d43524d78"
-            style={{
-              WebkitTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
+            // data-w-id="a251b392-772a-4bc2-2dee-756d43524d78"
+            // style={{
+            //   WebkitTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   MozTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   msTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   transform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   opacity: 1,
+            // }}
             className="process-wrapper"
           >
             <div className="image-wrapper process">
@@ -127,18 +127,18 @@ const ASOTools = () => {
             </div>
           </div>
           <div
-            data-w-id="ccd69df2-70da-b1d7-a2a7-4d1515b746e9"
-            style={{
-              WebkitTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
+            // data-w-id="ccd69df2-70da-b1d7-a2a7-4d1515b746e9"
+            // style={{
+            //   WebkitTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   MozTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   msTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   transform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   opacity: 1,
+            // }}
             className="process-wrapper"
           >
             <div className="image-wrapper process">
@@ -161,18 +161,18 @@ const ASOTools = () => {
             </div>
           </div>
           <div
-            data-w-id="10b6c783-9846-8aea-379b-6f7fd75a04f5"
-            style={{
-              WebkitTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              MozTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              msTransform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              transform:
-                "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              opacity: 1,
-            }}
+            // data-w-id="10b6c783-9846-8aea-379b-6f7fd75a04f5"
+            // style={{
+            //   WebkitTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   MozTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   msTransform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   transform:
+            //     "translate3d(0, 0, 0) scale3d(0.97, 0.97, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
+            //   opacity: 1,
+            // }}
             className="process-wrapper"
           >
             <div className="image-wrapper process">

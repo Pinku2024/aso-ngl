@@ -259,6 +259,7 @@ p {
 
 .section.our-process {
   background-color: #fafbfd;
+  margin-top: 4rem;
 }
 
 .close-button {
@@ -1197,9 +1198,11 @@ p {
 }
 
 .success-message {
-  color: #1b76ff;
+  /* color: #1b76ff; */
+  color: var(--bgColor);
   background-color: rgba(0, 0, 0, 0);
-  border: 1px solid #1b76ff;
+  /* border: 1px solid #1b76ff; */
+  border: 1px solid var(--bgColor);
   border-radius: 20px;
   padding-top: 60px;
   padding-bottom: 60px;
