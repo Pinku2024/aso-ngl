@@ -13,9 +13,9 @@ import Clients from "../components/Clients";
 import Reveal from "../components/elements/Reveal";
 import { useEffect, useRef } from "react";
 import FormPopup from "../components/elements/FormPopup";
-import { useAtom } from 'jotai';
-import { activeMenuTab, popupVisibleAtom } from '../context/store';
-const Home = ()=> {
+import { useAtom } from "jotai";
+import { activeMenuTab, popupVisibleAtom } from "../context/store";
+const Home = () => {
   const [isPopupVisible] = useAtom(popupVisibleAtom);
   const auditRef = useRef(null);
   const servicesRef = useRef(null);
@@ -28,7 +28,7 @@ const Home = ()=> {
 
   useEffect(() => {
     const handleIntersection = (entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           setActiveMenu(`#${entry.target.id}`);
         }
@@ -39,13 +39,13 @@ const Home = ()=> {
       threshold: 0.5,
     });
 
-    const sectionsToTrack = document.querySelectorAll('section[id]');
-    sectionsToTrack.forEach(section => {
+    const sectionsToTrack = document.querySelectorAll("section[id]");
+    sectionsToTrack.forEach((section) => {
       observer.observe(section);
     });
 
     return () => {
-      sectionsToTrack.forEach(section => {
+      sectionsToTrack.forEach((section) => {
         observer.unobserve(section);
       });
     };
@@ -63,6 +63,12 @@ const Home = ()=> {
         />
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <main>
         <Header
@@ -105,5 +111,5 @@ const Home = ()=> {
       </main>
     </>
   );
-}
-export default Home
+};
+export default Home;
