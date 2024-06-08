@@ -11,6 +11,7 @@ import {
   popupVisibleAtom,
   isScrolled,
   pricingTabs,
+  formInputData,
 } from "../../context/store"
 import { prepareDataForRequests } from "../util"
 import { useQuery } from "@tanstack/react-query"
@@ -28,6 +29,7 @@ const SearchResults = () => {
   const [_6, setIsPopupVisible] = useAtom(popupVisibleAtom)
   const [_7, setShouldScroll] = useAtom(isScrolled)
   const [activeTab, setActiveTab] = useAtom(pricingTabs)
+  const [formInput, setFormInput] = useAtom(formInputData)
   const { data, isFetched, isPending, isError } = useQuery({
     queryKey: ["searchResults", searchAppKeyword, countryCode],
     queryFn: () => prepareDataForRequests(searchAppKeyword, countryCode),
@@ -58,10 +60,11 @@ const SearchResults = () => {
     recentAppDataFromLocalStorage(data)
   }
   // handle audit app
-  const handleSelectedAppForAudit = () => {
+  const handleSelectedAppForAudit = (data) => {
     if (searchAppVisible["search-box1"]) {
       setIsPopupVisible(true)
       setShouldScroll(true)
+      setFormInput({ ...formInput, appURL: data["data-package-url"]});
     }
     if(activeTab !== "pricingTab"){
       setActiveTab("pricingTab")
@@ -154,7 +157,7 @@ const SearchResults = () => {
                   "data-package-url": item.dataPackageUrl,
                   "app-package-id": item.appPackageId,
                 }
-                handleSelectedAppForAudit()
+                handleSelectedAppForAudit(data)
                 // if (searchAppVisible["search-box1"]) {
                 //   setIsPopupVisible(true)
                 //   setShouldScroll(true);

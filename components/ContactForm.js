@@ -1,16 +1,13 @@
 import Link from "next/link"
-import Image from "next/image"
-import { useState, useRef } from "react"
+import Image from "next/legacy/image"
+import { useState, useRef, useEffect } from "react"
 import Loader from "./elements/Loader"
+import { formInputData,formSubmitted } from "../context/store"
+import { useAtom } from "jotai"
 const ContactForm = () => {
   const [isLoading, setLoading] = useState(false)
-  const [formInput, setFormInput] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    appURL: "",
-    message: "",
-  })
+const [formInput, setFormInput] = useAtom(formInputData)
+const [isSubmitted, setIsSubmitted] = useAtom(formSubmitted)
   const formRef = useRef(null)
   const successMessageRef = useRef(null);
   const errorMessageRef = useRef(null);
@@ -22,8 +19,8 @@ const ContactForm = () => {
     e.preventDefault()
     setLoading(true)
     hideForm()
-    const imageData = formRef.current.getAttribute("app-url")
-    const { name, email, phone, message } = formInput
+    // const imageData = formRef.current.getAttribute("app-url")
+    const { name, email, phone, message, appURL } = formInput
     const pageURL = window.location.href
 
     const domains = [
@@ -75,11 +72,12 @@ const ContactForm = () => {
       { name: "firstname", value: name },
       { name: "email", value: email },
       { name: "phone", value: phone },
-      { name: "message", value: message }
+      { name: "message", value: message },
+      { name: "appURL", value: appURL}
       ];
-        if (imageData !== null) {
-          fields.push({ name: "app_url", value: imageData });
-        }
+        // if (imageData !== null) {
+        //   fields.push({ name: "app_url", value: imageData });
+        // }
     const raw = JSON.stringify({
       fields,
       context: { pageUri: pageURL },
@@ -100,8 +98,9 @@ const ContactForm = () => {
         if (response.ok) {
           response.text().then(result => {
             setLoading(false)
-            showSuccessMessage()
-            hideForm()
+            // showSuccessMessage()
+            // hideForm()
+            setIsSubmitted(true)
             console.log(result)
           })
         } else {
@@ -136,6 +135,17 @@ const ContactForm = () => {
     formRef.current.style.display = "block"
   }
 
+  useEffect(() => {
+    const submitted = () => {
+      console.log("Form submitted")
+      showSuccessMessage()
+      hideForm()
+    }
+    if (isSubmitted) {
+      submitted()
+    }
+  }, [isSubmitted])
+
   return (
     <section
       id="request-a-quote"
@@ -164,7 +174,7 @@ const ContactForm = () => {
                   <Image
                     width={38}
                     height={28}
-                    src="assets/imgs/icon-quote-contact-1-seo-template.svg"
+                    src="/assets/imgs/icon-quote-contact-1-seo-template.svg"
                     alt="Email Icon - SEO Webflow Template"
                     className="image request-a-quote-contact"
                   />
@@ -251,9 +261,11 @@ const ContactForm = () => {
                         placeholder="Please enter app url"
                         type="text"
                         id="App-URL"
-                        // required
+                        required
                         value={formInput.appURL}
-                        onChange={handleInput}
+                        onChange={handleInput
+
+                        }
                       />
                     </div>
                     <div

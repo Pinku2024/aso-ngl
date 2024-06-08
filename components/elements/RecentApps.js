@@ -10,7 +10,8 @@ import {
   pricingWrapper,
   popupVisibleAtom,
   isScrolled,
-  pricingTabs
+  pricingTabs,
+  formInputData
 } from "../../context/store";
 const RecentApps = () => {
   const [recentlySelectedApps, setRecentlySelectedApps] = useAtom(recentApps);
@@ -22,6 +23,7 @@ const RecentApps = () => {
   const [_3, setIsPopupVisible] = useAtom(popupVisibleAtom);
   const [_4, setShouldScroll] = useAtom(isScrolled);
   const [activeTab, setActiveTab] = useAtom(pricingTabs)
+  const [formInput, setFormInput] = useAtom(formInputData)
 
   useEffect(() => {
     setRecentlySelectedApps(getRecentAppData());
@@ -45,10 +47,11 @@ const RecentApps = () => {
     };
   }, []);
   // handle recent app selection
-  const handleRecentAppSelection = () => {
+  const handleRecentAppSelection = (data) => {
     if (recentAppsVisible["suggestions-box1"]) {
       setIsPopupVisible(true)
       setShouldScroll(true)
+      setFormInput({ ...formInput, appURL: data});
     }
     if(activeTab !== "pricingTab"){
       setActiveTab("pricingTab")
@@ -70,7 +73,7 @@ const RecentApps = () => {
               device={`${item.device}`}
               onClick={(e) => {
                 e.stopPropagation();
-                handleRecentAppSelection()
+                handleRecentAppSelection(item["data-package-url"])
                 // if (recentAppsVisible["suggestions-box1"]) {
                 //   setIsPopupVisible(true)
                 //   setShouldScroll(true)

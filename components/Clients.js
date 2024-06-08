@@ -112,6 +112,7 @@ const Trustby = ({ padding }) => {
               height={50}
               width={item.width}
               loading="lazy"
+              // priority = {true}
             />
           ))}
         </div>
