@@ -1,5 +1,5 @@
-import Image from "next/legacy/image";
-import Reveal from "../components/elements/Reveal";
+import Image from "next/legacy/image"
+import Reveal from "../components/elements/Reveal"
 const AppIntelligence = () => {
   return (
     <section
@@ -9,23 +9,7 @@ const AppIntelligence = () => {
       <div className="container-default w-container">
         <div className="top-content service-features flex">
           <div className="split-content service-features-left">
-            <div
-              // data-w-id="2408ce64-3e73-6c5b-6f9c-1dd071cb45ea"
-              // style={{
-              //   WebkitTransform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   MozTransform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   msTransform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   transform:
-              //     "translate3d(0, 60px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0)",
-              //   opacity: "1", // Make sure opacity value is a string
-              // }}
-              className="subtitle hidden"
-            >
-              Our Services
-            </div>
+            <div className="subtitle hidden">Our Services</div>
             <Reveal>
               <h2 className="title service-features">
                 Our Data &amp; Processes
@@ -122,7 +106,7 @@ const AppIntelligence = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default AppIntelligence;
+export default AppIntelligence
