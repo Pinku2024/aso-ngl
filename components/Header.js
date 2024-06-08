@@ -14,7 +14,6 @@ const Header = () => {
   }
   const handleMenu = () => {
     setShowMenu(!showMenu)
-    console.log("Clicked icon")
   }
 
   return (
@@ -171,6 +170,7 @@ const Header = () => {
                 >
                   <img
                     src="/assets/imgs/nextlabs_logo.png"
+                    // src="/assets/imgs/new_nextlabs_logo.png"
                     height={39}
                     width={120}
                     loading="lazy"

@@ -40,8 +40,8 @@ const CTR = ({ mobile }) => {
     requiredRatings = displayCalculatedRankToUserApple(data, sliderValue);
   }
   if (isFetched && device === "android") {
-    requiredRatings = displayCalculatedRankToUser(data, sliderValue);
-  }
+    requiredRatings =  displayCalculatedRankToUser(data.histogram, sliderValue);
+    }
   function displayCalculatedRankToUserApple(appData, targetRating) {
     const totalStar = (
       appData.userRatingCount * appData.averageUserRating
@@ -59,6 +59,7 @@ const CTR = ({ mobile }) => {
     const formattedResult = result.toFixed(0);
     return Number(formattedResult).toLocaleString();
   }
+
   function displayCalculatedRankToUser(reviewData, targetRating) {
     let totalStar = 0;
     let totalRating = 0;
@@ -79,6 +80,9 @@ const CTR = ({ mobile }) => {
     const formattedResult = result.toFixed(0);
     return Number(formattedResult).toLocaleString();
   }
+
+
+
   return (
     <>
     {!isFetched && <Loader />}
