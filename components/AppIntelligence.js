@@ -1,4 +1,4 @@
-import Image from "next/image";
+import Image from "next/legacy/image";
 import Reveal from "../components/elements/Reveal";
 const AppIntelligence = () => {
   return (
@@ -44,7 +44,7 @@ const AppIntelligence = () => {
                 <Image
                   width={128}
                   height={136}
-                  src="assets/imgs/icon-service-feature-1-seo-template.svg"
+                  src="/assets/imgs/icon-service-feature-1-seo-template.svg"
                   alt="Keyword Research - SEO Webflow Template"
                   className="image service-feature"
                 />
@@ -65,7 +65,7 @@ const AppIntelligence = () => {
                   width={128}
                   height={133}
                   // layout="responsive"
-                  src="assets/imgs/icon-service-feature-2-seo-template.svg"
+                  src="/assets/imgs/icon-service-feature-2-seo-template.svg"
                   alt="Keyword Ranking - SEO Webflow Template"
                   className="image service-feature"
                 />
@@ -85,7 +85,7 @@ const AppIntelligence = () => {
                 <Image
                   width={128}
                   height={119}
-                  src="assets/imgs/icon-service-feature-3-seo-template.svg"
+                  src="/assets/imgs/icon-service-feature-3-seo-template.svg"
                   alt="Competitor Analysis - SEO Webflow Template"
                   className="image service-feature"
                 />
@@ -105,7 +105,7 @@ const AppIntelligence = () => {
                 <Image
                   width={128}
                   height={145}
-                  src="assets/imgs/icon-service-feature-4-seo-template.svg"
+                  src="/assets/imgs/icon-service-feature-4-seo-template.svg"
                   alt="Website Optimization - SEO Webflow Template"
                   className="image service-feature"
                 />

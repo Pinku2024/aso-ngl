@@ -156,7 +156,7 @@ const Audit = () => {
                         id="Audit-App-button"
                         onClick={() => {
                           if (appSelected) {
-                            console.log(appSelected);
+                            // console.log(appSelected);
                             togglePopup();
                           } else {
                             inputRef.current.focus();

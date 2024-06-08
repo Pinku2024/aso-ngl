@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import Image from "next/legacy/image"
 import { activeMenuTab, showMobileMenu } from "../context/store"
 import { useAtom } from "jotai"
 import { GiHamburgerMenu } from "react-icons/gi"
@@ -34,10 +34,10 @@ const Header = () => {
               className="brand-header w-nav-brand"
             >
               <Image
-                width={100}
-                height={34}
-                layout="responsive"
-                loading="eager"
+                width={120}
+                height={60}
+                // layout="responsive"
+                loading="lazy"
                 src="/assets/imgs/new_nextlabs_logo.png"
                 alt="nextlabs.io logo"
                 className="header-logo-2"
@@ -168,7 +168,7 @@ const Header = () => {
                   href="#"
                   className="navbar-brand w-nav-brand"
                 >
-                  <img
+                  <Image
                     src="/assets/imgs/nextlabs_logo.png"
                     // src="/assets/imgs/new_nextlabs_logo.png"
                     height={39}

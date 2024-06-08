@@ -9,7 +9,7 @@ import { userSelectedApp } from "../../context/store";
 import { useQuery } from "@tanstack/react-query";
 import AppBasicInfoPricing from "./AppBasicInfoPricing";
 import Link from "next/link";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useEffect, useState } from "react";
 const SelectedAppPricing = () => {
   const [userSelectedAppObject, setuserSelectedAppObject] = useAtom(userSelectedApp);
